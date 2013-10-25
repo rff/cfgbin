@@ -1,0 +1,40 @@
+own_window yes
+own_window_type override
+own_window_transparent no
+own_window_class Conky
+double_buffer yes
+draw_outline no
+draw_borders no
+use_spacer none
+uppercase no
+update_interval 1
+
+# Font selection
+use_xft yes
+xftfont DejaVu Sans Mono:size=12
+
+# Text alignment
+alignment top_middle
+gap_x 0
+gap_y 0
+
+TEXT
+${color grey}\
+${if_match ${cpu cpu0} < 10} \
+CPU: ${color white}  ${cpu cpu0}%${color grey} | \
+${else if_match ${cpu cpu0} < 100} \
+CPU: ${color white} ${cpu cpu0}%${color grey} | \
+${else if_match ${cpu cpu0} < 1000} \
+CPU: ${color white}${cpu cpu0}%${color grey} | \
+${endif}\
+RAM: ${color white}${mem}${color grey} | \
+${if_match ${exec grep -c wlan0 /proc/net/route} > 0}\
+NETWORK: ${color white}${wireless_essid wlan0}${color grey} ${color white}(${addr wlan0})${color grey} | \
+${endif}\
+${if_match ${exec grep -c eth0 /proc/net/route} > 0}\
+NETWORK: ${color white}wired${color grey} ${color white}(${addr eth0})${color grey} | \
+${endif}\
+${if_match ${exec grep -c br0 /proc/net/route} > 0}\
+NETWORK: ${color white}wired bridge${color grey} ${color white}(${addr br0})${color grey} | \
+${endif}\
+DATE: ${color white}${time %A %B %d, %H:%M:%S}\

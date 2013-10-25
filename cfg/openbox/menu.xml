@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/    file:///usr/share/openbox/menu.xsd">
+	<menu id="root-menu" label="Openbox 3">
+		<item label="URXVT client Color">
+			<action name="Execute">
+				<execute>~/bin/urxvtc-color.sh</execute>
+			</action>
+		</item>
+		<item label="URXVT client">
+			<action name="Execute">
+				<execute>urxvtc</execute>
+			</action>
+		</item>
+		<item label="xTerm">
+			<action name="Execute">
+				<execute>xterm</execute>
+			</action>
+		</item>
+		<item label="URXVT">
+			<action name="Execute">
+				<execute>urxvt</execute>
+			</action>
+		</item>
+		<item label="Gnome Terminal">
+			<action name="Execute">
+				<execute>gnome-terminal</execute>
+			</action>
+		</item>
+		<item label="Google Chrome">
+			<action name="Execute">
+				<execute>google-chrome</execute>
+			</action>
+		</item>
+		<item label="Chromium">
+			<action name="Execute">
+				<execute>chromium</execute>
+			</action>
+		</item>
+		<item label="Firefox">
+			<action name="Execute">
+				<execute>firefox</execute>
+			</action>
+		</item>
+		<item label="Uzbl">
+			<action name="Execute">
+				<execute>uzbl-browser</execute>
+			</action>
+		</item>
+		<item label="Gedit">
+			<action name="Execute">
+				<execute>gedit</execute>
+			</action>
+		</item>
+		<item label="Gnome Calculator">
+			<action name="Execute">
+				<execute>gnome-calculator</execute>
+			</action>
+		</item>
+		<item label="Empathy">
+			<action name="Execute">
+				<execute>empathy</execute>
+			</action>
+		</item>
+		<item label="Skype">
+			<action name="Execute">
+				<execute>skype -style GTK</execute>
+			</action>
+		</item>
+		<item label="VirtualBox">
+			<action name="Execute">
+				<execute>virtualbox</execute>
+			</action>
+		</item>
+		<item label="Nautilus">
+			<action name="Execute">
+				<execute>nautilus --browser --no-desktop</execute>
+			</action>
+		</item>
+		<separator/>
+		<menu id="client-list-menu"/>
+		<separator/>
+		<item label="Nitrogen">
+			<action name="Execute">
+				<execute>nitrogen</execute>
+			</action>
+		</item>
+		<item label="ObConf">
+			<action name="Execute">
+				<execute>obconf</execute>
+			</action>
+		</item>
+		<item label="ObMenu">
+			<action name="Execute">
+				<execute>obmenu</execute>
+			</action>
+		</item>
+		<item label="Tint2Conf">
+			<action name="Execute">
+				<execute>tint2conf</execute>
+			</action>
+		</item>
+		<item label="lxappearance">
+			<action name="Execute">
+				<execute>lxappearance</execute>
+			</action>
+		</item>
+		<item label="Reconfigure">
+			<action name="Reconfigure"/>
+		</item>
+		<item label="Restart">
+			<action name="Restart"/>
+		</item>
+		<separator/>
+		<item label="Exit">
+			<action name="Exit"/>
+		</item>
+		<item label="Killall AND Kill X">
+			<action name="Execute">
+				<execute>killall -u raoni ; sleep 2 ; killall X</execute>
+			</action>
+		</item>
+	</menu>
+</openbox_menu>

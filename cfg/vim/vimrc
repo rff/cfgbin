@@ -1,0 +1,340 @@
+
+"-------------------------------------------------------------------------------
+" Session HEX EDIT improve
+"http://vim.wikia.com/wiki/Improved_Hex_editing
+"-------------------------------------------------------------------------------
+
+if has("autocmd")
+  " vim -b : edit binary using xxd-format!
+  augroup Binary
+    au!
+    au BufReadPre *.bin,*.hex setlocal binary
+    au BufReadPost *
+          \ if &binary | exe "Hexmode" | endif
+    au BufWritePre *
+          \ if exists("b:editHex") && b:editHex && &binary |
+          \  exe "%!xxd -r" |
+          \ endif
+    au BufWritePost *
+          \ if exists("b:editHex") && b:editHex && &binary |
+          \  exe "%!xxd" |
+          \  exe "set nomod" |
+          \ endif
+  augroup END
+endif
+
+command Hexmode call ToggleHex()
+function ToggleHex()
+  " hex mode should be considered a read-only operation
+  " save values for modified and read-only for restoration later,
+  " and clear the read-only flag for now
+  let l:modified=&mod
+  let l:oldreadonly=&readonly
+  let &readonly=0
+  if !exists("b:editHex") || !b:editHex
+    " save old options
+    let b:oldft=&ft
+    let b:oldbin=&bin
+    " set new options
+    setlocal binary " make sure it overrides any textwidth, etc.
+    let &ft="xxd"
+    " set status
+    let b:editHex=1
+    " switch to hex editor
+    %!xxd
+  else
+    " restore old options
+    let &ft=b:oldft
+    if !b:oldbin
+      setlocal nobinary
+    endif
+    " set status
+    let b:editHex=0
+    " return to normal editing
+    %!xxd -r
+  endif
+  " restore values for modified and read only state
+  let &mod=l:modified
+  let &readonly=l:oldreadonly
+endfunction
+
+
+
+"-------------------------------------------------------------------------------
+" Session LATEX-SUITE improve
+" http://vim-latex.sourceforge.net/documentation/latex-suite/recommended-settings.html
+"-------------------------------------------------------------------------------
+
+" REQUIRED: This makes vim invoke Latex-Suite when you open a tex file.
+"filetype plugin on
+
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+" can be called correctly.
+"set shellslash
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+"set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type.
+"filetype indent on
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+"let g:tex_flavor='latex'
+
+
+
+"-------------------------------------------------------------------------------
+" VIM highlight variable under cursor like in netbeans
+" http://stackoverflow.com/questions/1551231/vim-highlight-variable-under-cursor-like-in-netbeans
+"-------------------------------------------------------------------------------
+
+":autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
+
+
+
+"-------------------------------------------------------------------------------
+" Auto highlight current word when idle
+" http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
+"-------------------------------------------------------------------------------
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\<'.expand('<cword>').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
+
+
+
+"-------------------------------------------------------------------------------
+" Automatic Saving/Loaging folds and others view settings.
+" (the code is from the final part of the article and the first comment.)
+" http://www.linux.com/archive/feature/114138
+"-------------------------------------------------------------------------------
+
+" altomatic save of the view configuration of a file. ex: the folds on a file
+au BufWinLeave ?* mkview
+" altomatic load of the view configuration of a file. ex: the folds on a file
+au BufWinEnter ?* silent loadview
+
+
+"-------------------------------------------------------------------------------
+" Jeff's cscope settings
+" From: http://www.fsl.cs.sunysb.edu/~rick/rick_vimrc
+" It came from the tutorial about cscope + ctags + vim
+" From: http://www.fsl.cs.sunysb.edu/~rick/cscope.html
+"-------------------------------------------------------------------------------
+if has("cscope")
+  set csprg=/usr/bin/cscope
+  " change this to 1 to search ctags DBs first
+  set csto=0
+  set cst
+  set nocsverb
+  " add any database in current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+  " else add database pointed to by environment
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+  set csverb
+  
+  " Using 'CTRL-\' then a search type makes the vim window
+  " "shell-out", with search results displayed on the bottom
+  
+  nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+  nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+  nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+  
+  " Using 'CTRL-spacebar' then a search type makes the vim window
+  " split horizontally, with search result displayed in
+  " the new window.
+  
+  nmap <C-[>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+  nmap <C-[>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+  nmap <C-[>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+  
+  " Hitting CTRL-space *twice* before the search type does a vertical
+  " split instead of a horizontal one
+  
+  nmap <C-[><C-[>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[><C-[>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[><C-[>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[><C-[>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[><C-[>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+  nmap <C-[><C-[>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+  nmap <C-[><C-[>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
+endif
+
+
+
+"-------------------------------------------------------------------------------
+" Session RAONI
+"-------------------------------------------------------------------------------
+
+" ---
+" system-wide configurations that I'm putting here so It will work in all
+" systems. Someones I put my own values, so its just a remind that its settings
+" have system wide values not that what values they have.
+
+
+
+" --- find in archlinux AND ubuntu ---
+
+" more powerful backspacing
+set backspace=indent,eol,start
+
+" keep 1000 lines of command line history. Yea, 1k because i like history.
+set history=1000
+
+" show the cursor position all the time. It also show more informations like
+" line & column of the cursor
+set ruler
+
+" Suffixes that get lower priority when doing tab completion for filenames.
+" These are files we are not likely to want to edit or read.
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+
+
+
+" --- find in ubuntu ---
+
+" Show matching brackets
+"set showmatch
+
+" ---
+
+" set color terminal capacity. We are forcing 8 colors because in archlinux vim
+" is too smart and see my xterm as 256 capable terminal em as soon we do anything
+" in vim it changes the color but it is kind of ugly because the theme is for 8
+" colors. In Debian there is this variant with 16 colors, we must test someday.
+set t_Co=8
+"set t_Co=16
+
+" column with line number
+set number
+
+" use mouse
+set mouse=a
+
+" altomatic load syntax highlight
+syntax on
+
+" use Vim defaults instead of 100% vi compatibility (needed for vimwiki)
+set nocompatible
+
+"to load plugin files for specific file types (needed for vimwiki)
+filetype plugin on
+
+" set folded lines color to  red on black
+highlight Folded     term=bold cterm=bold ctermfg=1 ctermbg=NONE gui=bold guifg=Red guibg=NONE
+" set fold column color to red on black                                                
+highlight FoldColumn term=bold cterm=bold ctermfg=1 ctermbg=NONE gui=bold guifg=Red guibg=NONE
+" set fold column visible with width of 2
+set foldcolumn=2
+
+" map up and down keys to move up and down by visible lines not the actual real
+" lines (aka. separated by linebreak) (only works in command mode)
+map <Up> gk
+map <Down> gj
+" map up and down in insert mode (from Maxiwell)
+"imap <up> <esc>gk<insert><right>
+"imap <down> <esc>gj<insert><right>
+
+" c syntax optionals: GNU gcc specific items
+let c_gnu = 1
+" trailing white space and spaces before a <Tab>
+let c_space_errors = 1
+" Show partial command (as you type) in the last line of the screen
+set  showcmd
+
+" TabComplete like bash (from Maxiwell)
+"set wildmode=longest,list,full
+"set wildmenu
+
+" for when you open a file without write permision and you need to a sudo. (from Maxiwell)
+"cmap w!! %!sudo tee % > /dev/null
+
+" better "go back the last jump" because in my keyboard configuration in order
+" to type '' one have to press '<Space>'<Space>, and 4 keystrokes is too much.
+" Since pressing '' result in ´, we are mapping  this to the jump back.
+map ´ ''
+
+" take from vim help ":help g??". make a map for this.
+" To turn one line into title caps, make every first letter of a word
+" uppercase: >
+" :s/\v<(.)(\w*)/\u\1\L\2/g
+
+" highlight for white speces at the end of lines. It will probably be overight
+" by the syntax highlight for the files, but is here as a reminder
+syntax match WhiteSpaceEOL excludenl "\s\+$"
+highlight link WhiteSpaceEOL Error
+
+
+"-------------------------------------------------------------------------------
+" Raoni: Macros for beatifull text editing in VIM. Setup on demand.
+"-------------------------------------------------------------------------------
+
+" Associate *.md with markdown filetype (vim default *.md to modula2)
+" TODO: NOT WORKING
+au BufRead,BufNewFile *.md setfiletype markdown
+
+" use 66 letlers in paragraph lenght when formating.
+"set textwidth=66
+
+" set autoident to ident paragraph when formating.
+"set autoident
+
+" Enable justify for paragraph formating. Use  '_j' to do the job
+"runtime macros/justify.vim
+
+
+command Textmode call ToggleTextMode()
+function ToggleTextMode()
+	if !exists("b:editText") || !b:editText
+		set textwidth=66
+		set autoindent
+		runtime macros/justify.vim
+
+		let b:editText=1
+		"print textmode enabled
+	else
+		set textwidth=0
+		set noautoindent
+
+		let b:editText=0
+		"print textmode disabled
+	endif
+endfunction
+
+

@@ -1,0 +1,44 @@
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+draw_shades no
+draw_outline no
+draw_borders no
+uppercase no
+update_interval 1
+
+# Size
+#minimum_size 250 5
+#maximum_width 500
+
+# Font selection
+override_utf8_locale yes
+use_xft yes
+xftfont Ubuntu:size=10
+xftalpha 0.1
+
+# Text alignment
+alignment middle_right
+#gap_x 20
+#gap_y -60
+
+# Colors
+default_color white
+default_shade_color red
+default_outline_color green
+color1 EAEAEA
+#color4 FFA300
+color2 orange
+color3 CACACA
+
+TEXT
+${color1}${font GE Inspira:pixelsize=120}${time %H:%M}${font}
+${voffset -102}${offset 350}${color2}${font GE Inspira:pixelsize=58}${time %A}${font}
+${voffset 14}${offset 350}${color2}${font GE Inspira:pixelsize=28}${time %d} ${color1}${time %B %Y}${font}
+
+${voffset 1}${font Ubuntu:pixelsize=12}\
+${offset 12}${color2}HD ${offset 4}${color}${fs_used /} / ${fs_size /}\
+${offset 40}${color2}RAM ${offset 4}${color}$mem / $memmax\
+${offset 40}${color2}CPU ${offset 9}${color}${cpu cpu1}% ${cpu cpu2}%
