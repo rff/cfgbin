@@ -42,7 +42,7 @@
 URxvt*background:            S_base03
 URxvt*foreground:            S_base00
 URxvt*fading:                40
-URxvt*fadecolor:             s_base03
+URxvt*fadeColor:             S_base03
 URxvt*cursorColor:           S_base1
 URxvt*pointerColorBackground:S_base01
 URxvt*pointerColorForeground:S_base1
@@ -196,6 +196,15 @@ URxvt*font: xft:ubuntu mono:autohint=true:antialias=true:size=12
 !URxvt*boldFont: xft:ubuntu mono:bold:autohint=true:antialias=true:size=12
 !URxvt*italicFont: xft:ubuntu mono:italic:autohint=true:antialias=true:size=12
 !URxvt*boldItalicFont: xft:ubuntu mono:bold:italic:autohint=true:antialias=true:size=12
+
+!! EXTENSIONS
+URxvt.perl-lib: ~/.urxvt/ext
+URxvt.perl-ext-common: font-size
+URxvt.font-size.step: 1
+
+!! KEYBINDINGS
+URxvt.keysym.C-Up: perl:font-size:increase
+URxvt.keysym.C-Down: perl:font-size:decrease
 
 !! UNKNOWN
 URxvt*letterSpace: -1
