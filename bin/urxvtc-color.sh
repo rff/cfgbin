@@ -21,7 +21,7 @@ COLORS=(
 INDEX=( {0..15} )
 
 OPTCOLORS=( "${COLORS[@]}" )
-OPT="${1:-'-i'}"
+OPT=${1:-'-i'}
 
 
 [ ${OPT} == '-c' ] && OPTCOLORS=( "${COLORS[@]}" )
