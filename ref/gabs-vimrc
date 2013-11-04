@@ -1,0 +1,86 @@
+" Key mappings
+map <silent> <F6> :call Switchhighlight()<cr>
+map <silent> <F7> :call Switchspell()<cr>
+map <silent> <F8> :call Switchwidth()<cr>
+
+" Default behavior
+syntax on
+set noautoindent
+set nocindent
+set nocompatible
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set showmatch
+set nowrap
+
+" Select assembly language
+let asmsyntax='armasm'
+let filetype_inc='armasm'
+
+" Select latex for syntax highlight of .tex files
+let g:texflavor='latex'
+
+" Width switch
+set textwidth=0
+"set cc=+1
+function Switchwidth()
+	if &textwidth == 0
+		set textwidth=90
+	elseif &textwidth == 90
+		set textwidth=80
+	elseif &textwidth == 80
+		set textwidth=70
+	elseif &textwidth == 70
+		set textwidth=0
+	else
+		set textwidth=0
+	endif
+	"set cc=+1
+	echo &textwidth " columns"
+endfunction
+
+" Spell switch
+set spelllang=none
+set nospell
+function Switchspell()
+	if &spelllang == "none"
+		set spelllang=en_us
+		set spell
+		echo "English"
+	elseif &spelllang == "en_us"
+		set spelllang=pt_br
+		set spell
+		echo "Portuguese"
+	else
+		set nospell
+		set spelllang=none
+		echo "No spell"
+	endif
+endfunction
+
+" Highlight switch
+let highlightstate = 1
+highlight myhighlight ctermbg=grey guibg=grey
+match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
+function Switchhighlight()
+	if g:highlightstate == 0
+		match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
+		echo "Highlight Tabs"
+		let g:highlightstate = 1
+	elseif g:highlightstate == 1
+		match myhighlight /^ \+\| \+\t\| \+$\|\t\+$/
+		echo "Highlight Spaces"
+		let g:highlightstate = 2
+	elseif g:highlightstate == 2
+		match myhighlight /rabblerabblerabble/
+		echo "No Highlight"
+		let g:highlightstate = 0
+	else
+		match myhighlight /rabblerabblerabble/
+		echo "No Highlight"
+		let g:highlightstate = 0
+	endif
+endfunction
+
