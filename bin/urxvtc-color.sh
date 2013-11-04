@@ -18,9 +18,21 @@ COLORS=(
 	"White"
 )
 
+INDEX=( {0..15} )
+
+OPTCOLORS=( "${COLORS[@]}" )
+OPT="${1:-'-i'}"
+
+
+[ ${OPT} == '-c' ] && OPTCOLORS=( "${COLORS[@]}" )
+[ ${OPT} == '-i' ] && OPTCOLORS=( "${INDEX[@]}" )
+
+
 RANDOM=$(date +%N)
-size=${#COLORS[@]}
-(( i=RANDOM % $size ))
-color=${COLORS[i]}
+size=${#OPTCOLORS[@]}
+(( i=$RANDOM % $size ))
+color=${OPTCOLORS[i]}
+
+
 
 urxvtc -cr $color
