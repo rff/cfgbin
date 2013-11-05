@@ -64,7 +64,7 @@ for ARG in "$@" ; do
              skipnext=1
          ;;
 
-         -? )
+         =? )
              sep=${ARG: -1}
          ;;
 
