@@ -25,3 +25,5 @@
 [alias]
 	lol = log --oneline --decorate --all --graph
 	puff = pull --ff-only
+	st = status --short --branch
+
