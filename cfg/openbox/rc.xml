@@ -298,6 +298,11 @@
         <menu>root-menu</menu>
       </action>
     </keybind>
+    <keybind key="C-A-Menu">
+      <action name="ShowMenu">
+        <menu>client-list-combined-menu</menu>
+      </action>
+    </keybind>
     <!-- end RAONI -->
     <!-- RAONI Keybindings for window actions -->
     <keybind key="W-q">
@@ -445,7 +450,7 @@
         <startupnotify>
           <enabled>yes</enabled>
         </startupnotify>
-        <command>dmenu_run</command>
+        <command>dmenu_run -p 'run:' -fn '9x15' -nb '#202020' -nf '#d0d090' -sb '#4e9a06' -sf '#202020'</command>
       </action>
     </keybind>
     <keybind key="A-F3">
@@ -453,7 +458,7 @@
         <startupnotify>
           <enabled>yes</enabled>
         </startupnotify>
-        <command>xterm</command>
+        <command>urxvtc</command>
       </action>
     </keybind>
     <!-- end RAONI -->
