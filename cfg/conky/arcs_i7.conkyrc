@@ -1,0 +1,128 @@
+#==============================================================================
+#                                 conkyrc_grey
+#
+#  author  : SLK
+#  version : v2011011601
+#  license : Distributed under the terms of GNU GPL version 2 or later
+#
+#==============================================================================
+
+background yes
+update_interval 1
+
+cpu_avg_samples 2
+net_avg_samples 2
+temperature_unit celsius
+
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+
+gap_x 10
+gap_y 5
+minimum_size 220 450
+maximum_width 220
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+border_inner_margin 0
+border_outer_margin 0
+alignment tr
+
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+override_utf8_locale yes
+use_xft yes
+xftfont caviar dreams:size=8
+xftalpha 0.5
+uppercase no
+
+default_color FFFFFF
+color1 DDDDDD
+color2 AAAAAA
+color3 888888
+color4 666666
+
+lua_load ~/.config/conky/arcs_i7.lua
+lua_draw_hook_post main
+
+TEXT
+#${voffset 35}
+#${goto 105}${color4}${font ubuntu:size=22}${time %e}${color1}${offset -60}${font ubuntu:size=10}${time %A}
+#${goto 85}${color2}${voffset -2}${font ubuntu:size=9}${time %b}${voffset -2} ${color3}${font ubuntu:size=12}${time %Y}${font}
+
+#${voffset 76}
+${voffset -5}
+${font Ubuntu:size=6,weight:normal}
+${goto 120}${font Ubuntu:size=7,weight:normal}${color3}${freq 1} MHz  ${alignr}${freq 2} MHz
+${goto 120}${font Ubuntu:size=7,weight:normal}${color3}${freq 3} MHz  ${alignr}${freq 4} MHz
+${goto 120}${font Ubuntu:size=7,weight:normal}${color3}${freq 5} MHz  ${alignr}${freq 6} MHz
+${goto 120}${font Ubuntu:size=7,weight:normal}${color3}${freq 7} MHz  ${alignr}${freq 8} MHz
+
+${voffset -10}
+${voffset -20}
+${goto 90}${font Ubuntu:size=7,weight:bold}${color}CPU
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${top name 1}${alignr}${top cpu 1}%
+${goto 90}${font Ubuntu:size=7,weight:normal}${color2}${top name 2}${alignr}${top cpu 2}%
+${goto 90}${font Ubuntu:size=7,weight:normal}${color3}${top name 3}${alignr}${top cpu 3}%
+${goto 90}${cpugraph 10,100 666666 666666}
+${goto 90}${voffset -10}${font Ubuntu:size=7,weight:normal}${color}${threads} process 
+
+${voffset 22}
+${goto 90}${font Ubuntu:size=7,weight:bold}${color}MEM
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${top_mem name 1}${alignr}${top_mem mem 1}%
+${goto 90}${font Ubuntu:size=7,weight:normal}${color2}${top_mem name 2}${alignr}${top_mem mem 2}%
+${goto 90}${font Ubuntu:size=7,weight:normal}${color3}${top_mem name 3}${alignr}${top_mem mem 3}%
+
+${voffset 39}
+${goto 90}${font Ubuntu:size=7,weight:bold}${color}DISKS
+${voffset -15}
+${goto 120}${diskiograph 30,70 666666 666666}
+${font Ubuntu:size=7,weight:normal}${color}${alignc -45}(free)
+${goto 90}${font Ubuntu:size=7,weight:normal}${color}/win ${alignr}${fs_free /win}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color}/boot ${alignr}${fs_free /boot}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color}/data ${alignr}${fs_free /data}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color}/home ${alignr}${fs_free /home}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color}/ ${alignr}${fs_free /}
+
+${voffset -10}
+${goto 70}${font Ubuntu:size=18,weight:bold}${color3}NET
+${voffset -65}
+${font Ubuntu:size=7,weight:bold}
+${if_up eth0}\
+${alignr}${font Ubuntu:size=7,weight:bold}${color1}eth0 ${addr eth0}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}Up:${alignr}${upspeed eth0}
+${alignr}${voffset -5}${upspeedgraph eth0 15,100 666666 666666}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}Down:${alignr}${downspeed eth0}
+${alignr}${voffset -5}${downspeedgraph eth0 15,100 666666 666666}\
+${endif}
+${if_up wlan0}\
+${alignr}${font Ubuntu:size=7,weight:bold}${color1}wlan0 ${addr wlan0}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}Up:${alignr}${upspeed wlan0}
+${alignr}${voffset -5}${upspeedgraph wlan0 15,100 666666 666666}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}Down:${alignr}${downspeed wlan0}
+${alignr}${voffset -5}${downspeedgraph wlan0 15,100 666666 666666}\
+${endif}
+
+${voffset -35}
+${goto 90}${font Ubuntu:size=7,weight:bold}${color}open ports: ${alignr}${color2}${tcp_portmon 1 65535 count}
+${goto 90}${font Ubuntu:size=7,weight:bold}${color}${offset 10}IP${alignr}DPORT
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  0}${alignr 1}${tcp_portmon 1 65535 rport  0}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  1}${alignr 1}${tcp_portmon 1 65535 rport  1}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  2}${alignr 1}${tcp_portmon 1 65535 rport  2}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  3}${alignr 1}${tcp_portmon 1 65535 rport  3}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  4}${alignr 1}${tcp_portmon 1 65535 rport  4}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  5}${alignr 1}${tcp_portmon 1 65535 rport  5}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  6}${alignr 1}${tcp_portmon 1 65535 rport  6}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  7}${alignr 1}${tcp_portmon 1 65535 rport  7}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  8}${alignr 1}${tcp_portmon 1 65535 rport  8}
+${goto 90}${font Ubuntu:size=7,weight:normal}${color1}${tcp_portmon 1 65535 rip  9}${alignr 1}${tcp_portmon 1 65535 rport  9}
+
+${color3}${font Ubuntu:size=7,weight:normal}${execi 1 sensors}
+
+${color3}${font Ubuntu:size=8,weight:normal}${alignr}${execi 180 fortune -acs |grep -vx "%" | fold -s -w44 | awk '{ if (NR>1) print $0 " |"; else print $0; }'}
+
