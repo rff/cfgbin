@@ -85,7 +85,46 @@ __PS1__=$PS1
 #PS1='[\t \u@\h \w]$(__git_ps1) [$(echo $?)] \$ '
 PS1='[\t \u@\h \w]$(__git_ps1) [$CMDRET]\$ '
 #PROMPT_COMMAND="CMDRET=\$? ; test \$CMDRET -eq 0 || CMDRET=\033[31m\${CMDRET}\033[0m"
-PROMPT_COMMAND='CMDRET=$?'
+PROMPT_COMMAND='set_promptcmd'
+
+# raoni: awesome PS1 + window manager WINDOW TITLE
+function set_promptcmd() {
+	CMDRET=$?
+#	[ $CMDRET != 0 ] && CMDRET="\e[31m$CMDRET\e[0m"
+	set_wname "$(wname_prefix) $0" 
+}
+
+# raoni: helper function to print some info for window name.
+function wname_prefix() {
+	local term_name=${TERM}
+	local shell_name=$(basename ${SHELL})
+	local shell_name=$0
+
+	[ $term_name == 'rxvt-unicode' ] && term_name='urxvt'
+
+	local name_prefix="${term_name} - [${USER}@${HOSTNAME} $PWD]\$"
+	echo $name_prefix
+}
+
+# raoni: window manager WINDOW TITLE changer
+function set_wname() {
+	echo -en "\033]0;$*\007"
+}
+
+# raoni: set WINDOW TITLE to command running
+trap set_beforecmd DEBUG
+function set_beforecmd() {
+	case "$BASH_COMMAND" in
+		*\033]0*)  # The command is trying to set the title bar as well;
+			   # this is most likely the execution of $PROMPT_COMMAND.
+			   # In any case nested escapes confuse the terminal, so don't
+			   # output them.
+		;;
+		*) set_wname "$(wname_prefix) ${BASH_COMMAND}"
+		;;
+	esac
+}
+
 
 
 # enable color support of ls and also add handy aliases

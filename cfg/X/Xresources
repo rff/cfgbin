@@ -1,7 +1,7 @@
 !!------ COLOR SCHEME --------------------------------------------------------!!
 
 !! D_* : dark / low-intensity (normal) colors
-!! L_* : light / high-intensity (bold = bright foreground, blink= bright background) colours.
+!! L_* : light / high-intensity (bold = bright foreground, blink = bright background) colours.
 
 !! Tango color scheme
 #define D_black       #2e3436
