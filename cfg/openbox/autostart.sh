@@ -26,6 +26,7 @@ fi
 #(sleep 2 && nm-applet) &
 
 (sleep 1 ; xcompmgr -c -t-5 -l-5 -r4.2 -o.55) &
+(sleep 2 ; xrdb ~/.Xresources) &
 (sleep 3 ; urxvtd -q -f -o) &
 (sleep 4 ; nitrogen --restore) &
 (sleep 5 ; conky) &

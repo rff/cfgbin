@@ -10,7 +10,11 @@
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
+#HISTCONTROL=ignoredups:ignorespace  # same as below.
 HISTCONTROL=ignoreboth
+
+# raoni: history with timestamp.
+HISTTIMEFORMAT='[%Y.%m.%d %T] '
 
 # append to the history file, don't overwrite it
 shopt -s histappend
