@@ -91,7 +91,13 @@ PROMPT_COMMAND='set_promptcmd'
 function set_promptcmd() {
 	CMDRET=$?
 #	[ $CMDRET != 0 ] && CMDRET="\e[31m$CMDRET\e[0m"
-	set_wname "$(wname_prefix) $0" 
+	case "$TERM" in
+	xterm*|rxvt*)
+		set_wname "$(wname_prefix) $0" 
+	    ;;
+	*)
+	    ;;
+esac
 }
 
 # raoni: helper function to print some info for window name.
@@ -112,7 +118,13 @@ function set_wname() {
 }
 
 # raoni: set WINDOW TITLE to command running
-trap set_beforecmd DEBUG
+case "$TERM" in
+xterm*|rxvt*)
+	trap set_beforecmd DEBUG
+    ;;
+*)
+    ;;
+esac
 function set_beforecmd() {
 	case "$BASH_COMMAND" in
 		*\033]0*)  # The command is trying to set the title bar as well;
