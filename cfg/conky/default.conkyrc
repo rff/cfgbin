@@ -45,6 +45,10 @@ xftfont DejaVu Sans Mono:size=10
 
 #alignment top_left
 alignment tr
+gap_x 10
+gap_y 5
+minimum_size 350 5
+maximum_width 350
 
 background no
 border_width 1
@@ -56,10 +60,6 @@ draw_graph_borders yes
 draw_outline no
 draw_shades no
 #draw_graph_borders no
-#gap_x 5
-#gap_y 60
-minimum_size 350 5
-maximum_width 350
 stippled_borders 0
 
 uppercase no
@@ -96,6 +96,7 @@ ${font DejaVu Sans Mono:size=8}\
 ${color0}Uptime: ${color1}$uptime
 ${color0}Processes: ${color1}$processes  ${color0}Running:${color1} $running_processes
 ${color0}Battery: ${color1}${battery C23B} ${color0}(${battery_time C23B})
+${color1}${exec acpi -b}
 ${font}\
 
 #${color1}CPU ${color0}${hr}
@@ -113,7 +114,7 @@ ${color0}core 1: ${color1}${freq 1}${color0}MHz (${color1}${freq_g 1}${color0}GH
 ${alignr}${color1}${cpu cpu1}% ${cpubar 4,100}
 ${color0}core 2: ${color1}${freq 2}${color0}MHz (${color1}${freq_g 2}${color0}GHz)\
 ${alignr}${color1}${cpu cpu2}% ${cpubar 4,100}
-${alignr}${cpugraph 20,220 666666 666666}
+#${alignr}${cpugraph 20,220 666666 666666}
 ${font}\
 
 ${color1}MEMORY ${color0}${hr}

@@ -1,3 +1,9 @@
+[user]
+	name = RFF
+	email = rff@email
+[credential]
+        helper = cache
+	username = rff
 [color]
         diff = auto
         status = auto
@@ -7,23 +13,17 @@
         pager = true
 [push]
         default = matching
-[branch]
-        autosetuprebase = always
-[credential]
-        helper = cache
-	username = rff
-[merge]
-        tool = mymeld
-	conflictstyle = diff3
-[mergetool "mymeld"]
-        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
-[user]
-	name = RFF
-	email = rff@email
 [core]
 	editor = vim
 [alias]
 	lol = log --oneline --decorate --all --graph
 	puff = pull --ff-only
 	st = status --short --branch
+#[branch]
+#        autosetuprebase = always
+#[merge]
+#        tool = mymeld
+#        conflictstyle = diff3
+#[mergetool "mymeld"]
+#        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
 

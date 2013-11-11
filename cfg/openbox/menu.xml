@@ -77,6 +77,8 @@
 			</action>
 		</item>
 		<separator/>
+		<menu execute="/home/raoni/bin/date-menu.sh" id="date-menu" label="Date and Calendar"/>
+		<separator/>
 		<menu id="client-list-menu"/>
 		<separator/>
 		<item label="Nitrogen">

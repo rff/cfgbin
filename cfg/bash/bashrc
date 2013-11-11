@@ -3,7 +3,10 @@
 # for examples
 
 # If not running interactively, don't do anything
+#[[ $- != *i* ]] && return
 [ -z "$PS1" ] && return
+# load systemwide bashrc
+#[ -r /etc/bash.bashrc ] && . /etc/bash.bashrc
 
 # raoni: i want xterm-color to be default. better would be xterm-256color
 #TERM=xterm-color
@@ -14,6 +17,7 @@
 HISTCONTROL=ignoreboth
 
 # raoni: history with timestamp.
+#HISTTIMEFORMAT='[%x %X] '
 HISTTIMEFORMAT='[%Y.%m.%d %T] '
 
 # append to the history file, don't overwrite it
@@ -28,6 +32,9 @@ unset HISTFILESIZE
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+SVN_SSH="ssh -p 6868"
+export SVN_SSH
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
@@ -213,8 +220,9 @@ fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+    PATH="$PATH:$HOME/bin"
 fi
+export PATH
 
 
 # this is a workaround to bash-completion not recognize __git_ps1.
