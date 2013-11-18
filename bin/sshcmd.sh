@@ -16,11 +16,12 @@ DEFAULT='\e[39m'
 RESET='\e[0m'
 COLOR=$GREEN
 
+ident=$IDENT
 prefix=$PREFIX
 hosts=''
 dryrun=''
 verbose='false'
-ident=$IDENT
+scpmode='false'
 
 skipnext=0
 
@@ -36,6 +37,9 @@ for ARG in "$@" ; do
 		continue
 	fi
 	case "$ARG" in
+		-c | --scp )  # SCP mode, copy files to multiple nodes.
+			scpmode='true'
+			;;
 		-a | --all )
 			hosts+=" ${HOSTS_DEFAULT}"
 			;;
@@ -74,8 +78,7 @@ for ARG in "$@" ; do
 			;;
 
 		-- )
-			cmd="$@"
-			parse='false'
+			cmd=( "$@" )
 			break
 			;;
 		* )
@@ -98,7 +101,15 @@ for h in $hosts ; do
 #	printf -- "------- %-${maxlen}s ----------------------------------------\n" "$h"
 	echo -e "${COLOR}${h}:${RESET}"
 	[ $verbose == 'true' ] && echo "[cmd] ssh $h $cmd" 2>&1 | sed 's/^/    /'
-	$dryrun ssh $h "$cmd" 2>&1 | sed 's/^/    /'
+
+	if [ $scpmode == 'true' ] ; then
+		srcsz=$(( ${#cmd[@]} - 1))
+		src=( "${cmd[@]:0:${srcsz}}" )
+		dest="${cmd[-1]}"
+		$dryrun scp "${src[@]}" "${h}:${dest}"   2>&1 | sed 's/^/    /'
+	else
+		$dryrun ssh $h "${cmd[@]}" 2>&1 | sed 's/^/    /'
+	fi
 done
 
 #echo "-------- DONE --------"
