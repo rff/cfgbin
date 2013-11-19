@@ -51,9 +51,9 @@
 				<execute>gedit</execute>
 			</action>
 		</item>
-		<item label="Gnome Calculator">
+		<item label="Gcalctool">
 			<action name="Execute">
-				<execute>gnome-calculator</execute>
+				<execute>gcalctool</execute>
 			</action>
 		</item>
 		<item label="Empathy">
@@ -113,13 +113,13 @@
 			<action name="Restart"/>
 		</item>
 		<separator/>
-		<item label="Exit">
-			<action name="Exit"/>
-		</item>
 		<item label="Killall AND Kill X">
 			<action name="Execute">
 				<execute>killall -u raoni ; sleep 2 ; killall X</execute>
 			</action>
+		</item>
+		<item label="Exit">
+			<action name="Exit"/>
 		</item>
 	</menu>
 </openbox_menu>
