@@ -193,10 +193,15 @@ ${font}\
 #${tail /var/log/messages.log 3}\
 #${font}
 
+${color1}SENSORS ${color0}${hr}
+${color0}${font DejaVu Sans Mono:size=8}\
+${exec fmt-sensors.py -w 49}\
+${font}
+
 ${color1}WEATHER ${color0}${hr}
 ${color0}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
 
 ${color1}FORTUNE ${color0}${hr}
 ${color0}${font DejaVu Sans Mono:size=8}\
-${execi 120 fortune -asc | fold -s -w50}\
+${execi 120 fortune -asc | grep -xv '%' | fold -s -w50}\
 ${font}
