@@ -226,7 +226,7 @@ ${font}
 
 ${color1}SENSORS ${color0}${hr}
 ${color0}${font Ubuntu Mono:size=8}\
-${exec sensors -A coretemp-isa-0000 acpitz-virtual-0 | grep -xv "" | perl -p -E 's/  \(.*\)//; END { print "\n\n\n" }' | sed 's/ / /g' | pr -2 -l 9 | expand}\
+${exec fmt-sensors.py -w 62}\
 ${font}
 
 ${color1}FORTUNE ${color0}${hr}
