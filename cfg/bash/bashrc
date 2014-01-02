@@ -90,7 +90,7 @@ esac
 PROMPT_DIRTRIM=2
 __PS1__=$PS1
 #PS1='[\t \u@\h \w]$(__git_ps1) [$(echo $?)] \$ '
-PS1='[\t \u@\h \w]$(__git_ps1) [$CMDRET]\$ '
+PS1='[\t \u@\h \[\e[37m\]\w\[\e[0m\]]$(__git_ps1) [$CMDRET]\$ '
 #PROMPT_COMMAND="CMDRET=\$? ; test \$CMDRET -eq 0 || CMDRET=\033[31m\${CMDRET}\033[0m"
 PROMPT_COMMAND='set_promptcmd'
 

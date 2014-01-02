@@ -86,6 +86,16 @@ echo -en "${color}"
 for (( i = 0; i < lines; i++ )) ; do
     echo $newline $linetoprint
 done
-echo -e "${RESET}"
+
+# invert linebreak input so when...:
+# - using linebreak: to not print a empty line
+# - not using linebreak: to not print the PS1 in the same line as the fill
+#   charactes
+if [ "$newline" == '' ] ;
+then newline='-n'
+else newline=''
+fi
+
+echo $newline -e "${RESET}"
 
 exit 0
