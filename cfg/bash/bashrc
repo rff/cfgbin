@@ -179,6 +179,10 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
+# raoni @ Fri Jan  3 14:25:08 BRST 2014
+# alias to show directory stack with more info
+alias lsd='dirs -v'
+
 # raoni @ Thu Oct  3 12:58:27 BRT 2013
 # alias for my function to test what comes more natural.
 alias cl='cs'
