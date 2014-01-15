@@ -28,6 +28,8 @@ HISTSIZE=1000000
 HISTFILESIZE=1000000
 unset HISTFILESIZE
 
+# enable '**' in filename expansion for recursive directory match.
+shopt -s globstar
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -168,16 +170,16 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 # raoni: some cool alias
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
-alias .1='cd ..'
-alias .2='cd ../..'
-alias .3='cd ../../..'
-alias .4='cd ../../../..'
-alias .5='cd ../../../../..'
+alias ..='cl ..'
+alias ...='cl ../..'
+alias ....='cl ../../..'
+alias .....='cl ../../../..'
+alias ......='cl ../../../../..'
+alias .1='cl ..'
+alias .2='cl ../..'
+alias .3='cl ../../..'
+alias .4='cl ../../../..'
+alias .5='cl ../../../../..'
 
 # raoni @ Fri Jan  3 14:25:08 BRST 2014
 # alias to show directory stack with more info
