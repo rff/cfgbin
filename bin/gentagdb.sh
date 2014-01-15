@@ -9,7 +9,7 @@
 # arguments.
 set -x
 
-find "$@" \( -name '.?*' -a -prune \) -o \( -name '*.c' -o -name '*.h' -o -name '*.cc' -o -name '*.cpp' \) -a -print | sort > cscope.files
+find "$@" \( -name '.?*' -a -prune \) -o \( -name '*.c' -o -name '*.h' -o -name '*.cc' -o -name '*.cpp' -o -name '*.hh' -o -name '*.hpp' \) -a -print | sort > cscope.files
 
 cscope -b -q  # -i'cscope.files' change the default file list cscope.files
 ctags -L 'cscope.files'
