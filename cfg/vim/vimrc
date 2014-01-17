@@ -440,9 +440,9 @@ function Switchspell()
 endfunction
 
 " Highlight switch
-let highlightstate = 1
+let highlightstate = 0
 highlight myhighlight ctermbg=grey guibg=grey
-match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
+match myhighlight /rabblerabblerabble/
 function Switchhighlight()
 	if g:highlightstate == 0
 		match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
