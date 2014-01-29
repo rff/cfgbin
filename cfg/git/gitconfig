@@ -1,9 +1,5 @@
-[user]
-	name = RFF
-	email = rff@email
 [credential]
         helper = cache
-	username = rff
 [color]
         diff = auto
         status = auto
@@ -16,8 +12,9 @@
 [core]
 	editor = vim
 [alias]
-	lol = log --oneline --decorate --all --graph
 	puff = pull --ff-only
+	ll = log --oneline --decorate --all --graph
+	ls = log --oneline --decorate --all --graph --stat
 	st = status --short --branch
 #[branch]
 #        autosetuprebase = always
