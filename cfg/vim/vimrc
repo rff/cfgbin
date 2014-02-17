@@ -565,6 +565,8 @@ map ´ ''
 syntax match WhiteSpaceEOL excludenl "\s\+$"
 highlight link WhiteSpaceEOL Error
 
+" Map for easy toggle of wrap text.
+map <silent> <F5> :set wrap!<cr>
 
 "-------------------------------------------------------------------------------
 " Raoni: Macros for beatifull text editing in VIM. Setup on demand.
