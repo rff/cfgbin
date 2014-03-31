@@ -169,7 +169,11 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 
-# raoni: some cool alias
+# raoni: useful alias
+alias g='grep'
+alias gg='grep -Hnr'
+
+# raoni: some cool alias for dir change
 alias ..='cl ..'
 alias ...='cl ../..'
 alias ....='cl ../../..'

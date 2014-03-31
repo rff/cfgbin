@@ -521,10 +521,10 @@ set nocompatible
 "to load plugin files for specific file types (needed for vimwiki)
 filetype plugin on
 
-" set folded lines color to  red on black
-highlight Folded     term=bold cterm=bold ctermfg=1 ctermbg=NONE gui=bold guifg=Red guibg=NONE
-" set fold column color to red on black                                                
-highlight FoldColumn term=bold cterm=bold ctermfg=1 ctermbg=NONE gui=bold guifg=Red guibg=NONE
+" set fold column & folded lines color to red on black
+highlight CustomFoldColor term=italic cterm=NONE ctermfg=DarkCyan ctermbg=NONE gui=italic guifg=DarkCyan guibg=NONE
+highlight! link FoldColumn CustomFoldColor
+highlight! link Folded     CustomFoldColor
 " set fold column visible with width of 2
 set foldcolumn=2
 
