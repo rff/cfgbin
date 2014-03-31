@@ -1,0 +1,69 @@
+# display fortune in the corner.
+#
+
+background yes
+double_buffer yes
+own_window yes
+own_window_class Conky
+own_window_type override
+#own_window_type desktop
+#own_window_type normal
+#own_window_type dock
+own_window_transparent yes
+#own_window_colour 505050
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+#own_window_title raoni_conky
+double_buffer yes
+
+ 
+use_spacer right
+#use_spacer none
+
+use_xft yes
+xftfont Ubuntu Mono:size=8
+
+#alignment top_left
+alignment tl
+
+border_width 1
+draw_borders no
+default_color white
+default_outline_color white
+default_shade_color white
+draw_graph_borders no
+draw_outline no
+draw_shades no
+gap_x 10
+gap_y 5
+#minimum_size 350 5
+#maximum_width 350
+stippled_borders 0
+
+uppercase no
+extra_newline no
+
+no_buffers yes
+out_to_console no
+out_to_stderr no
+update_interval 5.0
+
+color0 grey
+color1 white
+color2 red
+color3 blue
+color4 green
+color5 grey40
+
+text_buffer_size 4096
+
+TEXT
+# ref: http://ss64.com/bash/syntax-keyboard.html
+${color0}bash ${hr}
+${execi 180 cat /home/raoni/.config/conky/bash.cheatsheet}
+${color0}vim ${hr}
+${execi 180 cat /home/raoni/.config/conky/vim.cheatsheet}
+${hr}
+#${color0}${font Ubuntu Mono:size=8}\
+#${color5}${hr}
+#123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.
+#        10        20        30        40        50        60        70        80        90       100       110
