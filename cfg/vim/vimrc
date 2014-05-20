@@ -528,6 +528,10 @@ highlight! link Folded     CustomFoldColor
 " set fold column visible with width of 2
 set foldcolumn=2
 
+" set status line for the current buffer window to better discern the active
+" window in split windows. 
+hi StatusLine ctermfg=DarkYellow
+
 " map up and down keys to move up and down by visible lines not the actual real
 " lines (aka. separated by linebreak) (only works in command mode)
 map <Up> gk
