@@ -4,7 +4,7 @@
 
 "-------------------------------------------------------------------------------
 " Session HEX EDIT improve
-"http://vim.wikia.com/wiki/Improved_Hex_editing
+" From: http://vim.wikia.com/wiki/Improved_Hex_editing
 "-------------------------------------------------------------------------------
 
 if has("autocmd")
@@ -66,7 +66,7 @@ endfunction
 
 "-------------------------------------------------------------------------------
 " Session LATEX-SUITE improve
-" http://vim-latex.sourceforge.net/documentation/latex-suite/recommended-settings.html
+" From: http://vim-latex.sourceforge.net/documentation/latex-suite/recommended-settings.html
 "-------------------------------------------------------------------------------
 
 " REQUIRED: This makes vim invoke Latex-Suite when you open a tex file.
@@ -94,7 +94,7 @@ endfunction
 
 "-------------------------------------------------------------------------------
 " VIM highlight variable under cursor like in netbeans
-" http://stackoverflow.com/questions/1551231/vim-highlight-variable-under-cursor-like-in-netbeans
+" From: http://stackoverflow.com/questions/1551231/vim-highlight-variable-under-cursor-like-in-netbeans
 "-------------------------------------------------------------------------------
 
 ":autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
@@ -104,7 +104,7 @@ endfunction
 
 "-------------------------------------------------------------------------------
 " Auto highlight current word when idle
-" http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
+" From: http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
 "-------------------------------------------------------------------------------
 
 " Highlight all instances of word under cursor, when idle.
@@ -135,8 +135,8 @@ endfunction
 
 "-------------------------------------------------------------------------------
 " Automatic Saving/Loaging folds and others view settings.
+" From: http://www.linux.com/archive/feature/114138
 " (the code is from the final part of the article and the first comment.)
-" http://www.linux.com/archive/feature/114138
 "-------------------------------------------------------------------------------
 
 " altomatic save of the view configuration of a file. ex: the folds on a file
@@ -363,11 +363,47 @@ if has("cscope")
 endif
 
 
+"-------------------------------------------------------------------------------
+" How to fill a line with character x up to column y using Vim
+" From: http://stackoverflow.com/questions/3364102/how-to-fill-a-line-with-character-x-up-to-column-y-using-vim
+"-------------------------------------------------------------------------------
 
+"map <silent> <F4> :call FillLine()<cr>
+
+" First answer method
+" From: http://stackoverflow.com/a/3400528
+" - It fills the line from its current end of line, rather than the cursor
+"   position
+" - It forces a single space between what's currently on the line and the
+"   repeated chars
+" - It allows you to specify any string to fill the rest of the line with
+" - It uses vim's textwidth setting to decide how long the line should be
+"   (rather than just assuming 80 chars)
+"function! FillLine(str)
+"    " set tw to the desired total length
+"    let tw = &textwidth
+"    if tw==0 | let tw = 80 | endif
+"    " strip trailing spaces first
+"    .s/[[:space:]]*$//
+"    " calculate total number of 'str's to insert
+"    let reps = (tw - col("$")) / len(a:str)
+"    " insert them, if there's room, removing trailing spaces (though forcing
+"    " there to be one)
+"    if reps > 0
+"        .s/$/\=(' '.repeat(a:str, reps))/
+"    endif
+"endfunction
+
+"Second answer method
+"From: http://stackoverflow.com/a/12412493
+" 80Ax<Esc>d80|
+"function! FillLine(str)
+"	ex 80Pd80|
+"endfunction
 
 "-------------------------------------------------------------------------------
-" from Gabs vimrc
-" src: it is the de git repository: ref/gabs-vimrc
+" Gabs vimrc
+" From: it is in my git repository: ref/gabs-vimrc
 "-------------------------------------------------------------------------------
 
 " Default behavior
@@ -408,6 +444,8 @@ function Switchwidth()
 	elseif &textwidth == 80
 		set textwidth=70
 	elseif &textwidth == 70
+		set textwidth=60
+	elseif &textwidth == 60
 		set textwidth=0
 	else
 		set textwidth=0
@@ -607,5 +645,4 @@ function ToggleTextMode()
 		echo "Textmode disabled"
 	endif
 endfunction
-
 
