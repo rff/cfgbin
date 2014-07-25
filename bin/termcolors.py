@@ -11,8 +11,12 @@ import argparse
 FGCOLOR=16 # black
 COLOROPTIONS = (8, 16, 88, 256)
 
+
 def nl():
     os.system('echo')
+
+def echo(msg):
+    os.system('echo -n "{}"'.format(msg))
 
 def out(bgcolor):
     os.system('tput setaf {}'.format(FGCOLOR))
@@ -21,27 +25,30 @@ def out(bgcolor):
     #os.system("tput setab 0")  # not working to restore to default background, it set to black.
     os.system('/bin/echo -ne "\e[0m"')
 
+
 def printblock(start, end, width):
     for y in range(start, end):
         out(y)
         if (y - start) % width == width - 1: nl()
 
+
+def printdoubleblock(start, end, width):
+    half = (end - start) / 2
+    for y in range(start, start + half):
+        out(y)
+        if (y - start) % width != width - 1:
+            continue
+        echo('    ')
+	middle = y - width + half + 1
+        for y in range(middle, middle + width):
+            out(y)
+        nl()
+
+
 def gettermcolors():
     return int(os.popen('tput colors').read().strip())
 
-def setoptsconstants(opt):
-	opt.START = hourtominutes(8)
-	opt.END   = hourtominutes(17)
-	opt.LUNCH = hourtominutes(1)
-	opt.HOURS = opt.END - opt.START - opt.LUNCH
-	opt.DRIFT = 9
-	opt.SHIFT = (opt.START, opt.END)
-### end setoptsCONSTANTS
 
-
-def main():
-	opt = parse()
-	setoptsconstants(opt)
 def parseargs():
     termcolors = gettermcolors()
     parser = argparse.ArgumentParser()
@@ -53,6 +60,7 @@ def parseargs():
                         type=int, default=termcolors, dest='termcolors',
                         help="Force N colors terminal test")
     return parser.parse_args()
+
 
 def main():
     opts = parseargs()
@@ -75,7 +83,8 @@ def main():
 
     if colors < 88: return 0
     print('{0}x{0}x{0} RGB color cube:'.format(cubewidth))
-    printblock(16, graystart, cubewidth)
+    #printblock(16, graystart, cubewidth)
+    printdoubleblock(16, graystart, cubewidth)
     print
 
     print('Grayscale ramp:')
