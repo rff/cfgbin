@@ -1,6 +1,9 @@
 #!/bin/bash
 # chtermc.sh: change terminal colors on the fly.
 #
+# Reference:
+# http://superuser.com/questions/565337/urxvt-settings-reload-without-restarting-terminal
+#
 # TODO:
 # - support other terminals.
 # - rewrite in python.
