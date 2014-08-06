@@ -9,9 +9,22 @@ d2=${2:-$(xdotool get_desktop)}
 # Get number of desktops.
 dn=$(xdotool get_num_desktops)
 
+relative='no'
+
+if [ "${d1:0:1}" == '+' ] || [ "${d1:0:1}" == '-' ] ; then
+	relative='yes'
+fi
+
 # Test if the input are numbers.
 test "$d1" -eq "$d1" &>/dev/null || exit 1
 test "$d2" -eq "$d2" &>/dev/null || exit 1
+
+if [ "$relative" == 'yes' ] ; then
+	(( d1 = d2 + d1 ))
+	[ "$d1" -lt '0'   ] && (( d1 = dn - 1 ))
+	[ "$d1" -ge "$dn" ] && (( d1 = 0 ))
+fi
+
 
 # Test bounds, valid desktop numbers.
 [ "$d1" -lt '0' ] && exit 1
