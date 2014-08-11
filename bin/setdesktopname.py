@@ -1,4 +1,7 @@
 #!/usr/bin/python2
+#
+# from: http://superuser.com/questions/508128/is-it-possible-to-set-the-name-of-the-current-virtual-desktop-via-commandline
+# answer: http://superuser.com/a/734211
 
 "Helper for setting current desktop's name"
 
