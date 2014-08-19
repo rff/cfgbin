@@ -15,6 +15,7 @@
 	puff = pull --ff-only
 	ll = log --oneline --decorate --all --graph
 	ls = log --oneline --decorate --all --graph --stat
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	st = status --short --branch
 #[branch]
 #        autosetuprebase = always
