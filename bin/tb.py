@@ -5,16 +5,26 @@ import argparse
 import subprocess
 import sys
 
-def parse():
+
+LOCAL_TOPBUILD_CMD='/home/raoni/ws/git/topbuild/src/topbuild/main.py'
+
+def __parse():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('args', nargs=argparse.REMAINDER,
 	                    help="Arguments to be passed to topbuild.")
 	return parser.parse_args()
+
+def parse():
+	class Empty(object):
+		pass
+	c = Empty()
+	c.args = sys.argv[1:]
+	return c
 ### END parse
 
 
 def calltb(args):
-		return subprocess.call(['topbuild'] + args)
+		return subprocess.call(['python', LOCAL_TOPBUILD_CMD] + args)
 ### END calltb
 
 

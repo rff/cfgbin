@@ -59,8 +59,8 @@ for ARG in "$@" ; do
          ;;
 
          --color )
-             #COLOR=$1
-             echo "Option not implemented. Ignoring."
+             echo "Option not implemented. using RED."
+             color=${YELLOW}
              skipnext=1
          ;;
 
@@ -76,7 +76,7 @@ for ARG in "$@" ; do
 done
 
 if [ $reverse == 'true' ] ; then
-    color=$REVERSE
+    color=${color}$REVERSE
 fi
 
 

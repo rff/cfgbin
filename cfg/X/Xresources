@@ -166,7 +166,7 @@ URxvt*scrollKeypress: true
 URxvt*scrollTtyKeypress: true
 URxvt*scrollTtyOutput: false
 URxvt*scrollWithBuffer: false
-URxvt*saveLines: 200000
+URxvt*saveLines: 65535
 URxvt*secondaryScroll: false
 URxvt*buffered: true
 
@@ -179,7 +179,7 @@ URxvt*font: xft:ubuntu mono:autohint=true:antialias=true:size=12
 
 !! EXTENSIONS
 URxvt.perl-lib: ~/.urxvt/ext
-URxvt.perl-ext-common: vtwheel,font-size
+URxvt.perl-ext-common: default,vtwheel,font-size
 URxvt.font-size.step: 1
 
 !! KEYBINDINGS
