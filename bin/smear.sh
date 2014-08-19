@@ -58,9 +58,8 @@ for ARG in "$@" ; do
              reverse='true'
          ;;
 
-         --color )
-             echo "Option not implemented. using RED."
-             color=${YELLOW}
+         -C | --color )
+             color='\e[3'$1'm'
              skipnext=1
          ;;
 
