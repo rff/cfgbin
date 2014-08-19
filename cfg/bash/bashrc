@@ -122,7 +122,9 @@ function wname_info() {
 
 # raoni: window manager WINDOW TITLE changer
 function set_wname() {
-	echo -en "\033]0;$*\007"
+	echo -ne "\033]0;"
+	echo -n "$*"
+	echo -ne "\007"
 }
 
 # raoni: set WINDOW TITLE to command running
@@ -139,6 +141,8 @@ function set_beforecmd() {
 			   # this is most likely the execution of $PROMPT_COMMAND.
 			   # In any case nested escapes confuse the terminal, so don't
 			   # output them.
+		;;
+		*\033* | *\e* )
 		;;
 		*) set_wname "${BASH_COMMAND} $(wname_info)"
 		;;
