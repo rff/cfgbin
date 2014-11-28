@@ -48,10 +48,10 @@ def main():
 	initdir = os.getcwd()
 	topleveldir = findtoplevel()
 	if topleveldir != None:
-		print('Topbuild project found!', file=sys.stderr);	
+		#print('Topbuild project found!', file=sys.stderr);	
 		execdir = topleveldir
 	else:
-		print('Topbuild project not found!', file=sys.stderr);	
+		#print('Topbuild project not found!', file=sys.stderr);	
 		execdir = initdir
 	### END if
 	os.chdir(execdir)
@@ -61,7 +61,7 @@ def main():
 		print('Execution failed:', e, file=sys.stderr);
 	else:
 		if r < 0: print('Child terminated by signal:', -r, file=sys.stderr)
-		else:     print('Child returned with code:', r, file=sys.stderr)
+		#else:     print('Child returned with code:', r, file=sys.stderr)
 	finally:
 		pass
 	### END try

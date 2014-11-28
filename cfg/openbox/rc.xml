@@ -262,6 +262,26 @@
     <keybind key="W-d">
       <action name="ToggleShowDesktop"/>
     </keybind>
+    <keybind key="C-W-a">
+      <action name="AddDesktop">
+        <where>last</where>
+      </action>
+    </keybind>
+    <keybind key="S-C-W-a">
+      <action name="AddDesktop">
+        <where>current</where>
+      </action>
+    </keybind>
+    <keybind key="C-W-x">
+      <action name="RemoveDesktop">
+        <where>last</where>
+      </action>
+    </keybind>
+    <keybind key="S-C-W-x">
+      <action name="RemoveDesktop">
+        <where>current</where>
+      </action>
+    </keybind>
     <!-- Keybindings for windows -->
     <keybind key="A-F4">
       <action name="Close"/>
@@ -310,6 +330,12 @@
     </keybind>
     <keybind key="W-s">
       <action name="ToggleShade"/>
+    </keybind>
+    <keybind key="W-t">
+      <action name="ToggleAlwaysOnTop"/>
+    </keybind>
+    <keybind key="W-b">
+      <action name="ToggleAlwaysOnBottom"/>
     </keybind>
     <keybind key="W-w">
       <action name="ToggleDecorations"/>

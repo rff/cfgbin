@@ -17,6 +17,7 @@
 	ls = log --oneline --decorate --all --graph --stat
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	st = status --short --branch
+	sa = status --short --branch --ignored
 #[branch]
 #        autosetuprebase = always
 #[merge]
@@ -25,3 +26,6 @@
 #[mergetool "mymeld"]
 #        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
 
+[user]
+	name = Raoni Fassina Firmino
+	email = raoni.firmino@padtec.com.br

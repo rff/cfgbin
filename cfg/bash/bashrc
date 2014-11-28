@@ -176,6 +176,7 @@ alias rm='rm -i'
 # raoni: useful alias
 alias g='grep'
 alias gg='grep -Hnr'
+alias ag='ack-grep'
 
 # raoni: some cool alias for dir change
 alias ..='cl ..'
@@ -256,3 +257,6 @@ GIT_PS1_SHOWUPSTREAM="auto"
 
 
 umask 077
+
+PERL_MB_OPT="--install_base \"/home/raoni/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/raoni/perl5"; export PERL_MM_OPT;
