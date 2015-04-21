@@ -25,14 +25,17 @@ fi
 #(sleep 2 && gnome-power-manager) &
 #(sleep 2 && nm-applet) &
 
-(sleep 1 ; xcompmgr -c -t-5 -l-5 -r4.2 -o.55) &
-(sleep 2 ; xrdb ~/.Xresources) &
-(sleep 3 ; urxvtd -q -f -o) &
-(sleep 4 ; nitrogen --restore) &
-(sleep 5 ; conky) &
-(sleep 5 ; conky -c ~/.config/conky/fortune.conkyrc) &
-(sleep 5 ; conky -c ~/.config/conky/simpleclock.conkyrc) &
-(sleep 5 ; nautilus --browser --no-desktop) &
+
+
+#(sleep 1 ; xcompmgr -c -t-5 -l-5 -r4.2 -o.55) &
+#(sleep 2 ; xrdb ~/.Xresources) &
+#(sleep 3 ; urxvtd -q -f -o) &
+#(sleep 4 ; nitrogen --restore) &
+#(sleep 5 ; conky) &
+#(sleep 5 ; conky -c ~/.config/conky/fortune.conkyrc) &
+#(sleep 5 ; conky -c ~/.config/conky/simpleclock.conkyrc) &
+#(sleep 5 ; nautilus --browser --no-desktop) &
+
 
 #if ! dropbox running ; then
 #	dropbox stop
