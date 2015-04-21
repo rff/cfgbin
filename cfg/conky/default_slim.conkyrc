@@ -27,9 +27,10 @@ double_buffer yes
 own_window yes
 own_window_class Conky
 #own_window_type: normal, desktop, dock, panel, override
-own_window_type override
+own_window_type normal
 own_window_argb_visual yes
-own_window_transparent yes
+own_window_argb_value 100
+#own_window_transparent yes
 #own_window_colour 505050
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 #own_window_title raoni_conky
@@ -44,13 +45,13 @@ xftfont Ubuntu Mono:size=12
 
 #alignment top_left
 alignment tr
-gap_x 10
-gap_y 5
-minimum_size 350 5
-maximum_width 350
+gap_x 14
+gap_y 14
+minimum_size 225 1052
+maximum_width 225
 
 background no
-border_width 1
+border_width 10
 default_color white
 default_outline_color white
 default_shade_color white
@@ -84,28 +85,31 @@ color3 blue
 color4 green
 
 TEXT
-${color1}${time %a, %d %b %Y}${alignr}${time %T %Z}
-
 ${font Ubuntu Mono:size=10}\
+${color1}${time %a, %d %b %Y}${alignr}${time %T %Z}
+${font}\
+
+${font Ubuntu Mono:size=8}\
 ${color0}${alignc}$nodename - $sysname $kernel on $machine
 ${font}\
 
 ${color1}WEATHER ${color0}${hr}
-${color0}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
+${font Ubuntu Mono:size=10}\
+${color0}Campinas: ${color1}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
+${font}\
 
-${color1}SENSORS ${color0}
+${color1}SYSTEM ${color0}${hr}
+${font Ubuntu Mono:size=10}\
+${color0}Uptime: ${color1}$uptime
+${color0}Processes: ${color1}$processes  ${color0}Running:${color1} $running_processes
+${color0}Battery: ${color1}${battery_short C23B} ${color0}(${battery_time C23B})
+${color1}${exec acpi -b}
+${font}\
+
+${color1}SENSORS ${color0}${hr}
 ${color0}${font Ubuntu Mono:size=10}\
 ${exec fmt-sensors.py -w 49}\
 ${font}
-
-${voffset -89}\
-${goto 170}${color1}SYSTEM ${color0}${hr}
-${font Ubuntu Mono:size=10}\
-${goto 170}${color0}Uptime: ${color1}$uptime
-${goto 170}${color0}Processes: ${color1}$processes  ${color0}Running:${color1} $running_processes
-${goto 170}${color0}Battery: ${color1}${battery C23B} ${color0}(${battery_time C23B})
-${goto 170}${color1}${exec acpi -b}
-${font}\
 
 #${color1}CPU ${color0}${hr}
 #${color0}Frequency: ${color1}${freq 1}${color0}MHz / ${color1}${freq_g 1}${color0}GHz
@@ -118,45 +122,47 @@ ${font}\
 #
 ${color1}CPU ${color0}${hr}
 ${font Ubuntu Mono:size=10}\
-${color0}core 1: ${color1}${freq 1}${color0}MHz (${color1}${freq_g 1}${color0}GHz)\
-${alignr}${color1}${cpu cpu1}% ${cpubar 4,100}
-${color0}core 2: ${color1}${freq 2}${color0}MHz (${color1}${freq_g 2}${color0}GHz)\
-${alignr}${color1}${cpu cpu2}% ${cpubar 4,100}
+${color0}core 1: ${color1}${freq 1}${color0}MHz\
+${alignr}${color1}${cpu cpu1}% ${cpubar 4,80}
+${color0}core 2: ${color1}${freq 2}${color0}MHz\
+${alignr}${color1}${cpu cpu2}% ${cpubar 4,80}
 #${alignr}${cpugraph 20,220 666666 666666}
 ${font}\
 
 ${color1}MEMORY ${color0}${hr}
 ${font Ubuntu Mono:size=10}\
 ${color0}RAM : ${color1}${mem}/${memmax}\
-${alignr}${memperc}% ${membar 4,100}
+${alignr}${memperc}% ${membar 4,40}
 ${color0}Swap: ${color1}${swap}/${swapmax}\
-${alignr}${swapperc}% ${swapbar 4,100}
+${alignr}${swapperc}% ${swapbar 4,40}
 ${font}\
 
 ${color1}FILE SYSTEMS ${color0}${hr}
 ${font Ubuntu Mono:size=10}\
+${color0}/    : ${color1}${fs_used     /}/${fs_size     /}${alignr}\
+${color1}${fs_used_perc     /}% ${fs_bar 4,40     /}
+${color0}/home: ${color1}${fs_used /home}/${fs_size /home}${alignr}\
+${color1}${fs_used_perc /home}% ${fs_bar 4,40 /home}
+${font}\
+
+${font Ubuntu Mono:size=10}\
 /dev/sda
 ${voffset 8}\
 ${color0}read : ${color1}${diskio_read  /dev/sda}\
-${alignr}${voffset -8}${diskiograph_read  /dev/sda 20,220 666666 666666}
+${alignr}${voffset -8}${diskiograph_read  /dev/sda 20,120 666666 666666}
 ${color0}write: ${color1}${diskio_write /dev/sda}\
-${alignr}${voffset -8}${diskiograph_write /dev/sda 20,220 666666 666666}
-
-${color0}/    : ${color1}${fs_used     /}/${fs_size     /}${alignr}\
-${color1}${fs_used_perc     /}% ${fs_bar 4,100     /}
-${color0}/home: ${color1}${fs_used /home}/${fs_size /home}${alignr}\
-${color1}${fs_used_perc /home}% ${fs_bar 4,100 /home}
+${alignr}${voffset -8}${diskiograph_write /dev/sda 20,120 666666 666666}
 ${font}\
-
+\
 ${color1}NETWORK ${color0}${hr}
 ${if_up wlan0}\
 ${color0}${font Ubuntu Mono:size=10}\
 wlan0
 ${voffset 8}\
 ${color0}Up  : ${color1}${upspeed   wlan0}\
-${alignr}${voffset -8}${upspeedgraph   wlan0 20,220 000000 ff0000}
+${alignr}${voffset -8}${upspeedgraph   wlan0 20,120 000000 ff0000}
 ${color0}Down: ${color1}${downspeed wlan0}\
-${alignr}${voffset -8}${downspeedgraph wlan0 20,220 000000 00ff00}
+${alignr}${voffset -8}${downspeedgraph wlan0 20,120 000000 00ff00}
 ${endif}\
 \
 ${if_up eth0}\
@@ -164,9 +170,9 @@ ${color0}${font Ubuntu Mono:size=10}\
 eth0
 ${voffset 8}\
 ${color0}Up  : ${color1}${upspeed    eth0}\
-${alignr}${voffset -8}${upspeedgraph    eth0 20,220 000000 ff0000}
+${alignr}${voffset -8}${upspeedgraph    eth0 20,120 000000 ff0000}
 ${color0}Down: ${color1}${downspeed  eth0}\
-${alignr}${voffset -8}${downspeedgraph  eth0 20,220 000000 00ff00}
+${alignr}${voffset -8}${downspeedgraph  eth0 20,120 000000 00ff00}
 ${endif}\
 ${font}\
 \
@@ -175,9 +181,9 @@ ${color0}${font Ubuntu Mono:size=10}\
 wlp16s0
 ${voffset 8}\
 ${color0}Up  : ${color1}${upspeed    wlp16s0}\
-${alignr}${voffset -8}${upspeedgraph    wlp16s0 20,220 000000 ff0000}
+${alignr}${voffset -8}${upspeedgraph    wlp16s0 20,120 000000 ff0000}
 ${color0}Down: ${color1}${downspeed  wlp16s0}\
-${alignr}${voffset -8}${downspeedgraph  wlp16s0 20,220 000000 00ff00}
+${alignr}${voffset -8}${downspeedgraph  wlp16s0 20,120 000000 00ff00}
 ${endif}\
 ${font}\
 \
@@ -186,26 +192,42 @@ ${color0}${font Ubuntu Mono:size=10}\
 ens1
 ${voffset 8}\
 ${color0}Up  : ${color1}${upspeed    ens1}\
-${alignr}${voffset -8}${upspeedgraph    ens1 20,220 000000 ff0000}
+${alignr}${voffset -8}${upspeedgraph    ens1 20,120 000000 ff0000}
 ${color0}Down: ${color1}${downspeed  ens1}\
-${alignr}${voffset -8}${downspeedgraph  ens1 20,220 000000 00ff00}
+${alignr}${voffset -8}${downspeedgraph  ens1 20,120 000000 00ff00}
 ${endif}\
 ${font}\
 \
-${color1}TOP ${color0}${hr}
-${color0}Name         PID  CPU% ${offset 4}Name        PID MEM%
+${color1}TOP ${color0}(cpu) ${hr}
+${color0}Name           PID CPU%
 ${color1}${font Ubuntu Mono:size=10}\
-${top name  1}${offset -25} ${top pid  1}${top cpu  1} ${offset 10}${top_mem name  1}${offset -36} ${top_mem pid  1}${top_mem mem  1}
-${top name  2}${offset -25} ${top pid  2}${top cpu  2} ${offset 10}${top_mem name  2}${offset -36} ${top_mem pid  2}${top_mem mem  2}
-${top name  3}${offset -25} ${top pid  3}${top cpu  3} ${offset 10}${top_mem name  3}${offset -36} ${top_mem pid  3}${top_mem mem  3}
-${top name  4}${offset -25} ${top pid  4}${top cpu  4} ${offset 10}${top_mem name  4}${offset -36} ${top_mem pid  4}${top_mem mem  4}
-${top name  5}${offset -25} ${top pid  5}${top cpu  5} ${offset 10}${top_mem name  5}${offset -36} ${top_mem pid  5}${top_mem mem  5}
-${top name  6}${offset -25} ${top pid  6}${top cpu  6} ${offset 10}${top_mem name  6}${offset -36} ${top_mem pid  6}${top_mem mem  6}
-${top name  7}${offset -25} ${top pid  7}${top cpu  7} ${offset 10}${top_mem name  7}${offset -36} ${top_mem pid  7}${top_mem mem  7}
-${top name  8}${offset -25} ${top pid  8}${top cpu  8} ${offset 10}${top_mem name  8}${offset -36} ${top_mem pid  8}${top_mem mem  8}
-${top name  9}${offset -25} ${top pid  9}${top cpu  9} ${offset 10}${top_mem name  9}${offset -36} ${top_mem pid  9}${top_mem mem  9}
-${top name 10}${offset -25} ${top pid 10}${top cpu 10} ${offset 10}${top_mem name 10}${offset -36} ${top_mem pid 10}${top_mem mem 10}
+${top name  1}${top pid  1}${top cpu  1}
+${top name  2}${top pid  2}${top cpu  2}
+${top name  3}${top pid  3}${top cpu  3}
+${top name  4}${top pid  4}${top cpu  4}
+${top name  5}${top pid  5}${top cpu  5}
+${top name  6}${top pid  6}${top cpu  6}
+${top name  7}${top pid  7}${top cpu  7}
+${top name  8}${top pid  8}${top cpu  8}
+${top name  9}${top pid  9}${top cpu  9}
+${top name 10}${top pid 10}${top cpu 10}
 ${font}\
+
+${color1}TOP ${color0}(mem) ${hr}
+${color0}Name           PID MEM%
+${color1}${font Ubuntu Mono:size=10}\
+${top_mem name  1}${top_mem pid  1}${top_mem mem  1}
+${top_mem name  2}${top_mem pid  2}${top_mem mem  2}
+${top_mem name  3}${top_mem pid  3}${top_mem mem  3}
+${top_mem name  4}${top_mem pid  4}${top_mem mem  4}
+${top_mem name  5}${top_mem pid  5}${top_mem mem  5}
+${top_mem name  6}${top_mem pid  6}${top_mem mem  6}
+${top_mem name  7}${top_mem pid  7}${top_mem mem  7}
+${top_mem name  8}${top_mem pid  8}${top_mem mem  8}
+${top_mem name  9}${top_mem pid  9}${top_mem mem  9}
+${top_mem name 10}${top_mem pid 10}${top_mem mem 10}
+${font}\
+
 ${color0}${hr}
 #
 #${if_mixer_mute}\

@@ -1,5 +1,6 @@
 own_window yes
 own_window_type override
+own_window_argb_visual yes
 own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 double_buffer yes
@@ -10,8 +11,8 @@ uppercase no
 update_interval 1
 
 # Size
-#minimum_size 250 5
-#maximum_width 500
+minimum_size 620 5
+#maximum_width 620
 
 # Font selection
 override_utf8_locale yes
@@ -34,11 +35,12 @@ color2 orange
 color3 CACACA
 
 TEXT
-${color1}${font GE Inspira:pixelsize=120}${time %H:%M}${font}
-${voffset -102}${offset 350}${color2}${font GE Inspira:pixelsize=58}${time %A}${font}
-${voffset 14}${offset 350}${color2}${font GE Inspira:pixelsize=28}${time %d} ${color1}${time %B %Y}${font}
+${color1}${font Ubuntu:pixelsize=120}${time %H:%M}${font}
+${voffset -102}${offset 330}${color2}${font Ubuntu:pixelsize=58}${time %A}${font}
+${voffset 14}${offset 330}${color2}${font Ubuntu:pixelsize=28}${time %d} ${color1}${time %B %Y}${font}
 
 ${voffset 1}${font Ubuntu:pixelsize=12}\
 ${offset 12}${color2}HD ${offset 4}${color}${fs_used /} / ${fs_size /}\
-${offset 40}${color2}RAM ${offset 4}${color}$mem / $memmax\
-${offset 40}${color2}CPU ${offset 9}${color}${cpu cpu1}% ${cpu cpu2}%
+${offset 30}${color2}RAM ${offset 4}${color}$mem / $memmax\
+${offset 30}${color2}CPU ${offset 9}${color}${cpu cpu1}% ${cpu cpu2}%\
+${goto 443}${color2}BATTERY ${offset 9}${color}${battery_short C23B} (${battery_time C23B})

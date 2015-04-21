@@ -6,13 +6,9 @@ double_buffer yes
 own_window yes
 own_window_class Conky
 own_window_type override
-#own_window_type desktop
-#own_window_type normal
-#own_window_type dock
+own_window_argb_visual yes
 own_window_transparent yes
-#own_window_colour 505050
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-#own_window_title raoni_conky
 double_buffer yes
 
  
@@ -20,10 +16,10 @@ use_spacer right
 #use_spacer none
 
 use_xft yes
-xftfont DejaVu Sans Mono:size=10
+xftfont Ubuntu Mono:size=10
 
 #alignment top_left
-alignment bl
+alignment tl
 
 border_width 1
 draw_borders no
@@ -55,9 +51,8 @@ color4 green
 color5 grey40
 
 TEXT
+#${color0}${hr}
+${color0}${execi 180 fortune -asc | grep -xv '%'}
 ${color0}${hr}
-${color0}${font Ubuntu Mono:size=10}\
-${execi 180 fortune -asc | grep -xv '%'}
-#${color5}${hr}
 #123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.
 #        10        20        30        40        50        60        70        80        90       100       110

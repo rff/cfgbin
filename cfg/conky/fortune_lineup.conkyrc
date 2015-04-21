@@ -17,12 +17,15 @@ double_buffer yes
 use_spacer right
 #use_spacer none
 
+use_xft yes
+xftfont Ubuntu Mono:size=10
 
 #alignment top_left
-alignment br
+alignment bl
 
 border_width 1
 draw_borders no
+default_color white
 default_outline_color white
 default_shade_color white
 draw_graph_borders no
@@ -40,12 +43,18 @@ extra_newline no
 no_buffers yes
 out_to_console no
 out_to_stderr no
-update_interval 1.0
+update_interval 5.0
 
-use_xft yes
-xftfont Ubuntu Mono:size=10
-
-default_color grey
+color0 grey
+color1 white
+color2 red
+color3 blue
+color4 green
+color5 grey40
 
 TEXT
-${time %a, %d %b %Y - %T %Z}
+${color0}${hr}
+${color0}${execi 180 fortune -asc | grep -xv '%'}
+#${color5}${hr}
+#123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.
+#        10        20        30        40        50        60        70        80        90       100       110
