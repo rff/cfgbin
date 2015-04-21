@@ -190,6 +190,10 @@ alias .3='cl ../../..'
 alias .4='cl ../../../..'
 alias .5='cl ../../../../..'
 
+# raoni @ Wed Mar 18 13:52:38 BRT 2015
+# alias to show an ls -l only for hidden files
+alias lh='ls -lahd $(ls -a | grep "^\.")'
+
 # raoni @ Fri Jan  3 14:25:08 BRST 2014
 # alias to show directory stack with more info
 alias lsd='dirs -v'
