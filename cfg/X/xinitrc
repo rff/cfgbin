@@ -1,0 +1,115 @@
+#!/bin/sh
+#
+# ~/.xinitrc
+#
+# Executed by startx (run your window manager from here)
+
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
+set -x
+set +e
+set -u
+
+#which xcompmgr   &>/dev/null  &&  xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
+which xcompmgr   &>/dev/null  &&  xcompmgr -c -t-25 -l-25 -r20 -o1 &
+which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
+which xrdb       &>/dev/null  &&  xrdb -merge ~/.Xresources
+which pulseaudio &>/dev/null  &&  pulseaudio --start
+
+
+
+monitors=$(xrandr | grep -wc "connected")
+if [ "${monitors}" == "2" ] ; then
+  xrandr -display ${DISPLAY}                   \
+         --output VGA1  --auto --pos 0x0       \
+         --output LVDS1 --auto --pos 120x1080
+fi
+
+CONKY_DEFAULT_RC='default.conkyrc'
+CONKY_DEFAULT_POS=' '
+CONKY_SHOW_ARCS='false'
+CONKY_ARCS_POS=' '
+CONKY_NORGE_POS='-a bl -x 10 -y -120'
+CONKY_FORTUNELINEUP_POS='-a tl -x 10 -y 5'
+CONKY_FORTUNELINEUP2_POS='-a br -x 10 -y 5'
+CONKY_FORTUNELINEDOWN_POS='-a bl -x 10 -y 5'
+CONKY_SIMPLECLOCK_POS='-a br -x 10 -y 5'
+URXVT_ALSAMIXER_POS='68x16-0-0'
+URXVT_DEFAULT_POS='80x24+646+0'
+XTERM_DEFAULT_POS='80x56+0+0'
+
+case ${HOSTNAME} in
+	    arrr ) CONKY_DEFAULT_RC='default_slim.conkyrc' ;;
+	 bisonho ) CONKY_DEFAULT_RC='home.conkyrc' ;;
+	raoni-nb ) CONKY_DEFAULT_RC='padtec.conkyrc' ;;
+	       * ) CONKY_DEFAULT_RC='default.conkyrc' ;;
+esac
+
+if [ "${monitors}" == "2" ] ; then
+    CONKY_ARCS_SHOW='true'
+    CONKY_ARCS_POS='-a br -x 130 -y 5'
+    CONKY_NORGE_POS='-a tr -x 130 -y 1085'
+    CONKY_FORTUNELINEUP_POS='-a bl -x 130 -y 5'
+    CONKY_FORTUNELINEUP2_POS='-a br -x 10 -y 1055'
+    CONKY_FORTUNELINEDOWN_POS='-a tl -x 130 -y 1085'
+    CONKY_SIMPLECLOCK_POS='-a br -x 130 -y 5'
+    URXVT_ALSAMIXER_POS='80x24-120+1230'
+    URXVT_DEFAULT_POS='80x48+120+1080'
+    XTERM_DEFAULT_POS='80x48+0+0'
+else
+    true
+    # xrandr --output LVDS1 --auto
+fi
+
+if which feh &>/dev/null ; then
+    sh ~/.fehbg
+elif which habak &>/dev/null ; then
+    habak -ms -hi ~/wall.png
+elif which nitrogen &>/dev/null ; then 
+    nitrogen --restore
+fi
+
+if which urxvtc urxvtd &>/dev/null ; then
+    urxvtd -q -f -o
+    urxvtc -display ${DISPLAY} -geometry ${URXVT_DEFAULT_POS}
+fi
+
+if which urxvt &>/dev/null ; then
+    urxvt -display ${DISPLAY} -geometry ${URXVT_ALSAMIXER_POS} -name urxvt-bg -tr -fg gray -e alsamixer -g &
+fi
+
+if which xterm &>/dev/null ; then
+    xterm -display ${DISPLAY} -geometry ${XTERM_DEFAULT_POS} &
+fi
+
+if which dropbox &>/dev/null ; then
+    dropbox running || dropbox stop
+    dropbox start
+fi
+
+if which conky &>/dev/null ; then
+    # conky must start after the window manager, or it will be above all
+    # windows in the screen. That is way the delay and in a subshell
+    ( sleep 5
+    conky --display ${DISPLAY} -qbd -c ~/.config/conky/${CONKY_DEFAULT_RC} ${CONKY_DEFAULT_POS}
+    conky --display ${DISPLAY} -qbd -c ~/.config/conky/norge.conkyrc  ${CONKY_NORGE_POS}
+    #conky --display ${DISPLAY} -qbd -c ~/.config/conky/auler.conkyrc      -a tr -x 370 -y 5
+    #conky --display ${DISPLAY} -qbd -c ~/.config/conky/arcs.conkyrc       -a tr -x 660 -y 5
+    #${CONKY_ARCS_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/arcs_small.conkyrc ${CONKY_ARCS_POS}
+    conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_lineup.conkyrc ${CONKY_FORTUNELINEUP_POS}
+    conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_lineup.conkyrc ${CONKY_FORTUNELINEUP2_POS}
+    conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_linedown.conkyrc ${CONKY_FORTUNELINEDOWN_POS}
+    conky --display ${DISPLAY} -qbd -c ~/.config/conky/simpleclock.conkyrc ${CONKY_SIMPLECLOCK_POS}
+    ) &
+fi
+
+# exec gnome-session
+# exec startkde
+# exec startxfce4
+# ...or the Window Manager of your choice
+exec openbox-session
