@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if ! which xdotool &>/dev/null ; then
+	echo "ERROR: xdotool not found"
+	exit 1
+fi
+if ! which wmctrl &>/dev/null ; then
+	echo "ERROR: wmctrl not found"
+	exit 1
+fi
+
+
 ### get active desktop ID.
 desktopID=$(xdotool get_desktop)
 
