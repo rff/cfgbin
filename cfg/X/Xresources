@@ -179,7 +179,8 @@ URxvt*font: xft:ubuntu mono:autohint=true:antialias=true:size=12
 
 !! EXTENSIONS
 URxvt.perl-lib: ~/.urxvt/ext
-URxvt.perl-ext-common: default,vtwheel,font-size
+URxvt.perl-ext-common: default,selection-to-clipboard,font-size
+!!,vtwheel
 URxvt.font-size.step: 1
 
 !! KEYBINDINGS
