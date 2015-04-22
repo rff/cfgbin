@@ -123,9 +123,9 @@ ${font}
 ${color1}CPU ${color0}${hr}
 ${font Ubuntu Mono:size=10}\
 ${color0}core 1: ${color1}${freq 1}${color0}MHz\
-${alignr}${color1}${cpu cpu1}% ${cpubar 4,80}
+${alignr}${color1}${cpu cpu1}% ${cpubar cpu1 4,80}
 ${color0}core 2: ${color1}${freq 2}${color0}MHz\
-${alignr}${color1}${cpu cpu2}% ${cpubar 4,80}
+${alignr}${color1}${cpu cpu2}% ${cpubar cpu2 4,80}
 #${alignr}${cpugraph 20,220 666666 666666}
 ${font}\
 
