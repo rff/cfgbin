@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--sep', type=int, default=1, help='Define columns space')
 parser.add_argument('-w', '--width', type=int, default=0, help='Max line width')
 parser.add_argument('-i', '--invert', action='store_true', help='Invert First and Second columns')
+parser.add_argument('-1', '--onecolumn', action='store_true', help='Print in one column')
 parser.parse_args(namespace=opt)
 
 
@@ -57,8 +58,21 @@ if opt.width < maxcollen[i] + maxcollen[j]:
 else:
 	maxlen = opt.width - maxcollen[j]
 
-for l in lines:
-	l.append('')
-	f = '{0:{fill}}{1}'.format(l[i], l[j], fill=maxlen)
-	print(f)
+if opt.onecolumn:
+	for l in lines:
+		l.append('')
+		f = '{}'.format(l[i])
+		f = f.strip()
+		if len(f) > 0: print(f)
+	print()
+	for l in lines:
+		l.append('')
+		f = '{}'.format(l[j])
+		f = f.strip()
+		if len(f) > 0: print(f)
+else:
+	for l in lines:
+		l.append('')
+		f = '{0:{fill}}{1}'.format(l[i], l[j], fill=maxlen)
+		print(f)
 
