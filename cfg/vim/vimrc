@@ -322,23 +322,23 @@ function SetCScopeKeyBinds(map)
     nunmap <C-\>i
     nunmap <C-\>d
 
-    nunmap <C-[>s
-    nunmap <C-[>g
-    nunmap <C-[>c
-    nunmap <C-[>t
-    nunmap <C-[>e
-    nunmap <C-[>f
-    nunmap <C-[>i
-    nunmap <C-[>d
+    nunmap <C-@>s
+    nunmap <C-@>g
+    nunmap <C-@>c
+    nunmap <C-@>t
+    nunmap <C-@>e
+    nunmap <C-@>f
+    nunmap <C-@>i
+    nunmap <C-@>d
 
-    nunmap <C-[><C-[>s
-    nunmap <C-[><C-[>g
-    nunmap <C-[><C-[>c
-    nunmap <C-[><C-[>t
-    nunmap <C-[><C-[>e
-    nunmap <C-[><C-[>f
-    nunmap <C-[><C-[>i
-    nunmap <C-[><C-[>d
+    nunmap <C-@><C-@>s
+    nunmap <C-@><C-@>g
+    nunmap <C-@><C-@>c
+    nunmap <C-@><C-@>t
+    nunmap <C-@><C-@>e
+    nunmap <C-@><C-@>f
+    nunmap <C-@><C-@>i
+    nunmap <C-@><C-@>d
   endif
 endfunction
 
