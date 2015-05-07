@@ -2,6 +2,7 @@
 /cfg/bash/bash_history
 /cfg/vim/view
 /cfg/vim/.netrwhist
+/cfg/tint2/snap.jpg
 
 # local weechat installation.
 /bin/weechat
