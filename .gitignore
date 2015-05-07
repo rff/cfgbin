@@ -1,3 +1,8 @@
-cfg/bash/bash_history
-cfg/vim/view
-cfg/vim/.netrwhist
+# general temporary or volatile config files.
+/cfg/bash/bash_history
+/cfg/vim/view
+/cfg/vim/.netrwhist
+
+# local weechat installation.
+/bin/weechat
+/bin/weechat.d/
