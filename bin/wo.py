@@ -552,8 +552,10 @@ def get_screens():
 		s_connect = ll[1]
 		if s_connect != b'connected':
 			continue
-
-		size, x, y = ll[2].split(b'+')
+		# The output may be connected but offline. This try/catch tries
+		# to resolve this case.
+		try: size, x, y = ll[2].split(b'+')
+		except ValueError: continue
 		w, h = size.split(b'x')
 		s_x = int(x)
 		s_y = int(y)
