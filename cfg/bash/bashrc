@@ -179,16 +179,17 @@ alias gg='grep -Hnr'
 alias ag='ack-grep'
 
 # raoni: some cool alias for dir change
-alias ..='cl ..'
-alias ...='cl ../..'
-alias ....='cl ../../..'
-alias .....='cl ../../../..'
-alias ......='cl ../../../../..'
-alias .1='cl ..'
-alias .2='cl ../..'
-alias .3='cl ../../..'
-alias .4='cl ../../../..'
-alias .5='cl ../../../../..'
+# TODO: Change the cd_ls to cd_back/cd_back_ls
+alias ..='cd_ls ..'
+alias ...='cd_ls ../..'
+alias ....='cd_ls ../../..'
+alias .....='cd_ls ../../../..'
+alias ......='cd_ls ../../../../..'
+alias .1='cd_ls ..'
+alias .2='cd_ls ../..'
+alias .3='cd_ls ../../..'
+alias .4='cd_ls ../../../..'
+alias .5='cd_ls ../../../../..'
 
 # raoni @ Wed Mar 18 13:52:38 BRT 2015
 # alias to show an ls -l only for hidden files
@@ -199,21 +200,39 @@ alias lh='ls -lahd $(ls -a | grep "^\.")'
 alias lsd='dirs -v'
 
 # raoni @ Thu Oct  3 12:58:27 BRT 2013
-# alias for my function to test what comes more natural.
-alias cl='cs'
+# alias for my functions. So we can keep function names descriptive and have
+# our functions listed as alias when calling the alias  builtin.
+alias cl='cd_ls'
+alias cs='cd_ls'
+alias cb='cd_back'
+alias cbl='cd_back_ls'
+
+# TODO: replase cd_ls, cd_back and cd_ls_back with a generic cd that accept the
+# parameters to make all its functions.
 
 # raoni: cool cd replacement
-function cs () {
+function cd_ls () {
 	cd "$@" && ls --color=auto
 }
 
-function bs () {
+# raoni: cool cd .. replacement for N levels.
+function cd_back () {
 	lvls=$1
 	parent="."
 	for (( i=0; i<lvls; i++ )) ; do
 		parent+="/.."
 	done
-	cd $parent
+	cd "${parent}"
+}
+
+# raoni: cool cd .. replacement for N levels. With ls at the end.
+function cd_back_ls () {
+	lvls=$1
+	parent="."
+	for (( i=0; i<lvls; i++ )) ; do
+		parent+="/.."
+	done
+	cd "${parent}" && ls --color=auto
 }
 
 # Add an "alert" alias for long running commands.  Use like so:
