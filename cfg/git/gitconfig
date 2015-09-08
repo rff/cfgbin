@@ -27,5 +27,5 @@
 #        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
 
 [user]
-	name = Raoni Fassina Firmino
-	email = raoni.firmino@padtec.com.br
+	name = RFF
+	email = rff@email.com
