@@ -290,7 +290,7 @@
     </keybind>
     <keybind key="C-A-l">
       <action name="Execute">
-        <command>slock</command>
+        <command>lockscreen.sh</command>
       </action>
     </keybind>
     <!-- Keybindings for windows -->
