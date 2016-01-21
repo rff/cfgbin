@@ -3,7 +3,29 @@
 /cfg/vim/view
 /cfg/vim/.netrwhist
 /cfg/tint2/snap.jpg
+/cfg/tint2/tintwizard.conf
 
 # local weechat installation.
 /bin/weechat
 /bin/weechat.d/
+
+# Full remove of config folders/programs from cfg/.
+# disclaimer: I am trying to use ~/.config as a symlink to cfg. The good thing
+# is that we can easily see and save config changes in all my favorite
+# programs. But because all programs write to there (or is it writes to ~/ we
+# are symlinking them to ~/.config/) we ended up with a lot of useless and
+# unwanted files. So this list bellow may get a little long.
+/cfg/ImageMagick/
+/cfg/macromedia/
+/cfg/adobe/
+/cfg/dbus/
+/cfg/dconf/
+/cfg/inkscape/
+/cfg/pki/
+/cfg/pulse/
+/cfg/blender/
+/cfg/gimp-2.8/
+/cfg/thumbnails/
+/cfg/menus/
+/cfg/gnome/
+/cfg/chromium/
