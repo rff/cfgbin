@@ -15,56 +15,133 @@ set -x
 set +e
 set -u
 
-#which xcompmgr   &>/dev/null  &&  xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
-which xcompmgr   &>/dev/null  &&  xcompmgr -c -t-25 -l-25 -r20 -o1 &
+monitors=$(xrandr | grep -wc "connected")
+if [ "${monitors}" == "2" -a "${HOSTNAME}" == "arrr" ] ; then
+    xrandr -display ${DISPLAY}                   \
+           --output VGA1  --auto --pos 0x0       \
+           --output LVDS1 --auto --pos 120x1080
+fi
+
+if [ "${monitors}" == "2" -a "${HOSTNAME}" == "brrr" ] ; then
+    xrandr -display ${DISPLAY}                                  \
+           --output VGA1  --auto --rotate right  --pos 0x0      \
+           --output HDMI1 --auto --rotate normal --pos 1080x72
+fi
+
+rotated=$(cat /sys/class/graphics/fbcon/rotate)
+if [ "${monitors}" == "1" -a "${rotated}" != "0" ] ; then
+    # translating the fbcon parameter to xrandr orientation. Could be done
+    # outside the IF, but we are keeping it inside to better show why it is
+    # needed.
+    orientation="normal"
+    case ${rotated} in
+        0 ) orientation="normal" ;;
+        1 ) orientation="right" ;;
+        2 ) orientation="inverted" ;;
+        3 ) orientation="left" ;;
+    esac
+    output=$(xrandr | grep connected | head -n 1 | awk '{print $1}')
+    xrandr -display ${DISPLAY} --output ${output} --rotate ${orientation}
+fi
+
+which xset       &>/dev/null  &&  xset -b
+which xset       &>/dev/null  &&  xset +dpms
+#which xcompmgr   &>/dev/null  &&  killall xcompmgr && xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
+which xcompmgr   &>/dev/null  &&  killall xcompmgr ; xcompmgr -c -t-25 -l-25 -r20 -o1 &
 which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
 which xrdb       &>/dev/null  &&  xrdb -merge ~/.Xresources
 which pulseaudio &>/dev/null  &&  pulseaudio --start
 
 
 
-monitors=$(xrandr | grep -wc "connected")
-if [ "${monitors}" == "2" ] ; then
-  xrandr -display ${DISPLAY}                   \
-         --output VGA1  --auto --pos 0x0       \
-         --output LVDS1 --auto --pos 120x1080
-fi
+CONKY_DEFAULT_SHOW='true'
+CONKY_AULER_SHOW='false'
+CONKY_ARCS_SHOW='false'
+CONKY_ARCS_SMALL_SHOW='false'
+CONKY_NORGE_SHOW='true'
+CONKY_SIMPLECLOCK_SHOW='true'
+CONKY_FORTUNELINEUP_SHOW='true'
+CONKY_FORTUNELINEUP2_SHOW='true'
+CONKY_FORTUNELINEDOWN_SHOW='true'
 
 CONKY_DEFAULT_RC='default.conkyrc'
-CONKY_DEFAULT_POS=' '
-CONKY_SHOW_ARCS='false'
-CONKY_ARCS_POS=' '
+
+CONKY_DEFAULT_POS=''
+CONKY_AULER_POS='-a tr -x 370 -y 5'
+CONKY_ARCS_POS='-a tr -x 660 -y 5'
+CONKY_ARCS_SMALL_POS='-a br -x 130 -y 5'
 CONKY_NORGE_POS='-a bl -x 10 -y -120'
+CONKY_SIMPLECLOCK_POS='-a br -x 10 -y 5'
 CONKY_FORTUNELINEUP_POS='-a tl -x 10 -y 5'
 CONKY_FORTUNELINEUP2_POS='-a br -x 10 -y 5'
 CONKY_FORTUNELINEDOWN_POS='-a bl -x 10 -y 5'
-CONKY_SIMPLECLOCK_POS='-a br -x 10 -y 5'
-URXVT_ALSAMIXER_POS='68x16-0-0'
+
 URXVT_DEFAULT_POS='80x24+646+0'
 XTERM_DEFAULT_POS='80x56+0+0'
+
+ALSAMIXER_WIDTH=68
+which pulseaudio &>/dev/null && ALSAMIXER_WIDTH=16
+URXVT_ALSAMIXER_POS="${ALSAMIXER_WIDTH}x16-0-0"
 
 case ${HOSTNAME} in
 	    arrr ) CONKY_DEFAULT_RC='default_slim.conkyrc' ;;
 	 bisonho ) CONKY_DEFAULT_RC='home.conkyrc' ;;
 	raoni-nb ) CONKY_DEFAULT_RC='padtec.conkyrc' ;;
+	    brrr ) CONKY_DEFAULT_RC='default.conkyrc' ;;
 	       * ) CONKY_DEFAULT_RC='default.conkyrc' ;;
 esac
 
 if [ "${monitors}" == "2" ] ; then
-    CONKY_ARCS_SHOW='true'
-    CONKY_ARCS_POS='-a br -x 130 -y 5'
     CONKY_NORGE_POS='-a tr -x 130 -y 1085'
+    CONKY_SIMPLECLOCK_POS='-a br -x 130 -y 5'
     CONKY_FORTUNELINEUP_POS='-a bl -x 130 -y 5'
     CONKY_FORTUNELINEUP2_POS='-a br -x 10 -y 1055'
     CONKY_FORTUNELINEDOWN_POS='-a tl -x 130 -y 1085'
-    CONKY_SIMPLECLOCK_POS='-a br -x 130 -y 5'
-    URXVT_ALSAMIXER_POS='80x24-120+1230'
+
     URXVT_DEFAULT_POS='80x48+120+1080'
     XTERM_DEFAULT_POS='80x48+0+0'
-else
-    true
-    # xrandr --output LVDS1 --auto
+
+    ALSAMIXER_WIDTH=80
+    which pulseaudio &>/dev/null && ALSAMIXER_WIDTH=16
+    URXVT_ALSAMIXER_POS="${ALSAMIXER_WIDTH}x24-120+1230"
 fi
+
+if [ "${monitors}" == "2" -a "${HOSTNAME}" == "brrr" ] ; then
+    YBOTTOM_OFFSET=$((1920 - 1080 - 72))
+    YTOP_OFFSET=$((72))
+    XRIGHT_OFFSET=$((1920))
+    XLEFT_OFFSET=$((1080))
+
+    CONKY_DEFAULT_POS="-a tr -y $((YTOP_OFFSET + 10))"
+    CONKY_NORGE_POS='-a bl -y -110'
+    CONKY_SIMPLECLOCK_POS="-a tr -x $((XRIGHT_OFFSET + 10)) -y 10"
+    CONKY_FORTUNELINEUP_POS="-a bl -x $((XLEFT_OFFSET + 10)) -y $((YBOTTOM_OFFSET + 10))"
+    CONKY_FORTUNELINEUP2_POS="-a br -x 10 -y $((YBOTTOM_OFFSET + 10))"
+    CONKY_FORTUNELINEDOWN_POS="-a tl -x $((XLEFT_OFFSET + 10)) -y $((YTOP_OFFSET + 10))"
+
+    URXVT_DEFAULT_POS="80x48+$((XLEFT_OFFSET))+$((YTOP_OFFSET))"
+    XTERM_DEFAULT_POS='80x48+0+0'
+
+    ALSAMIXER_WIDTH=80
+    which pulseaudio &>/dev/null && ALSAMIXER_WIDTH=16
+    URXVT_ALSAMIXER_POS="${ALSAMIXER_WIDTH}x24-$((XRIGHT_OFFSET))-0"
+fi
+
+if [ "${monitors}" == "1" -a "${rotated}" != "0" -a "${rotated}" != "2" ] ; then
+    CONKY_SIMPLECLOCK_SHOW='false'
+    CONKY_FORTUNELINEUP_SHOW='false'
+    CONKY_FORTUNELINEUP2_SHOW='false'
+    CONKY_FORTUNELINEDOWN_SHOW='false'
+    CONKY_DEFAULT_POS='-a br'
+    CONKY_NORGE_POS='-a bl -y -110'
+
+    URXVT_DEFAULT_POS='80x24+0+600'
+
+    ALSAMIXER_WIDTH=68
+    which pulseaudio &>/dev/null && ALSAMIXER_WIDTH=16
+    URXVT_ALSAMIXER_POS="${ALSAMIXER_WIDTH}x20-0-400"
+fi
+
 
 if which feh &>/dev/null ; then
     sh ~/.fehbg
@@ -80,7 +157,7 @@ if which urxvtc urxvtd &>/dev/null ; then
 fi
 
 if which urxvt &>/dev/null ; then
-    urxvt -display ${DISPLAY} -geometry ${URXVT_ALSAMIXER_POS} -name urxvt-bg -tr -fg gray -e alsamixer -g &
+    urxvt -display ${DISPLAY} -geometry ${URXVT_ALSAMIXER_POS} -name urxvt-alsamixer-bg -tr -fg gray -e alsamixer -g &
 fi
 
 if which xterm &>/dev/null ; then
@@ -96,16 +173,20 @@ if which conky &>/dev/null ; then
     # conky must start after the window manager, or it will be above all
     # windows in the screen. That is way the delay and in a subshell
     ( sleep 5
-    conky --display ${DISPLAY} -qbd -c ~/.config/conky/${CONKY_DEFAULT_RC} ${CONKY_DEFAULT_POS}
-    conky --display ${DISPLAY} -qbd -c ~/.config/conky/norge.conkyrc  ${CONKY_NORGE_POS}
-    #conky --display ${DISPLAY} -qbd -c ~/.config/conky/auler.conkyrc      -a tr -x 370 -y 5
-    #conky --display ${DISPLAY} -qbd -c ~/.config/conky/arcs.conkyrc       -a tr -x 660 -y 5
-    #${CONKY_ARCS_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/arcs_small.conkyrc ${CONKY_ARCS_POS}
-    conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_lineup.conkyrc ${CONKY_FORTUNELINEUP_POS}
-    conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_lineup.conkyrc ${CONKY_FORTUNELINEUP2_POS}
-    conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_linedown.conkyrc ${CONKY_FORTUNELINEDOWN_POS}
-    conky --display ${DISPLAY} -qbd -c ~/.config/conky/simpleclock.conkyrc ${CONKY_SIMPLECLOCK_POS}
+    ${CONKY_DEFAULT_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/${CONKY_DEFAULT_RC} ${CONKY_DEFAULT_POS} &
+    ${CONKY_AULER_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/auler.conkyrc ${CONKY_AULER_POS} &
+    ${CONKY_ARCS_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/arcs.conkyrc ${CONKY_ARCS_POS} &
+    ${CONKY_ARCS_SMALL_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/arcs_small.conkyrc ${CONKY_ARCS_SMALL_POS} &
+    ${CONKY_NORGE_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/norge.conkyrc  ${CONKY_NORGE_POS} &
+    ${CONKY_SIMPLECLOCK_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/simpleclock.conkyrc ${CONKY_SIMPLECLOCK_POS} &
+    ${CONKY_FORTUNELINEUP_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_lineup.conkyrc ${CONKY_FORTUNELINEUP_POS} &
+    ${CONKY_FORTUNELINEUP2_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_lineup.conkyrc ${CONKY_FORTUNELINEUP2_POS} &
+    ${CONKY_FORTUNELINEDOWN_SHOW} && conky --display ${DISPLAY} -qbd -c ~/.config/conky/fortune_linedown.conkyrc ${CONKY_FORTUNELINEDOWN_POS} &
     ) &
+fi
+
+if which synergyc &>/dev/null ; then
+    killall synergyc && synergyc -d WARNING arrr &>>/tmp/synergyc.log
 fi
 
 # exec gnome-session
