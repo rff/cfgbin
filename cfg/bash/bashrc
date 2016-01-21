@@ -163,10 +163,15 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# raoni @ Thu Jul 30 21:04:08 BRT 2015
+# default ls adding "group directories first" option.
+alias ls='ls --color=auto --group-directories-first'
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
 
 # raoni: sanity aliais
 alias cp='cp -i'
