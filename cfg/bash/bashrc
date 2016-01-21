@@ -92,14 +92,22 @@ esac
 PROMPT_DIRTRIM=2
 __PS1__=$PS1
 #PS1='[\t \u@\h \w]$(__git_ps1) [$(echo $?)] \$ '
-PS1='[\t \u@\h \[\e[37m\]\w\[\e[0m\]]$(__git_ps1) [$CMDRET]\$ '
+PS1='[\t \u@\h \[\e[37m\]\w\[\e[0m\]]$(__git_ps1) [\[$RETCSTART\]$CMDRET\[$RETCEND\]]\$ '
+PS2='\[\e[32m\]>\[\e[0m\] '
+#PS3=
+PS4='\[\e[33m\]+\[\e[0m\] '
+
 #PROMPT_COMMAND="CMDRET=\$? ; test \$CMDRET -eq 0 || CMDRET=\033[31m\${CMDRET}\033[0m"
 PROMPT_COMMAND='set_promptcmd'
 
+RETCSTART_ERROR=$(echo -ne "\e[31m")
+RETCSTART_SUCESS=$(echo -ne "\e[0m")
+RETCEND=$(echo -ne "\e[0m")
 # raoni: awesome PS1 + window manager WINDOW TITLE
 function set_promptcmd() {
 	CMDRET=$?
-#	[ $CMDRET != 0 ] && CMDRET="\e[31m$CMDRET\e[0m"
+	RETCSTART=$RETCSTART_SUCESS
+	[ ${CMDRET} != 0 ] && RETCSTART=$RETCSTART_ERROR
 	case "$TERM" in
 	xterm*|rxvt*)
 		set_wname "$0 $(wname_info)" 
