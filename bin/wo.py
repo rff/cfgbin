@@ -1,9 +1,13 @@
 #!/usr/bin/python3
+#
 
 import argparse
 import math
 import pprint
 import subprocess
+import fnmatch
+import re
+
 
 __doc__ = """Window Organizer for any "EHWN" window manager"""
 
@@ -121,11 +125,15 @@ class Point():
 		return math.hypot(x, y)
 
 
+def nullfunction():
+	return
+
 class Square():
-	def __init__(self, x, y, w, h, anchor=None):
+	def __init__(self, x, y, w, h, anchor=None, updater=nullfunction):
 		self._pos = Point(x, y)
 		self._size = Point(w, h)
 		self.anchor = anchor
+		self.updater = updater
 		return
 
 	def __str__(self):
@@ -177,26 +185,25 @@ class Square():
 	@property
 	def pos(self):
 		return Point(self._pos)
-
 	@pos.setter
 	def pos(self, value):
 		self._pos = Point(value)
-		self.update()
+		self.updater()
 		return
+
 
 	@property
 	def x(self):
 		return self.pos.x
-
 	@x.setter
 	def x(self, value):
 		self.pos = value, self.y
 		return
 
+
 	@property
 	def y(self):
 		return self.pos.y
-
 	@y.setter
 	def y(self, value):
 		self.pos = self.x, value
@@ -206,30 +213,30 @@ class Square():
 	@property
 	def size(self):
 		return Point(self._size)
-
 	@size.setter
 	def size(self, value):
 		self._size = Point(value)
-		self.update()
+		self.updater()
 		return
+
 
 	@property
 	def width(self):
 		return self.size.x
-
 	@width.setter
 	def width(self, value):
 		self.size = value, self.height
 		return
 
+
 	@property
 	def height(self):
 		return self.size.y
-
 	@height.setter
 	def height(self, value):
 		self.size = self.width, value
 		return
+
 
 	@property
 	def geometry(self):
@@ -245,6 +252,7 @@ class Window():
 		self.id = int(id)            # hex number
 		self.desktop = int(desktop)  # -1 is stycky window
 		self.pid = int(pid)
+		self.geometry = Square(int(x), int(y), int(width), int(height), updater=self.update)
 		self._pos = Point(int(x), int(y))
 		self._size = Point(int(width), int(height))
 		self.wm_class = str(wm_class)
@@ -259,105 +267,8 @@ class Window():
 	def __eq__ (self, other):
 		return self.id == other.id
 
-	@property
-	def tl(self):
-		return Point(self.pos.x, self.pos.y)
-	@property
-	def tr(self):
-		return Point(self.x + self.width, self.pos.y)
-	@property
-	def bl(self):
-		return Point(self.x, self.y + self.height)
-	@property
-	def br(self):
-		return Point(self.x + self.width, self.y + self.height)
-
-	@tl.setter
-	def tl(self, value):
-		self.pos = value
-		return
-	@tr.setter
-	def tr(self, value):
-		self.pos = value - Point(self.width, 0)
-		return
-	@bl.setter
-	def bl(self, value):
-		self.pos = value - Point(0, self.height)
-		return
-	@br.setter
-	def br(self, value):
-		self.pos = value - self.size
-		return
-
-
-	@property
-	def pos(self):
-		return Point(self._pos)
-
-	@pos.setter
-	def pos(self, value):
-		self._pos = Point(value)
-		self.update()
-		return
-
-	@property
-	def x(self):
-		return self.pos.x
-
-	@x.setter
-	def x(self, value):
-		self.pos = value, self.y
-		return
-
-	@property
-	def y(self):
-		return self.pos.y
-
-	@y.setter
-	def y(self, value):
-		self.pos = self.x, value
-		return
-
-
-	@property
-	def size(self):
-		return Point(self._size)
-
-	@size.setter
-	def size(self, value):
-		self._size = Point(value)
-		self.update()
-		return
-
-	@property
-	def width(self):
-		return self.size.x
-
-	@width.setter
-	def width(self, value):
-		self.size = value, self.height
-		return
-
-	@property
-	def height(self):
-		return self.size.y
-
-	@height.setter
-	def height(self, value):
-		self.size = self.width, value
-		return
-
-	@property
-	def geometry(self):
-		return self.x, self.y, self.width, self.height
-	@geometry.setter
-	def geometry(self, value):
-		self._pos.x, self._pos.y, self._size.x, self._size.y = value
-		return
-
-
 	def update(self):
-		set_wingeometry(self.id, self.x, self.y, self.width, self.height)
+		set_wingeometry(self.id, self.geometry.x, self.geometry.y, self.geometry.width, self.geometry.height)
 		return
 
 	def raise_and_focus(self):
@@ -381,7 +292,7 @@ class Screen():
 		except: return self.name == other
 
 	def isinside(self, w):
-		return w in self.geometry
+		return w.geometry in self.geometry
 
 	def ispartial(self, w):
 		"""Match any window that apears even partialy in the screen.
@@ -390,10 +301,10 @@ class Screen():
 		any CORNER appears on the screen. If a window is larger than the
 		screen on one dimension, one edge can cross the whole screen and
 		will not match in this function."""
-		return (w.tl in self.geometry or
-		        w.tr in self.geometry or
-		        w.bl in self.geometry or
-		        w.br in self.geometry)
+		return (w.geometry.tl in self.geometry or
+		        w.geometry.tr in self.geometry or
+		        w.geometry.bl in self.geometry or
+		        w.geometry.br in self.geometry)
 
 	def read_windows(self, wlist):
 		self.inside_windows = [w for w in wlist if self.isinside(w)]
@@ -464,15 +375,26 @@ def sep_config(arg):
 
 def parseargs():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-s', '--sep', type=sep_config, default='25', help='Windows separations in cascade')
+
+	# global options.
 	parser.add_argument('-D', '--debug', action='store_true', help='Debug output')
-	parser.add_argument('-e', '--edges', action='store_true', help='Send windows to the edges')
-	parser.add_argument('-c', '--cascade', action='store_true', help='Cascade windows')
+
+	# filters to select windows for any action.
+	parser.add_argument('-F', '--filter_class', help='Apply action only to especified windows class')
+	parser.add_argument('-S', '--filter_screen', type=int, help='Apply action only to windows in especified screen')
+	parser.add_argument('-I', '--interactive', action='store_true', help='Select windows interactively by clicking with the mouse')
+
+	# actions to execute.
+	parser.add_argument('-E', '--edges', action='store_true', help='Send windows to the edges')
+	parser.add_argument('-R', '--resize', type=int, nargs=2, metavar=('WIDTH', 'HEGHT'), help='Resize windows')
+	parser.add_argument('-C', '--cascade', action='store_true', help='Cascade windows')
+
+	# only useful for _cascade_ command.
+	parser.add_argument('-s', '--sep', type=sep_config, default='25', help='Windows separations in cascade')
 	parser.add_argument('-r', '--alignr', action='store_true', help='Cascade windows are aligned to their top right edges')
 	parser.add_argument('-l', '--alignl', action='store_true', help='Cascade windows are aligned to their top left  edges')
 	parser.add_argument('-d', '--alignd', action='store_true', help='Cascade windows are aligned in a "smart" dinamic way"')
-	parser.add_argument('-F', '--filter_class', help='Apply action only to especified windows class')
-	parser.add_argument('-S', '--filter_screen', type=int, help='Apply action only to windows in especified screen')
+
 	return parser.parse_args()
 
 
@@ -494,9 +416,11 @@ def cmdoutput(arg):
 def has_xdotool():
 	return cmdcall(['which', 'xdotool']) == 0
 
-
 def has_wmctrl():
 	return cmdcall(['which', 'wmctrl']) == 0
+
+def has_xwininfo():
+	return cmdcall(['which', 'xwininfo']) == 0
 
 
 def get_activedesktop():
@@ -592,8 +516,21 @@ def get_windesklist(winlist, desktop):
 def get_winscreenlist(winlist, screen):
 	return winlist if screen is None else [w for w in winlist if screen in w.screens]
 
-def get_winclasslist(winlist, wm_class):
-	return winlist if wm_class is None else [w for w in winlist if w.wm_class == wm_class]
+
+def winclasscompare_equal(wm_class1, wm_class2):
+	return wm_class1 == wm_class2
+def winclasscompare_sub(wm_class1, substring):
+	return substring.lower() in wm_class1.lower()
+def winclasscompare_fnmatch(wm_class, pattern):
+	return fnmatch.fnmatchcase(wm_class, pattern)
+def winclasscompare_re(wm_class, pattern):
+	#return re.fullmatch( pattern, wm_class) != None
+	return re.search(pattern, wm_class, re.IGNORECASE) != None
+
+#def get_winclasslist(winlist, wm_class):
+#	return winlist if wm_class is None else [w for w in winlist if w.wm_class == wm_class]
+def get_winclasslist(winlist, wm_class, fcompare=winclasscompare_sub):
+	return winlist if wm_class is None else [w for w in winlist if fcompare(w.wm_class, wm_class)]
 
 
 def get_corner(wlist, corner, desktop_size):
@@ -608,16 +545,72 @@ def get_corner(wlist, corner, desktop_size):
 	wind = 0
 
 	for w in wlist:
-		wx = w.x if left == True else maxx - (w.x + w.width)
-		wy = w.y if top  == True else maxy - (w.y + w.height)
+		wx = w.geometry.x if left == True else maxx - (w.geometry.x + w.geometry.width)
+		wy = w.geometry.y if top  == True else maxy - (w.geometry.y + w.geometry.height)
 		wd = math.sqrt(wx**2 + wy**2)
 		#print('{} {} {}'.format(corner, w.id, wd))
 
-		winx = win.x if left == True else maxx - (win.x + win.width)
-		winy = win.y if top  == True else maxy - (win.y + win.height)
+		winx = win.geometry.x if left == True else maxx - (win.geometry.x + win.geometry.width)
+		winy = win.geometry.y if top  == True else maxy - (win.geometry.y + win.geometry.height)
 		wind = math.sqrt(winx**2 + winy**2)
 		if wd < wind: win = w
 	return win, wind
+
+
+def interactive(opts, desktop):
+	wid_list = list()
+	shell_oneliner="xwininfo | grep 'Window id:' | awk '{print $4}'"
+	while True:
+		try:
+			output = subprocess.check_output(shell_oneliner, shell=True)
+		except KeyboardInterrupt:
+			break
+		w_id = int(output, base=16)
+		wid_list.append(w_id)
+
+	desktop.windows = [w for w in desktop.windows if w.id in wid_list]
+	return
+
+
+def resize(opts, desktop):
+	width, height = opts.resize
+
+	do_width = width == 0
+	do_height = height == 0
+	if width == 0: width = -1
+	if height == 0: height = -1
+
+	if height > 0 or width > 0:
+		for w in desktop.windows:
+			if opts.debug:
+				print('Window selected:')
+				print('      w.id: {}'.format(w.id))
+				print('     w.size: {}'.format(w.size))
+				print('   new size: {}'.format((width,height)))
+			w.geometry.size = (width, height)
+
+	if not opts.cascade:
+		return
+
+	if do_width or do_height:
+		dx, dy, startx, starty = opts.sep
+		for s in desktop.screens:
+			s_width = s.geometry.width
+			s_height = s.geometry.height
+			w_list = [w for w in desktop.windows if s.isinside(w)]
+			w_steps = len(w_list) - 1
+			width  = s_width - 2*startx - w_steps*dx if do_width else -1
+			height = s_height -2*starty - w_steps*dy if do_height else -1
+
+			if opts.debug:
+				print('Dinamic resize for:')
+				print('    s.name: {}'.format(s.name))
+				print('   w_steps: {}'.format(w_steps))
+				print('  new size: {}'.format((width,height)))
+			for w in w_list:
+				w.geometry.size = (width, height)
+	return
+
 
 
 def move_to_edges(opts, desktop):
@@ -633,8 +626,8 @@ def move_to_edges(opts, desktop):
 			w, d = get_corner(wl, corner, desktop.size)
 			select_list.append((w, d, corner))
 		w, d, corner  = min(select_list, key=lambda i: i[1])
-		x = 0 if corner == 'tl' or corner == 'bl' else desktop.width - w.width - w_hack
-		y = 0 if corner == 'tl' or corner == 'tr' else desktop.height - w.height - w_hack
+		x = 0 if corner == 'tl' or corner == 'bl' else desktop.width - w.geometry.width - w_hack
+		y = 0 if corner == 'tl' or corner == 'tr' else desktop.height - w.geometry.height - w_hack
 		if opts.debug:
 			print('Window select list: {}'.format(select_list))
 			print('Window selected:')
@@ -645,7 +638,7 @@ def move_to_edges(opts, desktop):
 			print('     w.y: {}'.format(w.y))
 			print('   new x: {}'.format(x))
 			print('   new y: {}'.format(y))
-		w.pos = (x, y)
+		w.geometry.pos = (x, y)
 		wl.remove(w)
 		corners_list.remove(corner)
 	return
@@ -663,14 +656,14 @@ def cascade(opts, desktop):
 		y = starty - dy
 		prev_w = None
 
-		for w in sorted(desktop.windows, key=lambda w: w.x):
+		for w in sorted(desktop.windows, key=lambda w: w.geometry.x):
 			if not s.isinside(w):
 				continue
 			if opts.debug:
 				print('Window selected:')
 				print('      w.id: {}'.format(w.id))
-				print('     w.pos: {}'.format(w.pos))
-				print('prev_w.pos: {}'.format(None if prev_w is None else prev_w.pos))
+				print('     w.pos: {}'.format(w.geometry.pos))
+				print('prev_w.pos: {}'.format(None if prev_w is None else prev_w.geometry.pos))
 
 			if prev_w is None:
 				prev_w = w
@@ -678,22 +671,22 @@ def cascade(opts, desktop):
 			x += dx
 			y += dy
 
-			if opts.alignd and prev_w.width - w.width > 0:
-				x += prev_w.width - w.width
+			if opts.alignd and prev_w.geometry.width - w.geometry.width > 0:
+				x += prev_w.geometry.width - w.geometry.width
 
 			if opts.alignr:
-				x += prev_w.width - w.width
+				x += prev_w.geometry.width - w.geometry.width
 
 			if opts.alignl:
 				pass
 
-			w.tl = (x, y)
+			w.geometry.tl = (x, y)
 			w.raise_and_focus()
 			prev_w = w
 
 			# If the windows go to the right end of the screen, start from
 			# the left again and give an extra space in Y.
-			if w.tr.x > desktop.width - 2*dx:
+			if w.geometry.tr.x > desktop.width - 2*dx:
 				x = startx - dx
 				y += dx
 				prev_w = None
@@ -710,11 +703,15 @@ def main():
 	if opts.debug:
 		print('desktop size: {}'.format(desktop.size))
 
+	if opts.interactive:
+		interactive(opts, desktop)
+	if opts.resize:
+		resize(opts, desktop)
 	if opts.edges:
 		move_to_edges(opts, desktop)
 	if opts.cascade:
 		cascade(opts, desktop)
+	return
 
 
 if __name__ == '__main__': main()
-
