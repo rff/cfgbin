@@ -33,7 +33,6 @@ own_window_transparent yes
 #own_window_colour 505050
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 #own_window_title raoni_conky
-double_buffer yes
 
  
 use_spacer right
@@ -91,14 +90,15 @@ ${color0}${alignc}$nodename - $sysname $kernel on $machine
 ${font}\
 
 ${color1}WEATHER ${color0}${hr}
-${color0}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
+${font Ubuntu Mono:size=10}\
+${color0}Campinas: ${color1}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius${font}
 
 ${color1}SENSORS ${color0}
 ${color0}${font Ubuntu Mono:size=10}\
-${exec fmt-sensors.py -w 49}\
+${exec fmt-sensors.py -1}\
 ${font}
 
-${voffset -89}\
+${voffset -180}\
 ${goto 170}${color1}SYSTEM ${color0}${hr}
 ${font Ubuntu Mono:size=10}\
 ${goto 170}${color0}Uptime: ${color1}$uptime
@@ -106,6 +106,7 @@ ${goto 170}${color0}Processes: ${color1}$processes  ${color0}Running:${color1} $
 ${goto 170}${color0}Battery: ${color1}${battery C23B} ${color0}(${battery_time C23B})
 ${goto 170}${color1}${exec acpi -b}
 ${font}\
+${voffset 89}\
 
 #${color1}CPU ${color0}${hr}
 #${color0}Frequency: ${color1}${freq 1}${color0}MHz / ${color1}${freq_g 1}${color0}GHz
@@ -122,6 +123,18 @@ ${color0}core 1: ${color1}${freq 1}${color0}MHz (${color1}${freq_g 1}${color0}GH
 ${alignr}${color1}${cpu cpu1}% ${cpubar cpu1 4,100}
 ${color0}core 2: ${color1}${freq 2}${color0}MHz (${color1}${freq_g 2}${color0}GHz)\
 ${alignr}${color1}${cpu cpu2}% ${cpubar cpu2 4,100}
+${color0}core 3: ${color1}${freq 3}${color0}MHz (${color1}${freq_g 3}${color0}GHz)\
+${alignr}${color1}${cpu cpu3}% ${cpubar cpu3 4,100}
+${color0}core 4: ${color1}${freq 4}${color0}MHz (${color1}${freq_g 4}${color0}GHz)\
+${alignr}${color1}${cpu cpu4}% ${cpubar cpu4 4,100}
+${color0}core 5: ${color1}${freq 5}${color0}MHz (${color1}${freq_g 5}${color0}GHz)\
+${alignr}${color1}${cpu cpu5}% ${cpubar cpu5 4,100}
+${color0}core 6: ${color1}${freq 6}${color0}MHz (${color1}${freq_g 6}${color0}GHz)\
+${alignr}${color1}${cpu cpu6}% ${cpubar cpu6 4,100}
+${color0}core 7: ${color1}${freq 7}${color0}MHz (${color1}${freq_g 7}${color0}GHz)\
+${alignr}${color1}${cpu cpu7}% ${cpubar cpu7 4,100}
+${color0}core 8: ${color1}${freq 8}${color0}MHz (${color1}${freq_g 8}${color0}GHz)\
+${alignr}${color1}${cpu cpu8}% ${cpubar cpu8 4,100}
 #${alignr}${cpugraph 20,220 666666 666666}
 ${font}\
 
@@ -142,11 +155,49 @@ ${alignr}${voffset -8}${diskiograph_read  /dev/sda 20,220 666666 666666}
 ${color0}write: ${color1}${diskio_write /dev/sda}\
 ${alignr}${voffset -8}${diskiograph_write /dev/sda 20,220 666666 666666}
 
-${color0}/    : ${color1}${fs_used     /}/${fs_size     /}${alignr}\
-${color1}${fs_used_perc     /}% ${fs_bar 4,100     /}
-${color0}/home: ${color1}${fs_used /home}/${fs_size /home}${alignr}\
-${color1}${fs_used_perc /home}% ${fs_bar 4,100 /home}
+${color0}/         : \
+${if_mounted /}\
+${color1}${fs_used          /}/${fs_size          /}${alignr}\
+${color1}${fs_used_perc          /}% ${fs_bar 4,100          /}\
+${else}\
+${alignr}<unmounted>\
+${endif}\
+
+${color0}/boot     : \
+${if_mounted /boot}\
+${color1}${fs_used      /boot}/${fs_size      /boot}${alignr}\
+${color1}${fs_used_perc      /boot}% ${fs_bar 4,100      /boot}\
+${else}\
+${alignr}<unmounted>\
+${endif}\
+
+${color0}/home     : \
+${if_mounted /home}\
+${color1}${fs_used      /home}/${fs_size      /home}${alignr}\
+${color1}${fs_used_perc      /home}% ${fs_bar 4,100      /home}\
+${else}\
+${alignr}<unmounted>\
+${endif}\
+
+${if_mounted /mnt/data}\
+${color2}/mnt/data : \
+${color1}${fs_used  /mnt/data}/${fs_size  /mnt/data}${alignr}\
+${color1}${fs_used_perc  /mnt/data}% ${fs_bar 4,100  /mnt/data}\
+${else}\
+${color0}/mnt/data : \
+${alignr}<unmounted>\
+${endif}\
+
+${if_mounted /mnt/BRUNO}\
+${color2}/mnt/BRUNO: \
+${color1}${fs_used /mnt/BRUNO}/${fs_size /mnt/BRUNO}${alignr}\
+${color1}${fs_used_perc /mnt/BRUNO}% ${fs_bar 4,100 /mnt/BRUNO}\
+${else}\
+${color0}/mnt/BRUNO: \
+${alignr}<unmounted>\
+${endif}\
 ${font}\
+
 
 ${color1}NETWORK ${color0}${hr}
 ${if_up wlan0}\
@@ -161,7 +212,7 @@ ${endif}\
 \
 ${if_up eth0}\
 ${color0}${font Ubuntu Mono:size=10}\
-eth0
+eth0 (${addrs eth0})
 ${voffset 8}\
 ${color0}Up  : ${color1}${upspeed    eth0}\
 ${alignr}${voffset -8}${upspeedgraph    eth0 20,220 000000 ff0000}
@@ -170,9 +221,31 @@ ${alignr}${voffset -8}${downspeedgraph  eth0 20,220 000000 00ff00}
 ${endif}\
 ${font}\
 \
+${if_up ens1}\
+${color0}${font Ubuntu Mono:size=10}\
+ens1 (${addrs ens1})
+${voffset 8}\
+${color0}Up  : ${color1}${upspeed    ens1}\
+${alignr}${voffset -8}${upspeedgraph    ens1 20,220 000000 ff0000}
+${color0}Down: ${color1}${downspeed  ens1}\
+${alignr}${voffset -8}${downspeedgraph  ens1 20,220 000000 00ff00}
+${endif}\
+${font}\
+\
+${if_up enp3s0}\
+${color0}${font Ubuntu Mono:size=10}\
+enp3s0 (${addrs enp3s0})
+${voffset 8}\
+${color0}Up  : ${color1}${upspeed    enp3s0}\
+${alignr}${voffset -8}${upspeedgraph    enp3s0 20,220 000000 ff0000}
+${color0}Down: ${color1}${downspeed  enp3s0}\
+${alignr}${voffset -8}${downspeedgraph  enp3s0 20,220 000000 00ff00}
+${endif}\
+${font}\
+\
 ${if_up wlp16s0}\
 ${color0}${font Ubuntu Mono:size=10}\
-wlp16s0
+wlp16s0 (${addrs wlp16s0})
 ${voffset 8}\
 ${color0}Up  : ${color1}${upspeed    wlp16s0}\
 ${alignr}${voffset -8}${upspeedgraph    wlp16s0 20,220 000000 ff0000}
@@ -181,14 +254,14 @@ ${alignr}${voffset -8}${downspeedgraph  wlp16s0 20,220 000000 00ff00}
 ${endif}\
 ${font}\
 \
-${if_up ens1}\
+${if_up wlp2s0}\
 ${color0}${font Ubuntu Mono:size=10}\
-ens1
+wlp2s0 (${addrs wlp2s0})
 ${voffset 8}\
-${color0}Up  : ${color1}${upspeed    ens1}\
-${alignr}${voffset -8}${upspeedgraph    ens1 20,220 000000 ff0000}
-${color0}Down: ${color1}${downspeed  ens1}\
-${alignr}${voffset -8}${downspeedgraph  ens1 20,220 000000 00ff00}
+${color0}Up  : ${color1}${upspeed    wlp2s0}\
+${alignr}${voffset -8}${upspeedgraph    wlp2s0 20,220 000000 ff0000}
+${color0}Down: ${color1}${downspeed  wlp2s0}\
+${alignr}${voffset -8}${downspeedgraph  wlp2s0 20,220 000000 00ff00}
 ${endif}\
 ${font}\
 \

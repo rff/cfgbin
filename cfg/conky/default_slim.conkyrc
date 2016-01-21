@@ -108,7 +108,7 @@ ${font}\
 
 ${color1}SENSORS ${color0}${hr}
 ${color0}${font Ubuntu Mono:size=10}\
-${exec fmt-sensors.py -w 49}\
+${exec fmt-sensors.py -1}\
 ${font}
 
 #${color1}CPU ${color0}${hr}
@@ -126,6 +126,18 @@ ${color0}core 1: ${color1}${freq 1}${color0}MHz\
 ${alignr}${color1}${cpu cpu1}% ${cpubar cpu1 4,80}
 ${color0}core 2: ${color1}${freq 2}${color0}MHz\
 ${alignr}${color1}${cpu cpu2}% ${cpubar cpu2 4,80}
+${color0}core 3: ${color1}${freq 3}${color0}MHz\
+${alignr}${color1}${cpu cpu3}% ${cpubar cpu3 4,80}
+${color0}core 4: ${color1}${freq 4}${color0}MHz\
+${alignr}${color1}${cpu cpu4}% ${cpubar cpu4 4,80}
+${color0}core 5: ${color1}${freq 5}${color0}MHz\
+${alignr}${color1}${cpu cpu5}% ${cpubar cpu5 4,80}
+${color0}core 6: ${color1}${freq 6}${color0}MHz\
+${alignr}${color1}${cpu cpu6}% ${cpubar cpu6 4,80}
+${color0}core 7: ${color1}${freq 7}${color0}MHz\
+${alignr}${color1}${cpu cpu7}% ${cpubar cpu7 4,80}
+${color0}core 8: ${color1}${freq 8}${color0}MHz\
+${alignr}${color1}${cpu cpu8}% ${cpubar cpu8 4,80}
 #${alignr}${cpugraph 20,220 666666 666666}
 ${font}\
 
@@ -195,6 +207,28 @@ ${color0}Up  : ${color1}${upspeed    ens1}\
 ${alignr}${voffset -8}${upspeedgraph    ens1 20,120 000000 ff0000}
 ${color0}Down: ${color1}${downspeed  ens1}\
 ${alignr}${voffset -8}${downspeedgraph  ens1 20,120 000000 00ff00}
+${endif}\
+${font}\
+\
+${if_up wlp2s0}\
+${color0}${font Ubuntu Mono:size=10}\
+wlp2s0
+${voffset 8}\
+${color0}Up  : ${color1}${upspeed    wlp2s0}\
+${alignr}${voffset -8}${upspeedgraph    wlp2s0 20,120 000000 ff0000}
+${color0}Down: ${color1}${downspeed  wlp2s0}\
+${alignr}${voffset -8}${downspeedgraph  wlp2s0 20,120 000000 00ff00}
+${endif}\
+${font}\
+\
+${if_up enp3s0}\
+${color0}${font Ubuntu Mono:size=10}\
+enp3s0
+${voffset 8}\
+${color0}Up  : ${color1}${upspeed    enp3s0}\
+${alignr}${voffset -8}${upspeedgraph    enp3s0 20,120 000000 ff0000}
+${color0}Down: ${color1}${downspeed  enp3s0}\
+${alignr}${voffset -8}${downspeedgraph  enp3s0 20,120 000000 00ff00}
 ${endif}\
 ${font}\
 \
