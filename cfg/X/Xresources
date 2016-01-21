@@ -173,11 +173,11 @@ URxvt*buffered: true
 !! FONT
 !URxvt*font: xft:dejavu sans mono:antialias=true:size=10
 URxvt*font: xft:Ubuntu Mono:autohint=true:antialias=true:size=12,\
-            xft:DejaVu Sans Mono:autohint=true:antialias=true,\
-            xft:FreeMono:autohint=true:antialias=true,\
-            xft:Symbola:autohint=true:antialias=true,\
-            xft:Braille:autohint=true:antialias=true,\
-            -*-fixed-*-*-*-*-*-*-*-*-*-*-*-*,
+            xft:DejaVu Sans Mono:autohint=true:antialias=true:size=12,\
+            xft:FreeMono:autohint=true:antialias=true:size=12,\
+            xft:Symbola:autohint=true:antialias=true:size=12,\
+            xft:Braille:autohint=true:antialias=true:size=12
+!            -*-fixed-*-*-*-*-*-*-*-*-*-*-*-*
 
 !URxvt*boldFont: xft:ubuntu mono:bold:autohint=true:antialias=true:size=12
 !URxvt*italicFont: xft:ubuntu mono:italic:autohint=true:antialias=true:size=12
