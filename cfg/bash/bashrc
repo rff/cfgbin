@@ -205,7 +205,7 @@ alias l1='ls -1'
 # raoni @ Thu Oct  3 12:58:27 BRT 2013
 # alias for my functions. So we can keep function names descriptive and have
 # our functions listed as alias when calling the alias  builtin.
-alias cl='cd_ls'
+
 alias cs='cd_ls'
 alias cb='cd_back'
 alias cbl='cd_back_ls'
