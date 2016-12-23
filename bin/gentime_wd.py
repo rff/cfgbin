@@ -28,7 +28,7 @@ def parse():
 
 def setoptsconstants(opt):
 	opt.START = hourtominutes(8)
-	opt.END   = hourtominutes(17)
+	opt.END   = hourtominutes(17) + 10
 	opt.LUNCH = hourtominutes(1)
 	opt.HOURS = opt.END - opt.START - opt.LUNCH
 	opt.DRIFT = 9
@@ -50,18 +50,19 @@ def main():
 		d_end = random.randint(-opt.DRIFT, opt.DRIFT)
 
 		if opt.ajust:
-			# max/min possibel drift to the rest of days
+			# max/min possible drift to the rest of days
 			d_max = (opt.days - i -1) * 2 * opt.DRIFT
+			d_max = int(d_max / 2) # conservative, use half the max drift
 			if drift_total > d_max:
 				delta = drift_total - d_max
-				random.randrange(delta)
-				d_start = delta - i
-				d_end = -i
+				x = random.randrange(delta)
+				d_start = delta - x
+				d_end = -x
 			elif -drift_total > d_max:
 				delta = -drift_total - d_max
-				i = random.randrange(delta)
-				d_start = -(delta - i)
-				d_end = i
+				x = random.randrange(delta)
+				d_start = -(delta - x)
+				d_end = x
 			### end if ###
 		### end if ###
 

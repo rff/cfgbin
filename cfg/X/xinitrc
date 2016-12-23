@@ -50,9 +50,22 @@ which xset       &>/dev/null  &&  xset -b
 which xset       &>/dev/null  &&  xset +dpms
 #which xcompmgr   &>/dev/null  &&  killall xcompmgr && xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
 which xcompmgr   &>/dev/null  &&  killall xcompmgr ; xcompmgr -c -t-25 -l-25 -r20 -o1 &
-which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
+if [ "${HOSTNAME}" == "brcpsdrfirmino-l" ] ; then
+    #which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
+    # 'çÇ' C cedilla key (BR pc105 keyboard)
+    xmodmap -e 'keycode 47 = ccedilla Ccedilla ccedilla Ccedilla asterisk dead_doubleacute asterisk'
+    # ',<' comma and less key (BR pc105 keyboard) 
+    xmodmap -e 'keycode 59 = comma less comma less dead_cedilla multiply dead_cedilla multiply comma less dead_cedilla multiply'
+else
+
+    which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
+fi
+# make capslock a new left ctrl. Loses capslock enterely.
+which setxkbmap  &>/dev/null  &&  setxkbmap -option ctrl:nocaps
 which xrdb       &>/dev/null  &&  xrdb -merge ~/.Xresources
-which pulseaudio &>/dev/null  &&  pulseaudio --start
+if [ "${HOSTNAME}" != "brcpsdrfirmino-l" ] ; then
+    which pulseaudio &>/dev/null  &&  pulseaudio --start
+fi
 
 # set click on tapping for touchpad in bisonho.
 if [ "${HOSTNAME}" == "bisonho" ] ; then

@@ -185,13 +185,14 @@ URxvt*font: xft:Ubuntu Mono:autohint=true:antialias=true:size=12,\
 
 !! EXTENSIONS
 URxvt.perl-lib: ~/.urxvt/ext
-URxvt.perl-ext-common: default,selection-to-clipboard,font-size
+!URxvt.perl-ext-common: default,selection-to-clipboard,font-size
+URxvt.perl-ext-common: default,selection-to-clipboard,resize-font
 !!,vtwheel
 URxvt.font-size.step: 1
 
 !! KEYBINDINGS
-URxvt.keysym.C-Up: perl:font-size:increase
-URxvt.keysym.C-Down: perl:font-size:decrease
+!URxvt.keysym.C-Up: perl:font-size:increase
+!URxvt.keysym.C-Down: perl:font-size:decrease
 
 !! UNKNOWN
 URxvt*letterSpace: -1

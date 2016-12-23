@@ -1,5 +1,6 @@
 [credential]
         helper = cache
+	username = rfirmino
 [color]
         diff = auto
         status = auto
@@ -11,6 +12,7 @@
         default = matching
 [core]
 	editor = vim
+	hooksPath = ~/.config/git/hooks
 [alias]
 	puff = pull --ff-only
 	ll = log --oneline --decorate --all --graph
@@ -18,6 +20,8 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	st = status --short --branch
 	sa = status --short --branch --ignored
+	g = grep --line-number --heading --break
+
 #[branch]
 #        autosetuprebase = always
 #[merge]
@@ -27,5 +31,6 @@
 #        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
 
 [user]
-	name = RFF
-	email = rff@email.com
+	name = Raoni Fassina Firmino
+#	email = raoni.firmino@padtec.com.br
+	email = rfirmino@padtec.com.br

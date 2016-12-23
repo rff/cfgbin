@@ -436,8 +436,8 @@ set incsearch     " Highlight matching pattern while typing the search command
 
 
 " Key mappings
-map <silent> <F6> :call Switchhighlight()<cr>
-map <silent> <F7> :call Switchspell()<cr>
+"map <silent> <F6> :call Switchhighlight()<cr>
+map <silent> <F10> :call Switchspell()<cr>
 map <silent> <F8> :call Switchwidth()<cr>
 
 
@@ -447,7 +447,7 @@ map <silent> <F8> :call Switchwidth()<cr>
 """ gitcommit messages.
 "set textwidth=0
 """ --- raoni END
-set cc=+1
+"set cc=+1
 function Switchwidth()
 	if &textwidth == 0
 		set textwidth=90
@@ -479,9 +479,9 @@ function Switchspell()
 		set spell
 		echo "English"
 	elseif &spelllang == "en_us"
-		set spelllang=pt_br
+		set spelllang=br,pt
 		set spell
-		echo "Portuguese"
+		echo "Brazil and Portuguese"
 	else
 		set nospell
 		set spelllang=none
@@ -490,29 +490,29 @@ function Switchspell()
 endfunction
 
 " Highlight switch
-let highlightstate = 0
-"highlight myhighlight ctermbg=blue guibg=grey
-highlight link myhighlight Error
-match myhighlight /^rabblerabblerabble$/
-function Switchhighlight()
-	if g:highlightstate == 0
-		match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
-		echo "Highlight Tabs"
-		let g:highlightstate = 1
-	elseif g:highlightstate == 1
-		match myhighlight /^ \+\| \+\t\| \+$\|\t\+$/
-		echo "Highlight Spaces"
-		let g:highlightstate = 2
-	elseif g:highlightstate == 2
-		match myhighlight /^rabblerabblerabble$/
-		echo "No Highlight"
-		let g:highlightstate = 0
-	else
-		match myhighlight /^rabblerabblerabble$/
-		echo "No Highlight"
-		let g:highlightstate = 0
-	endif
-endfunction
+"let highlightstate = 0
+""highlight myhighlight ctermbg=blue guibg=grey
+"highlight link myhighlight Error
+"match myhighlight /^rabblerabblerabble$/
+"function Switchhighlight()
+"	if g:highlightstate == 0
+"		match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
+"		echo "Highlight Tabs"
+"		let g:highlightstate = 1
+"	elseif g:highlightstate == 1
+"		match myhighlight /^ \+\| \+\t\| \+$\|\t\+$/
+"		echo "Highlight Spaces"
+"		let g:highlightstate = 2
+"	elseif g:highlightstate == 2
+"		match myhighlight /^rabblerabblerabble$/
+"		echo "No Highlight"
+"		let g:highlightstate = 0
+"	else
+"		match myhighlight /^rabblerabblerabble$/
+"		echo "No Highlight"
+"		let g:highlightstate = 0
+"	endif
+"endfunction
 
 "-------------------------------------------------------------------------------
 " Session RAONI 02
@@ -559,7 +559,7 @@ set t_Co=8
 
 " column with line number
 set number
-set relativenumber
+"set relativenumber
 
 " use mouse
 set mouse=a
@@ -596,6 +596,11 @@ map <Down> gj
 " map up and down in insert mode (from Maxiwell)
 "imap <up> <esc>gk<insert><right>
 "imap <down> <esc>gj<insert><right>
+" remap j/k the same as up/down, but not in count commands.
+" from:
+" http://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " remap j/k the same as up/down, but not in count commands.
 " From: http://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/
@@ -641,36 +646,63 @@ highlight DiffText   term=reverse cterm=bold ctermfg=7 ctermbg=1 gui=bold guifg=
 " TODO: Check why the syntax of my old hightlight for space at the end is
 " diferent from Gabs Switchhighlight() function.
 " TODO: Unify with Gabs Switchhighlight(). Probably better.
-let endhighlightstate = 0
+let highlighteol_state = 0
 highlight link WhiteSpaceEOL Error
-match WhiteSpaceEOL /^rabblerabblerabble$/
-function Switchendhighlight()
-	if g:endhighlightstate == 0
+match WhiteSpaceEOL /^THISshouldNEVERmatch_f5454108$/
+function SwitchHighlight_WhiteSpaceEOL()
+	if g:highlighteol_state == 0
 		match WhiteSpaceEOL / \+$/
-		echo "Highlight End Tabs"
-		let g:endhighlightstate = 1
-	elseif g:endhighlightstate == 1
+		echo "White Space Highlight: EOL Tabs"
+		let g:highlighteol_state = 1
+	elseif g:highlighteol_state == 1
 		match WhiteSpaceEOL /\t\+$/
-		echo "Highlight End Spaces"
-		let g:endhighlightstate = 2
-	elseif g:endhighlightstate == 2
+		echo "White Space Highlight: EOL Spaces"
+		let g:highlighteol_state = 2
+	elseif g:highlighteol_state == 2
 		match WhiteSpaceEOL /\s\+$/
-		echo "Highlight End Spaces and/or tabs"
-		let g:endhighlightstate = 3
-	elseif g:endhighlightstate == 3
-		match WhiteSpaceEOL /^rabblerabblerabble$/
-		echo "No End Highlight"
-		let g:endhighlightstate = 0
+		echo "White Space Highlight: EOL Spaces/Tabs"
+		let g:highlighteol_state = 3
+	elseif g:highlighteol_state == 3
+		match WhiteSpaceEOL /^THISshouldNEVERmatch_f5454108$/
+		echo "White Space Highlight: OFF"
+		let g:highlighteol_state = 0
 	else
-		match WhiteSpaceEOL /^rabblerabblerabble$/
-		echo "No End Highlight"
-		let g:endhighlightstate = 0
+		match WhiteSpaceEOL /^THISshouldNEVERmatch_f5454108$/
+		echo "White Space Highlight: OFF"
+		let g:highlighteol_state = 0
 	endif
+	let g:highlightsol_state = 0
+endfunction
+
+let highlightsol_state = 0
+"highlight WhiteSpaceSOL ctermbg=blue guibg=grey
+highlight link WhiteSpaceSOL Error
+match WhiteSpaceSOL /^THISshouldNEVERmatch_f5454108$/
+function SwitchHighlight_WhiteSpaceSOL()
+	if g:highlightsol_state == 0
+		match WhiteSpaceSOL /^\t\+\| \+\t\| \+$\|\t\+$/
+		echo "SOL Highlight: Tabs"
+		let g:highlightsol_state = 1
+	elseif g:highlightsol_state == 1
+		match WhiteSpaceSOL /^ \+\| \+\t\| \+$\|\t\+$/
+		echo "SOL Highlight: Spaces"
+		let g:highlightsol_state = 2
+	elseif g:highlightsol_state == 2
+		match WhiteSpaceSOL /^THISshouldNEVERmatch_f5454108$/
+		echo "SOL Highlight: OFF"
+		let g:highlightsol_state = 0
+	else
+		match WhiteSpaceSOL /^THISshouldNEVERmatch_f5454108$/
+		echo "SOL Highlight: OFF"
+		let g:highlightsol_state = 0
+	endif
+	let g:highlighteol_state = 0
 endfunction
 
 " Map for easy toggle of wrap text.
 map <silent> <F5> :set wrap!<cr>
-map <silent> <F9> :call Switchendhighlight()<cr>
+map <silent> <F6> :call SwitchHighlight_WhiteSpaceSOL()<cr>
+map <silent> <F7> :call SwitchHighlight_WhiteSpaceEOL()<cr>
 
 "-------------------------------------------------------------------------------
 " Raoni: Macros for beatifull text editing in VIM. Setup on demand.
@@ -796,4 +828,4 @@ function SwitchIndent()
 endfunction
 
 " Map for easy toggle ident tipes.
-map <silent> <F10> :call SwitchIndent()<cr>
+map <silent> <F9> :call SwitchIndent()<cr>

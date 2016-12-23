@@ -1,0 +1,7 @@
+
+alias tb='topbuild'
+
+#[ -d "${HOME}/.config/work/bin" ] &&
+PATH="${HOME}/.config/work/bin:${PATH}"
+PATH="${HOME}/git/cfgbin/cfg/work/bin:${PATH}"
+export PATH
