@@ -1,0 +1,6 @@
+[submodule "submodules/tmux-resurrect"]
+	path = submodules/tmux-resurrect
+	url = https://github.com/tmux-plugins/tmux-resurrect.git
+[submodule "submodules/urxvt-resize-font"]
+	path = submodules/urxvt-resize-font
+	url = https://github.com/simmel/urxvt-resize-font.git
