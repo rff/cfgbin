@@ -186,7 +186,7 @@ if which conky &>/dev/null ; then
 fi
 
 if which synergyc &>/dev/null ; then
-    killall synergyc && synergyc -d WARNING arrr &>>/tmp/synergyc.log
+    synergyc_daemon.sh &
 fi
 
 # exec gnome-session
