@@ -215,6 +215,10 @@ alias lsd='dirs -v'
 #raoni @ Tue May 12 15:31:49 BRT 2015
 alias l1='ls -1'
 
+#raoni @ Thu Feb 11 12:07:27 BRST 2016
+# a better output for lsblk
+alias lsb='lsblk -o NAME,FSTYPE,LABEL,SIZE,TYPE,MOUNTPOINT'
+
 # raoni @ Thu Oct  3 12:58:27 BRT 2013
 # alias for my functions. So we can keep function names descriptive and have
 # our functions listed as alias when calling the alias  builtin.
@@ -254,6 +258,10 @@ function cd_back_ls () {
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# raoni @ Thu Jul 21 13:41:21 BRT 2016
+# Alias for more sane behaviour of 'display' program.
+alias imgview='display -resize 800x800'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
