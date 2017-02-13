@@ -164,9 +164,10 @@ if which xterm &>/dev/null ; then
     xterm -display ${DISPLAY} -geometry ${XTERM_DEFAULT_POS} &
 fi
 
-if which dropbox &>/dev/null ; then
-    dropbox running || dropbox stop
-    dropbox start
+if which dropbox &>/dev/null &&
+   which dropbox-cli &>/dev/null ; then
+    dropbox-cli running || dropbox-cli stop
+    dropbox-cli start
 fi
 
 if which conky &>/dev/null ; then
