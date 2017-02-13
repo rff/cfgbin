@@ -143,7 +143,9 @@ if [ "${monitors}" == "1" -a "${rotated}" != "0" -a "${rotated}" != "2" ] ; then
 fi
 
 
-if which feh &>/dev/null ; then
+if which wallsetter.sh &>/dev/null && which feh &>/dev/null ; then
+    wallsetter.sh -c1t 0s
+elif which feh &>/dev/null ; then
     sh ~/.fehbg
 elif which habak &>/dev/null ; then
     habak -ms -hi ~/wall.png
