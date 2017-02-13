@@ -582,9 +582,15 @@ hi StatusLine ctermfg=DarkYellow
 " lines (aka. separated by linebreak) (only works in command mode)
 map <Up> gk
 map <Down> gj
+
 " map up and down in insert mode (from Maxiwell)
 "imap <up> <esc>gk<insert><right>
 "imap <down> <esc>gj<insert><right>
+
+" remap j/k the same as up/down, but not in count commands.
+" From: http://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " c syntax optionals: GNU gcc specific items
 let c_gnu = 1
