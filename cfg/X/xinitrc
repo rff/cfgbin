@@ -24,8 +24,8 @@ fi
 
 if [ "${monitors}" == "2" -a "${HOSTNAME}" == "brrr" ] ; then
     xrandr -display ${DISPLAY}                                  \
-           --output VGA1  --auto --rotate right  --pos 0x0      \
-           --output HDMI1 --auto --rotate normal --pos 1080x72
+           --output VGA1  --auto --rotate right  --pos 0x48     \
+           --output HDMI1 --auto --rotate normal --pos 1080x0
 fi
 
 rotated=$(cat /sys/class/graphics/fbcon/rotate)
