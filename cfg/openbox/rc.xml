@@ -409,11 +409,7 @@
       </action>
     </keybind>
     <keybind key="W-S-f">
-      <!-- <action name="GrowToFill"/> -->
-      <action name="GrowToEdge"><direction>north</direction></action>
-      <action name="GrowToEdge"><direction>south</direction></action>
-      <action name="GrowToEdge"><direction>west</direction></action>
-      <action name="GrowToEdge"><direction>east</direction></action>
+      <action name="GrowToFill"/>
     </keybind>
     <keybind key="W-A-S-Up">    <action name="GrowToEdge"><direction>north</direction></action></keybind>
     <keybind key="W-A-S-Down">  <action name="GrowToEdge"><direction>south</direction></action></keybind>
