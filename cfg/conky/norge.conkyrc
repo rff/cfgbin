@@ -42,5 +42,5 @@ ${voffset 14}${offset 330}${color2}${font Ubuntu:pixelsize=28}${time %d} ${color
 ${voffset 1}${font Ubuntu:pixelsize=12}\
 ${offset 12}${color2}HD ${offset 4}${color}${fs_used /} / ${fs_size /}\
 ${offset 30}${color2}RAM ${offset 4}${color}$mem / $memmax\
-${offset 30}${color2}CPU ${offset 9}${color}${cpu cpu1}% ${cpu cpu2}%\
-${goto 443}${color2}BATTERY ${offset 9}${color}${battery_short C23B} (${battery_time C23B})
+${offset 30}${color2}CPU ${offset 9}${color}${cpu cpu0}%\
+${goto 420}${color2}BATTERY ${offset 9}${color}${battery_short C23B} (${battery_time C23B})
