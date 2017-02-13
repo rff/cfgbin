@@ -302,6 +302,10 @@ GIT_PS1_SHOWUNTRACKEDFILES="true"
 GIT_PS1_SHOWUPSTREAM="auto"
 [ -r /usr/share/git/completion/git-prompt.sh ] && . /usr/share/git/completion/git-prompt.sh
 
+# Suppress annoying message when using bash (with my PS1) in a system without
+# git or git-prompt
+type -t __git_ps1 || alias __git_ps1=true
+
 
 umask 077
 
