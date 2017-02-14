@@ -3,6 +3,9 @@
 import os
 import subprocess
 import argparse
+import collections
+
+OPTS = None
 
 def setoptconsts(opts):
     opts.VERSION = '0.0.0'
@@ -15,20 +18,128 @@ def parseargs():
     parser.add_argument('-i', '--invert', action='store_true', help='Invert First and Second columns')
     parser.add_argument('-1', '--onecolumn', action='store_true', help='Print in one column')
     parser.add_argument('-d', '--debug', action='store_true', help='Print debug information')
+    parser.add_argument('-O', '--old-format', action='store_true', help='Use the old format code/version')
     return parser.parse_args()
 
 def readsensors():
     out = subprocess.check_output("sensors")
     return out.decode('utf-8').splitlines()
 
-def parsesensors(opts):
+class SensorsGroup():
+    def __init__(self, name='', adapter='', sensors={}):
+        self.name = name
+        self.adapter = adapter
+        self.sensors = sensors
+
+    def __str__(self):
+        return '\n'.join(self.printarray())
+
+    def readraw(self, lines):
+        """ Read from a list of lines comming from 'sensors' program output.
+            It only reads one group of sensors, from one adapter.
+        """
+        return
+
+    def printarray(self):
+        a  = [self.name]
+        a += ['Adapter: {}'.format(self.adapter)]
+        a += ['{}: {}'.format(k,v) for k,v in self.sensors.items()]
+        return a
+
+    def printformated(self, col1=0, col2=0, space=0, sep=':', line='-'):
+        a  = [self.name]
+        if line:
+            a += [line * len(self.name)]
+        a += ['Adapter: {}'.format(self.adapter)]
+        a += ['{0:<{c1}}{s:<{w}}{1:>{c2}}'.format(k, v, c1=col1, c2=col2, w=space+1, s=sep) for k,v in self.sensors.items()]
+        return a
+
+def newsensorsgroup(grouplines):
+    name = grouplines[0].strip()
+
+    # split a line in the first ':' and take the right side, should be the
+    # Adapter name. We could also make a more generic aproach in that all lines
+    # can be any one of the 3 types we are reading and check the the prefix
+    # 'Adapter:' for this type.
+    adapter = grouplines[1].partition(':')[2].strip()
+
+    #sensors = {}
+    sensors = collections.OrderedDict()
+    for l in grouplines[2:]:
+        sname , _, l = l.partition(':')
+        svalue, _, l = l.partition('(')
+        sname, svalue = sname.strip(), svalue.strip()
+        sensors[sname] = svalue
+
+    return SensorsGroup(name, adapter, sensors)
+
+def splitgroups(rawlines):
+    groups = []
+    lines = []
+    for l in rawlines:
+        if OPTS.debug:
+            print('{}.{} --- {}'.format(n,i,l))
+        l = l.strip()
+        if l != '':
+            lines.append(l)
+            continue
+        groups.append(lines)
+        lines = []
+
+#    return [newsensorsgroup(g) for g in groups]
+    return groups
+
+def parsesensors():
+    rawlines = readsensors()
+    linegroups = splitgroups(rawlines)
+    sensorgroups = [newsensorsgroup(g) for g in linegroups]
+    return sensorgroups
+
+def printsensors():
+    sg = parsesensors()
+#    for i in sg:
+        #s = '\n'.join(i.printformated(col1=5, col2=20, space=5))
+#        m = max([len(s) for s in i.sensors.keys()])
+#        s = '\n'.join(i.printformated(col1=m, space=1))
+#        print(s)
+#        print()
+
+    # The goal to format is to altomatica group sensors in two columns, tring
+    # to balance the number of lines.
+
+    col1  = sg[0].printformated(space=1, line=None)
+    col1 += ['']
+    col1 += sg[1].printformated(space=1, line=None)
+
+    col2 = sg[2].printformated(space=1, line=None)
+
+    l1 = len(col1)
+    l2 = len(col2)
+    if l1 < l2:
+        col1 += [''] * (l2 - l1)
+    else:
+        col2 += [''] * (l1 - l2)
+
+
+    maxlen1 = max([len(l) for l in col1])
+    lines = []
+    for lc1, lc2 in zip (col1, col2):
+        lines += ['{:{}} | {}'.format(lc1, maxlen1, lc2)]
+
+    s = '\n'.join(lines)
+    print(s)
+    return
+
+
+def parsesensors_OLD():
     i = 0
     n = 0
     lines = []
     maxcollen = [0, 0, 0, 0]
 
+
     for l in readsensors():
-        if opts.debug:
+        if OPTS.debug:
             print('{}.{} --- {}'.format(n,i,l))
         if l == '':
             i += 1
@@ -39,7 +150,7 @@ def parsesensors(opts):
 
         maxcollen[i] = len(l) if maxcollen[i] < len(l) else maxcollen[i]
 
-        if opts.debug:
+        if OPTS.debug:
             print('i:{} -- n:{} -- len:{}'.format(i,n,len(lines)))
 
         if i == 0:
@@ -52,20 +163,20 @@ def parsesensors(opts):
         n += 1
     return lines, maxcollen
 
-def printsensors(opts, lines, maxcollen):
+def printsensors_OLD(lines, maxcollen):
     i = 0 # first column to be printed
     j = 1 # second column to be printed
-    if opts.invert:
+    if OPTS.invert:
         i = 1
         j = 0
 
     maxlen=0
-    if opts.width < maxcollen[i] + maxcollen[j]:
-        maxlen = maxcollen[i] + opts.sep
+    if OPTS.width < maxcollen[i] + maxcollen[j]:
+        maxlen = maxcollen[i] + OPTS.sep
     else:
-        maxlen = opts.width - maxcollen[j]
+        maxlen = OPTS.width - maxcollen[j]
 
-    if opts.onecolumn:
+    if OPTS.onecolumn:
         for l in lines:
             l.append('')
             f = '{}'.format(l[i])
@@ -84,11 +195,18 @@ def printsensors(opts, lines, maxcollen):
             print(f)
 
 def main():
-    opts = parseargs()
-    opts = setoptconsts(opts)
+    global OPTS
+    OPTS = parseargs()
+    OPTS = setoptconsts(OPTS)
 
-    lines, maxcollen = parsesensors(opts)
-    printsensors(opts, lines, maxcollen)
+    if OPTS.old_format:
+        lines, maxcollen = parsesensors_OLD()
+        printsensors_OLD(lines, maxcollen)
+    else:
+        print()
+        print()
+        printsensors()
+
     return
 
 

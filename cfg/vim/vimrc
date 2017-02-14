@@ -428,7 +428,7 @@ endif
 "set nocindent     " Disable cindet
 "set nocompatible  " Disable VI compatible mode
 "set hidden        " Buffer becomes Hidden when abandoned intead of be unloaded
-"set hlsearch      " Highlight all matches of the last search
+set hlsearch      " Highlight all matches of the last search
 "set ignorecase    " Disable case sensitive in search
 set incsearch     " Highlight matching pattern while typing the search command
 "set showmatch     " Briefly jump and show the matching bracket when inserting one.
@@ -447,7 +447,8 @@ map <silent> <F8> :call Switchwidth()<cr>
 """ gitcommit messages.
 "set textwidth=0
 """ --- raoni END
-"set cc=+1
+" Highlight 'textwidth' column
+set colorcolumn=+1
 function Switchwidth()
 	if &textwidth == 0
 		set textwidth=90
@@ -596,11 +597,6 @@ map <Down> gj
 " map up and down in insert mode (from Maxiwell)
 "imap <up> <esc>gk<insert><right>
 "imap <down> <esc>gj<insert><right>
-" remap j/k the same as up/down, but not in count commands.
-" from:
-" http://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/
-noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " remap j/k the same as up/down, but not in count commands.
 " From: http://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/
@@ -756,6 +752,45 @@ set showbreak=↪\
 "set highlight-=@:NonText " Remove default highlight for showbreak
 set highlight+=@:Folded  " Use a new highlight
 
+set list
+set listchars=tab:▸\ ,trail:␣,nbsp:⍽
+set highlight+=8:WarningMsg  " Use a new highlight
+
+" UNICODE full listchars
+"set listchars=eol:⏎,tab:␉·,space:␠,trail:␣,extends:»,precedes:«,conceal:©,nbsp:␣
+" ASCCI full listchars
+"set listchars=eol:$,tab:>-,space:.,trail:~,extends:>,precedes:<,conceal:%,nbsp:\#
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Simbols Table to use in "meta" chars, like showbreak and listchars. Using
+" two types, UNICODE preferable) and ASCII (compatible) chars.
+" OBS: pais of chars may be put together and between single quotes to make it
+" easer to see. Otherwise options are separeted with space
+"
+" +-----------+-------+-------------------------------+
+" | Use/Desc. : ASCII | Unicode                       |
+" |-----------+-------+-------------------------------|
+" |       eol : $     | ␊ ␍ ␤ ↵ ⏎ ↲ ↩                 |
+" |       tab : >-    | ␉ ⌦ ▶▷ ▸▹ ►▻ → ⇥ ↦ ⇉ ⇶ ⊢ '├─' | Pairs: 'x ' or 'x ·' or
+" |     space : .     | ␠ ␣ ·                         |
+" |     trail : ~     | ␠ ␣ × · ░ █ ■ □ ▪ △ ◇         | ◼◻ ◾◽ ■□ ▪▫
+" |      nbsp : # _ ? | ␠ ␟ ⍽ ␣ ⎈ ⌄ · ⚡ ⚠             | ∐ ⊔ ⊢ ⓢ ▭ ▬
+" |   extends : >     | »                             |
+" |  precedes : <     | «                             |
+" |   conceal : %     | ©                             |
+" |                                                   |
+" | showbreak : ++    | '↪ '                          |
+" +-----------+-------+-------------------------------+
+"
+" Sample
+" ------
+" Obs: you need to ":set list" and ":set listchars=" as apropriated to see all
+" characters bellow
+"   tab x4: "				"
+" trail x4: "    
+"  nbsp x4: "    "
+" space x4: "    "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 function SwitchIndent()

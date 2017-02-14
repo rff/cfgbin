@@ -11,6 +11,9 @@
 # raoni: i want xterm-color to be default. better would be xterm-256color
 #TERM=xterm-color
 
+# Change default history file location to decluter home root folder.
+HISTFILE="${HOME}/.config/bash/bash_history"
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 #HISTCONTROL=ignoredups:ignorespace  # same as below.
@@ -24,9 +27,8 @@ HISTTIMEFORMAT='[%Y.%m.%d %T] '
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000000
-HISTFILESIZE=1000000
-unset HISTFILESIZE
+HISTSIZE=-1
+HISTFILESIZE=-1
 
 # enable '**' in filename expansion for recursive directory match.
 shopt -s globstar
@@ -95,25 +97,55 @@ __PS1__=$PS1
 
 PS1='[\t \u@\h \[\e[37m\]\w\[\e[0m\]]$(__git_ps1) [\[$RETCSTART\]$CMDRET\[$RETCEND\]]\$ '
 case "$TERM" in
-    tmux* |screen* )
+    tmux* )
         PS1='[\t \u \[\e[37m\]\w\[\e[0m\]]$(__git_ps1) [\[$RETCSTART\]$CMDRET\[$RETCEND\]]\$ '
         ;;
     *)
         ;;
 esac
+if [ "$(ps -o comm= $PPID)" == tmux ] ; then
+    PS1='[\t \u \[\e[37m\]\w\[\e[0m\]]$(__git_ps1) [\[$RETCSTART\]$CMDRET\[$RETCEND\]]\$ '
+fi
+if [ "$TMUX" != "" ] ; then
+    PS1='[\t \u \[\e[37m\]\w\[\e[0m\]]$(__git_ps1)$(__cmdret_ps1) \$ '
+fi
+
+#PS0=
 PS2='\[\e[32m\]>\[\e[0m\] '
 #PS3=
-PS4='\[\e[33m\]+\[\e[0m\] '
+PS4='\[\e[33m\]+ $0:$LINENO:\[\e[0m\] '
 
 #PROMPT_COMMAND="CMDRET=\$? ; test \$CMDRET -eq 0 || CMDRET=\033[31m\${CMDRET}\033[0m"
-PROMPT_COMMAND='set_promptcmd'
+PROMPT_COMMAND='run_on_prompt_command'
+
+# Everething you want to run with PROMPT_COMMAND can be put here as isolated
+# functions.  On thing that is passed to all functions as first argument is the
+# last comand return code.
+function run_on_prompt_command() {
+    # Save last return code. This is the only part that have to be done right
+    # now.
+    local cmdret=$?
+    #CMDRET=${cmdret}
+    set_return_status ${cmdret} || true
+    log_bash_persistent_history || true
+}
+
+log_bash_persistent_history() {
+    local re='^ *([0-9]+) +(\[[0-9.]{10} [0-9:]{8}\]) (.*)$'
+    [[ $(history 1) =~ $re ]]
+    local count_part="${BASH_REMATCH[1]}"
+    local date_part="${BASH_REMATCH[2]}"
+    local cmd_part="${BASH_REMATCH[3]}"
+    echo "$count_part $date_part $cmd_part" >> ~/.config/bash/persistent_history
+}
+
 
 RETCSTART_ERROR=$(echo -ne "\e[31m")
 RETCSTART_SUCESS=$(echo -ne "\e[0m")
 RETCEND=$(echo -ne "\e[0m")
 # raoni: awesome PS1 + window manager WINDOW TITLE
-function set_promptcmd() {
-    CMDRET=$?
+function set_return_status() {
+    CMDRET=$1
     RETCSTART=$RETCSTART_SUCESS
     [ ${CMDRET} != 0 ] && RETCSTART=$RETCSTART_ERROR
     case "$TERM" in
@@ -166,6 +198,97 @@ function set_beforecmd() {
 }
 
 
+# raoni: Functions to change PS1 size, so we can use alternate formats when
+# horizontal space is limited.
+# TODO: Redo it better and maybe add a dinamic version that read COLS, and also
+# maybe put is in set_return_status, so it can be changed automaticaly.
+__BACKUP_PS1="$PS1"
+__BACKUP_PROMPT_DIRTRIM="${PROMPT_DIRTRIM}"
+__DIR_BREAK=' '
+__GIT_BREAK=''
+__PS1_index=0
+__PS1=(
+    "$PS1"
+    '[\t \u@\h \[\e[37m\]\w\[\e[0m\]]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1)\$ '
+    '[\t \u \[\e[37m\]\w\[\e[0m\]]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1)\$ '
+    '[\t \[\e[37m\]\w\[\e[0m\]]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1)\$ '
+    '[\A \[\e[37m\]\w\[\e[0m\]]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1)\$ '
+    '\A \[\e[37m\]\w\[\e[0m\]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1)\$ '
+    '\[\e[37m\]\w\[\e[0m\]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1)\$ '
+    '\[\e[37m\]\w\[\e[0m\]${__DIR_BREAK}$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1 "%s")\$ '
+    '$(__git_ps1 "(%s)")${__GIT_BREAK}$(__cmdret_ps1 "%s")\$ '
+)
+function ps1() {
+    local i=${1:-${__PS1_index}}
+    local sz=${#__PS1[@]}
+    [ -z "$1" ] && (( i = ++i < sz ? i : 0 )) || (( i = i < sz ? i : __PS1_index ))
+
+    __PS1_index=$i
+    PS1="${__PS1[$i]}"
+    printf "PS1 [$i]: \"\e[37m%s\e[0m\"\n" "${PS1}"
+}
+
+function ps1_git() {
+    unalias __git_ps1
+}
+function ps1_nogit() {
+    alias __git_ps1=true
+}
+function ps1_gitbreak() {
+    __GIT_BREAK='\n'
+}
+function ps1_nogitbreak() {
+    __GIT_BREAK=' '
+}
+function ps1_dirbreak() {
+    __DIR_BREAK='\n'
+}
+function ps1_nodirbreak() {
+    __DIR_BREAK=' '
+}
+function ps1_dirtrim() {
+    PROMPT_DIRTRIM=${1:-${__BACKUP_PROMPT_DIRTRIM}}
+}
+function ps1_nodirtrim() {
+    PROMPT_DIRTRIM=0
+}
+function ps1_cmdret() {
+    __PS1_CMDRET=yes
+}
+function ps1_nocmdret() {
+    __PS1_CMDRET=no
+}
+function ps1_cmdreterror() {
+    __PS1_CMDRET=error
+}
+
+__PS1_CMDRET=error
+function __cmdret_ps1() {
+    local COLOR_ERROR="\033[31m"
+    local COLOR_SUCESS="\033[0m"
+    local COLOR_RESET="\033[0m"
+    local RET=$CMDRET
+    local COLOR_START=$COLOR_SUCESS
+    local FORMAT='[%s] '
+
+    [ ${RET} == 0 ] || COLOR_START=$COLOR_ERROR
+
+    # FIXME: No color for now. The PS1 escapes for term controller must be put
+    # directly in PS1 string because they are the first expansion.
+    #local S="${COLOR_START}${RET}${COLOR_RESET}"
+    local S="${RET}"
+    local F=${1:-${FORMAT}}
+
+    case ${__PS1_CMDRET} in
+        error ) [ ${RET} == 0 ] && F='' ;;
+           no ) F='' ;;
+          yes ) ;;
+            * ) ;;
+    esac
+    printf "$(printf "${F}" "${S}")"
+}
+
+
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -195,12 +318,20 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 
+# also, try not to use the canonical name and rely on the aliais (what if you
+# are on some other machine and it don't have the alias and you forget it?)
+alias cpi='cp -i'
+alias mvi='mv -i'
+alias rmi='rm -i'
+
 # raoni: useful alias
 alias g='grep'
 alias gg='grep -HnrI'
-alias ag='ack-grep'
 
 alias wget='wget --no-verbose --show-progress'
+
+# Fun alias
+alias f='fortune -ac'
 
 # raoni: some cool alias for dir change
 # TODO: Change the cd_ls to cd_back/cd_back_ls
@@ -270,6 +401,12 @@ function cd_back_ls () {
 function mkdir_cd () {
     dir="$1"
     mkdir "${dir}" && cd "${dir}"
+}
+
+# TODO: Use wego instead
+# url: https://github.com/schachmat/wego
+function weather () {
+    curl wttr.in/Campinas
 }
 
 # Add an "alert" alias for long running commands.  Use like so:

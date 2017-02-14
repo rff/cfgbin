@@ -50,18 +50,16 @@ which xset       &>/dev/null  &&  xset -b
 which xset       &>/dev/null  &&  xset +dpms
 #which xcompmgr   &>/dev/null  &&  killall xcompmgr && xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
 which xcompmgr   &>/dev/null  &&  killall xcompmgr ; xcompmgr -c -t-25 -l-25 -r20 -o1 &
+which setxkbmap  &>/dev/null  &&  setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 if [ "${HOSTNAME}" == "brcpsdrfirmino-l" ] ; then
-    #which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
     # 'çÇ' C cedilla key (BR pc105 keyboard)
     xmodmap -e 'keycode 47 = ccedilla Ccedilla ccedilla Ccedilla asterisk dead_doubleacute asterisk'
     # ',<' comma and less key (BR pc105 keyboard) 
     xmodmap -e 'keycode 59 = comma less comma less dead_cedilla multiply dead_cedilla multiply comma less dead_cedilla multiply'
 else
-
-    which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminate:ctrl_alt_bksp
+    which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl
 fi
 # make capslock a new left ctrl. Loses capslock enterely.
-which setxkbmap  &>/dev/null  &&  setxkbmap -option ctrl:nocaps
 which xrdb       &>/dev/null  &&  xrdb -merge ~/.Xresources
 if [ "${HOSTNAME}" != "brcpsdrfirmino-l" ] ; then
     which pulseaudio &>/dev/null  &&  pulseaudio --start
@@ -161,6 +159,12 @@ if [ "${monitors}" == "1" -a "${rotated}" != "0" -a "${rotated}" != "2" ] ; then
     URXVT_ALSAMIXER_POS="${ALSAMIXER_WIDTH}x20-0-400"
 fi
 
+if [ "${monitors}" == "1" -a "${HOSTNAME}" == "brcpsdrfirmino-l" ] ; then
+    CONKY_NORGE_SHOW='false'
+    CONKY_SIMPLECLOCK_SHOW='false'
+    CONKY_FORTUNELINEUP_SHOW='false'
+    CONKY_FORTUNELINEUP2_SHOW='false'
+fi
 
 if which wallsetter.sh &>/dev/null && which feh &>/dev/null ; then
     wallsetter.sh -c1t 0s
@@ -178,7 +182,7 @@ if which urxvtc urxvtd &>/dev/null ; then
 fi
 
 if which urxvt &>/dev/null ; then
-    urxvt -display ${DISPLAY} -geometry ${URXVT_ALSAMIXER_POS} -name urxvt-alsamixer-bg -tr -fg gray -e alsamixer -g &
+    urxvt -display ${DISPLAY} -geometry ${URXVT_ALSAMIXER_POS} -name urxvt-alsamixer-bg -tr -fg gray -e alsamixer -D pulse -g &
 fi
 
 if which xterm &>/dev/null ; then

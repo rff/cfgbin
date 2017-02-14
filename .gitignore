@@ -1,10 +1,13 @@
 # general temporary or volatile config files.
 /cfg/bash/bash_history
 /cfg/vim/view
-/cg/vim/viminfo
+/cfg/vim/viminfo
 /cfg/vim/.netrwhist
 /cfg/tint2/snap.jpg
 /cfg/tint2/tintwizard.conf
+/cfg/tmux/resurrect/
+/cfg/ipython/profile_default/db/
+/cfg/ipython/profile_default/history.sqlite
 .*.swp
 
 # local weechat installation.
@@ -33,6 +36,9 @@
 /cfg/pki/
 /cfg/pulse/
 /cfg/thumbnails/
+/cfg/transmission/
+/cfg/VirtualBox/
+/cfg/Trolltech.conf
 # Gnome base (GTK?) programs
 /cfg/update-notifier/
 # Ubuntu MATE desktop programs
@@ -43,3 +49,5 @@
 /cfg/pluma/
 /cfg/synapse/
 /cfg/tilda/
+/cfg/galculator/
+## work

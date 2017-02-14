@@ -350,57 +350,6 @@ class Desktop():
 		return (self.width, self.height)
 
 
-def sep_config(arg):
-	l = [int(x) for x in arg.split(',')]
-
-	if not (1 <= len(l) <= 4) or min(l) < 0:
-		msg = "Argument must be a comma separated list of 1 to 4 positive integers"
-		raise argparse.ArgumentTypeError(msg)
-
-	dx = l[0]
-	try: dy = l[1]
-	except IndexError: dy = dx
-	try: startx = l[2]
-	except IndexError: startx = dx
-	try: starty = l[3]
-	except IndexError: starty = startx
-
-	#dx = l[0]
-	#dy = l[1] if len(l) >= 2 else dx
-	#startx = l[2] if len(l) >= 3 else dx
-	#starty = l[3] if len(l) >= 4 else startx
-	
-	return (dx, dy, startx, starty)
-
-
-def parseargs():
-	parser = argparse.ArgumentParser()
-
-	# global options.
-	parser.add_argument('-D', '--debug', action='store_true', help='Debug output')
-
-	# filters to select windows for any action.
-	parser.add_argument('-F', '--filter_class', help='Apply action only to especified windows class')
-	parser.add_argument('-S', '--filter_screen', type=int, help='Apply action only to windows in especified screen')
-	parser.add_argument('-I', '--interactive', action='store_true', help='Select windows interactively by clicking with the mouse')
-
-	# actions to execute.
-	parser.add_argument('-E', '--edges', action='store_true', help='Send windows to the edges')
-	parser.add_argument('-R', '--resize', type=int, nargs=2, metavar=('WIDTH', 'HEGHT'), help='Resize windows')
-	parser.add_argument('-C', '--cascade', action='store_true', help='Cascade windows')
-
-	# only useful for _cascade_ command.
-	parser.add_argument('-s', '--sep', type=sep_config, default='25', help='Windows separations in cascade')
-	parser.add_argument('-r', '--alignr', action='store_true', help='Cascade windows are aligned to their top right edges')
-	parser.add_argument('-l', '--alignl', action='store_true', help='Cascade windows are aligned to their top left  edges')
-	parser.add_argument('-d', '--alignd', action='store_true', help='Cascade windows are aligned in a "smart" dinamic way"')
-
-	return parser.parse_args()
-
-
-def setoptconsts(opts):
-	opts.VERSION = '0.0.0'
-	return opts
 
 
 def cmdcall(arg):
@@ -527,8 +476,6 @@ def winclasscompare_re(wm_class, pattern):
 	#return re.fullmatch( pattern, wm_class) != None
 	return re.search(pattern, wm_class, re.IGNORECASE) != None
 
-#def get_winclasslist(winlist, wm_class):
-#	return winlist if wm_class is None else [w for w in winlist if w.wm_class == wm_class]
 def get_winclasslist(winlist, wm_class, fcompare=winclasscompare_sub):
 	return winlist if wm_class is None else [w for w in winlist if fcompare(w.wm_class, wm_class)]
 
@@ -571,6 +518,26 @@ def interactive(opts, desktop):
 	desktop.windows = [w for w in desktop.windows if w.id in wid_list]
 	return
 
+def do_list(opts, desktop):
+	widths = {
+		'iw': len(format(max([w.id for w in desktop.windows]), '#x')),
+		'dw': max([len(format(w.desktop, 'd')) for w in desktop.windows]),
+		'pw': len(format(max([w.pid for w in desktop.windows]), 'd')),
+		'xw': len(format(max([w.geometry.x for w in desktop.windows]), 'd')),
+		'yw': len(format(max([w.geometry.y for w in desktop.windows]), 'd')),
+		'ww': len(format(max([w.geometry.width for w in desktop.windows]), 'd')),
+		'hw': len(format(max([w.geometry.height for w in desktop.windows]), 'd')),
+		'cw': max([len(w.wm_class) for w in desktop.windows])
+	}
+	s  = '{id:<#{iw}x} {desktop:<{dw}} {pid:<{pw}}'
+	s += ' {geometry.x:<{xw}} {geometry.y:<{yw}}'
+	s += ' {geometry.width:<{ww}} {geometry.height:<{hw}}'
+	s += ' {wm_class:<{cw}} {title:<}'
+	for w in desktop.windows:
+		if opts.debug:
+			print(print_obj(w))
+		print(s.format(**w.__dict__, **widths))
+	return
 
 def resize(opts, desktop):
 	width, height = opts.resize
@@ -584,7 +551,7 @@ def resize(opts, desktop):
 		for w in desktop.windows:
 			if opts.debug:
 				print('Window selected:')
-				print('      w.id: {}'.format(w.id))
+				print('       w.id: {}'.format(w.id))
 				print('     w.size: {}'.format(w.size))
 				print('   new size: {}'.format((width,height)))
 			w.geometry.size = (width, height)
@@ -695,6 +662,58 @@ def cascade(opts, desktop):
 				print('   new pos: {}'.format((x,y)))
 	return
 
+def sep_config(arg):
+	l = [int(x) for x in arg.split(',')]
+
+	if not (1 <= len(l) <= 4) or min(l) < 0:
+		msg = "Argument must be a comma separated list of 1 to 4 positive integers"
+		raise argparse.ArgumentTypeError(msg)
+
+	dx = l[0]
+	try: dy = l[1]
+	except IndexError: dy = dx
+	try: startx = l[2]
+	except IndexError: startx = dx
+	try: starty = l[3]
+	except IndexError: starty = startx
+
+	#dx = l[0]
+	#dy = l[1] if len(l) >= 2 else dx
+	#startx = l[2] if len(l) >= 3 else dx
+	#starty = l[3] if len(l) >= 4 else startx
+
+	return (dx, dy, startx, starty)
+
+
+def parseargs():
+	parser = argparse.ArgumentParser()
+
+	# global options.
+	parser.add_argument('-D', '--debug', action='store_true', help='Debug output')
+
+	# filters to select windows for any action.
+	parser.add_argument('-F', '--filter_class', help='Apply action only to especified windows class')
+	parser.add_argument('-S', '--filter_screen', type=int, help='Apply action only to windows in especified screen')
+	parser.add_argument('-I', '--interactive', action='store_true', help='Select windows interactively by clicking with the mouse')
+
+	# actions to execute.
+	parser.add_argument('-L', '--list', action='count', help='List windows selected before other action is executed on it. If listed twice, list windows also after each action is performed.')
+	parser.add_argument('-E', '--edges', action='store_true', help='Send windows to the edges')
+	parser.add_argument('-R', '--resize', type=int, nargs=2, metavar=('WIDTH', 'HEGHT'), help='Resize windows')
+	parser.add_argument('-C', '--cascade', action='store_true', help='Cascade windows')
+
+	# only useful for _cascade_ command.
+	parser.add_argument('-s', '--sep', type=sep_config, default='25', help='Windows separations in cascade')
+	parser.add_argument('-r', '--alignr', action='store_true', help='Cascade windows are aligned to their top right edges')
+	parser.add_argument('-l', '--alignl', action='store_true', help='Cascade windows are aligned to their top left  edges')
+	parser.add_argument('-d', '--alignd', action='store_true', help='Cascade windows are aligned in a "smart" dinamic way"')
+
+	return parser.parse_args()
+
+
+def setoptconsts(opts):
+	opts.VERSION = '0.0.0'
+	return opts
 
 def main():
 	opts = parseargs()
@@ -705,12 +724,27 @@ def main():
 
 	if opts.interactive:
 		interactive(opts, desktop)
+	# TODO: Maybe we should default list to 0 instead of let the default
+	#       none.
+	# XXX: see that the list function is "do_list" decause "list" is a
+	#      builtin function.
+	if opts.list != None:
+		do_list(opts, desktop)
+
 	if opts.resize:
 		resize(opts, desktop)
+		if opts.list > 1:
+			do_list(opts, desktop)
+
 	if opts.edges:
 		move_to_edges(opts, desktop)
+		if opts.list > 1:
+			do_list(opts, desktop)
+
 	if opts.cascade:
 		cascade(opts, desktop)
+		if opts.list > 1:
+			do_list(opts, desktop)
 	return
 
 

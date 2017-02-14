@@ -33,7 +33,11 @@ def findtoplevel():
 	path = '.'
 	path = os.getcwd()
 	#path = os.path.abspath(path) ## i belive it is not needed when the path comes from getcwd (PWD)
-	path = os.path.realpath(path)
+        #path = os.path.realpath(path) ## it removes symlinks, may not be a
+                                       ## good idea, what if we link a folder
+                                       ## from outside the repo. If we come
+                                       ## inside the folder, it would not find
+                                       ## that we are in a tb repo.
 	while path != '' and path != '/':
 		if os.path.isfile(os.path.join(path, topbuildproj)):
 			return path

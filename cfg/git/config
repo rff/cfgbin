@@ -17,20 +17,19 @@
 	puff = pull --ff-only
 	ll = log --oneline --decorate --all --graph
 	ls = log --oneline --decorate --all --graph --stat
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	st = status --short --branch
 	sa = status --short --branch --ignored
 	g = grep --line-number --heading --break
-
-#[branch]
-#        autosetuprebase = always
-#[merge]
-#        tool = mymeld
-#        conflictstyle = diff3
-#[mergetool "mymeld"]
-#        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
+	b    = blame --abbrev=3 --date=format:%Y.%m.%d --show-stats
+	bl   = blame --abbrev=0 --date=format:
+	rl   = reflog --format=tformat:'%C(yellow)%h%Creset %<(09)%gd %<(80)%gs %Cgreen%<(21)%d%Creset (%Cred%cr%Creset | %ar)  <%aN | %C(bold blue)%gN%Creset>'
+	rld  = reflog --format=tformat:'%C(yellow)%h%Creset %<(19)%gd %<(80)%gs %Cgreen%<(21)%d%Creset (%Cred%ci%Creset | %ai)  <%aN | %C(bold blue)%gN%Creset>' --date=relative
 
 [user]
 	name = Raoni Fassina Firmino
 #	email = raoni.firmino@padtec.com.br
 	email = rfirmino@padtec.com.br
+
+[mailmap]
+	file = ~/.config/git/mailmap
