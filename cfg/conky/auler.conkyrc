@@ -227,7 +227,7 @@ ${color lightgrey} ${top name 10} ${top pid 10} ${top cpu 10} ${top mem 10}
 # #${font}
 # 
 # ${color1}WEATHER $hr
-# ${color0}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}C
+# ${color0}${weather http://tgftp.nws.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}C
 # 
 # ${color1}FORTUNE $hr
 # ${color0}${font DejaVu Sans Mono:size=8}\

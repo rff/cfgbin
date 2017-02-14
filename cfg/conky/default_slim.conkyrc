@@ -95,7 +95,7 @@ ${font}\
 
 ${color1}WEATHER ${color0}${hr}
 ${font Ubuntu Mono:size=10}\
-${color0}Campinas: ${color1}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
+${color0}Campinas: ${color1}${weather http://tgftp.nws.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
 ${font}\
 
 ${color1}SYSTEM ${color0}${hr}

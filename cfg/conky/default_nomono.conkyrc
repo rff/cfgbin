@@ -190,7 +190,7 @@ ${font}\
 #${font}
 
 ${color1}WEATHER ${color0}${hr}
-${color0}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
+${color0}${weather http://tgftp.nws.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}Celsius
 
 ${color1}FORTUNE ${color0}${hr}
 ${color0}${font DejaVu Sans:size=8}\

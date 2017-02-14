@@ -220,7 +220,7 @@ ${font}\
 
 ${color1}WEATHER ${color0}${hr}
 ${color0}${font Ubuntu Mono:size=8}\
-${alignr}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}${offset -4}º Celsius\
+${alignr}${weather http://tgftp.nws.noaa.gov/pub/data/observations/metar/stations/ SBKP temperature}${offset -4}º Celsius\
 ${font}
 
 ${color1}SENSORS ${color0}${hr}
