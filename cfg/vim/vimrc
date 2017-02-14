@@ -2,6 +2,10 @@
 " Session RAONI 01
 "-------------------------------------------------------------------------------
 
+" Avoid side effects if `nocp` already set
+" From: http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else/39767149#39767149
+if &compatible | set nocompatible | endif
+
 " change ~/.viminfo to a more convenient place
 set viminfo+=n~/.vim/viminfo
 
@@ -565,7 +569,8 @@ set ttymouse=xterm2
 syntax on
 
 " use Vim defaults instead of 100% vi compatibility (needed for vimwiki)
-set nocompatible
+" Do not set it here, see the begining of the file
+"set nocompatible
 
 "to load plugin files for specific file types (needed for vimwiki)
 filetype plugin on
