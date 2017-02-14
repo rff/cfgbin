@@ -108,7 +108,7 @@ ${font}\
 
 ${color1}SENSORS ${color0}${hr}
 ${color0}${font Ubuntu Mono:size=10}\
-${exec fmt-sensors.py -1}\
+${exec fmt-sensors.py -w 40}\
 ${font}
 
 #${color1}CPU ${color0}${hr}
