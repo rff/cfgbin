@@ -191,6 +191,8 @@ alias g='grep'
 alias gg='grep -Hnr'
 alias ag='ack-grep'
 
+alias wget='wget --no-verbose --show-progress'
+
 # raoni: some cool alias for dir change
 # TODO: Change the cd_ls to cd_back/cd_back_ls
 alias ..='cd_ls ..'
