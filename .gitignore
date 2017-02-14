@@ -1,6 +1,7 @@
 # general temporary or volatile config files.
 /cfg/bash/bash_history
 /cfg/vim/view
+/cg/vim/viminfo
 /cfg/vim/.netrwhist
 /cfg/tint2/snap.jpg
 /cfg/tint2/tintwizard.conf
