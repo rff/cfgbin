@@ -15,7 +15,9 @@ set -x
 set +e
 set -u
 
-monitors=$(xrandr | grep -wc "connected")
+xrandr_monitors=$(xrandr | grep -wc "connected")
+monitors=${__XINITRC_MONITORS__:-${xrandr_monitors}}
+
 if [ "${monitors}" == "2" -a "${HOSTNAME}" == "arrr" ] ; then
     xrandr -display ${DISPLAY}                   \
            --output VGA1  --auto --pos 0x0       \
