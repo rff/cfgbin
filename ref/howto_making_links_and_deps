@@ -1,0 +1,371 @@
+
+Below is a portion of a bash_history that show I configuring for the first time
+a enviroment in my home notebook. I create links to the configurations and
+installed missing dependences that I need to really work on openbox.
+
+OBS:
+I created the links globals, or better, from home "~/git/etc...". If they are
+created with full path, as is apparent in "ls -l", maybe is better that they
+are relatives, so if one change the home folder names they will keep working.
+And as they are configurations, they need to be in the same place, so they
+cannot move anyway. The only problem is if I deside to move the repo from
+"~/git", but in this case i make a link, or make a indirection, maybe they will
+be better point at some place in "~/.config/<some_place>" and it pointing to
+git repo.
+
+
+#1383695977
+sudo apt-get install rxvt-unicode
+#1383696008
+sudo apt-get install nitrogen
+#1383696024
+sudo apt-get install dmenu
+#1383696044
+ls
+#1383696047
+cd git/
+#1383696047
+ls
+#1383696049
+cd cfgbin/
+#1383696050
+cd ..
+#1383696051
+ls
+#1383696056
+ls bi
+#1383696058
+ls
+#1383696077
+ln -s ./git/cfgbin/bin 
+#1383696078
+ls
+#1383696084
+cd git/
+#1383696084
+ls
+#1383696085
+cd cfgbin/
+#1383696085
+ls
+#1383696096
+cd cfg/
+#1383696096
+ls
+#1383696111
+killall conky
+#1383696160
+cd ~/.config/
+#1383696160
+ls
+#1383696172
+dconf-editor 
+#1383696262
+ln -s ~/git/cfgbin/cfg/gtk-3.0 
+#1383696263
+ls
+#1383696265
+cd ..
+#1383696266
+ls
+#1383696271
+ls -lah
+#1383696306
+ls
+#1383696313
+ls -lah
+#1383696327
+unlink bin
+#1383696334
+#ln -s ~/git/cfgbin/cfg/gtk-3.0 
+#1383696348
+ln -s ~/git/cfgbin/bin 
+#1383696349
+ls
+#1383696352
+ls -lah
+#1383696362
+unlink .Xresources 
+#1383696378
+ln -s ~/git/cfgbin/cfg/X/Xresources .Xresources
+#1383696379
+ls
+#1383696389
+cd .config/
+#1383696389
+ls
+#1383696390
+ls -lah
+#1383696467
+gnome-session-properties 
+#1383696561
+nitrogen 
+#1383696567
+ls
+#1383696575
+cd ..
+#1383696576
+ls
+#1383696612
+ln -s ~/git/cfgbin/cfg/gtk-2.0/gtkrc-2.0 .gtkrc-2.0 
+#1383696630
+ln -s ~/git/cfgbin/cfg/gtk-2.0/gtkrc-2.0.mine .gtkrc-2.0.mine
+#1383696636
+vim .gtkrc-2.0
+#1383696644
+nitrogen 
+#1383696778
+sudo apt-get install xcompmgr 
+#1383696789
+cd git/cfgbin/
+#1383696791
+git status
+#1383696796
+cd ..
+#1383696796
+ls
+#1383696797
+cd ..
+#1383696797
+ls
+#1383696801
+ls -lah
+#1383696805
+vim .bashrc 
+#1383696859
+vim -d .bashrc git/cfgbin/cfg/bash/bashrc 
+#1383696968
+rm .bashrc 
+#1383696983
+ln -s ~/git/cfgbin/cfg/bash/bashrc .bashrc
+#1383696986
+vim .profile 
+#1383697010
+vim /home/raoni/git/cfgbin/cfg/bash/bash_logout 
+#1383697025
+vim -d /home/raoni/git/cfgbin/cfg/bash/bash_logout  .bash_logout 
+#1383697038
+vim -d /home/raoni/git/cfgbin/cfg/bash/profile .profile 
+#1383697047
+rm .profile .bash_logout 
+#1383697057
+ln -s /home/raoni/git/cfgbin/cfg/bash/profile .profile 
+#1383697062
+ln -s /home/raoni/git/cfgbin/cfg/bash/bash_logout  .bash_logout 
+#1383697087
+vim -d .vimrc /home/raoni/git/cfgbin/cfg/vim/vimrc 
+#1383697105
+vim .vimrc 
+#1383697117
+cd .vim/
+#1383697118
+ls
+#1383697120
+tree
+#1383697123
+cd ..
+#1383697124
+ls
+#1383697139
+rm -rf .vim .vimrc
+#1383697153
+ln -s ~/git/cfgbin/cfg/vim .vim
+#1383697177
+ln -s .vim/vimrc .vimrc
+#1383697178
+ls
+#1383697181
+cd .vim
+#1383697181
+ls
+#1383697182
+cd ..
+#1383697188
+vim .vimrc 
+#1383697194
+exit
+#1383696554
+ls
+#1383697204
+vim .Xresources 
+#1383697217
+ls
+#1383697245
+alsamixer 
+#1383697267
+ls
+#1383697273
+cd .config/cok
+#1383697280
+cd .config/conky/
+#1383697280
+ls
+#1383697348
+diff -rq . ~/git/cfgbin/cfg/conky
+#1383697355
+diff -rq . ~/git/cfgbin/cfg/conky/others
+#1383697388
+cp arcs_i7.* ~/git/cfgbin/cfg/conky/others/
+#1383697419
+cp default.conkyrc ~/git/cfgbin/cfg/conky/default2.conkyrc
+#1383697442
+cp norge.conkyrc ~/git/cfgbin/cfg/conky/norge2.conkyrc
+#1383697451
+exit
+cd git/cfgbin/cfg/conky/
+ls
+vim -d norge2.conkyrc others/norge.conkyrc 
+vim -d default2.conkyrc others/default.conkyrc 
+ls
+rm norge2.conkyrc default2.conkyrc -rf
+ls
+mv others/* .
+ls
+ls others/
+rmdir others
+ls -lah
+chmod a-x auler.conkyrc 
+ls
+ls -lah
+cd ..
+ls
+ls -lah
+cd ..
+cd cfg/
+ls
+cat user-dirs.locale 
+cat user-dirs.dirs 
+cat selected_editor 
+cd ~/.config/
+ls
+ls ..
+ls -lah ..
+ls
+cat user-dirs.locale 
+killall conky 
+rm -rf conky
+ln -s ~/git/cfgbin/cfg/conky 
+ls
+ls autostart/
+ls
+cd ..
+cd .c
+cd .config/
+top
+ls
+mv tint2 tint2_ori
+mv tint2_ori tint2
+cd ~/git/cfgbin/
+ls
+find -name tint2
+ls
+cd cfg/
+ls
+cd ..
+ls
+cd ..
+ls
+exit
+cd git/cfgbin/cfg/conky/
+ls
+ls others/
+exit
+man git-status 
+exit
+killall urxvtd 
+rm -rf .urxvt 
+ln -s ~/git/cfgbin/cfg/urxvt .urxvt
+xrdb .Xresources 
+ls
+ln -s ~/git/cfgbin/cfg/git/gitconfig .gitconfig 
+vim .gitconfig 
+cd git/cfgbin/
+ls
+git lol
+ls
+git st
+vim /home/raoni/.gitconfig 
+git st
+vim /home/raoni/.gitconfig 
+git st
+cd cfg/conky/
+ls
+mkdir others
+mv * others/
+mv others/work.conkyrc ./
+ls
+git status
+git mv others/* .
+git st
+ls others/
+ls
+mv others/arcs_i7.* .
+ls
+git mv others/* .
+ls
+git st
+git status
+git commit 
+git st
+git add auler.conkyrc arcs*
+git commit 
+ls
+git status
+cd ..
+ls
+git add bash/bashrc
+git commit 
+bs 2
+ls
+cd -
+ls
+cd vim/
+bs 3
+ls
+cd cfgbin/cfg/
+ls
+ls X
+cd ..
+ls
+cd cfg/gtk-3.0/
+ls
+cd ..
+ls
+vim -d top/toprc /home/raoni/.toprc 
+cd ~
+ls
+rm -rf .toprc 
+ln -s ~/git/cfgbin/cfg/top/toprc .toprc 
+history 
+ls
+cd git/cfgbin/
+ls
+git st
+#git add doc/sample1.* 
+cd doc/
+ls
+mv sample1.png terminal-colors_sample1.png
+mv sample1.url terminal-colors_sample1.md
+vim terminal-colors_sample1.md 
+ls
+ls -1
+ll
+gti add .
+git add .
+git commit 
+ls -lah
+cd ..
+ls
+git status
+ls .git/
+ls
+cd ..
+ls
+cd ..
+ls
+exit
+xrdb .Xresources 
+cd .config/openbox
+ls
+vim autostart.sh 
+exit
