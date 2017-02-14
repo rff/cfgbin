@@ -193,6 +193,26 @@ ${alignr}${voffset -8}${upspeedgraph   eth1 20,220 666666 666666}
 ${color0}Down: ${color1}${downspeed eth1}\
 ${alignr}${voffset -8}${downspeedgraph eth1 20,220 666666 666666}
 ${endif}\
+\
+${if_up enp7s0}\
+${color0}${font Ubuntu Mono:size=8}\
+enp7s0
+${voffset 8}\
+${color0}Up  : ${color1}${upspeed   enp7s0}\
+${alignr}${voffset -8}${upspeedgraph   enp7s0 20,220 666666 666666}
+${color0}Down: ${color1}${downspeed enp7s0}\
+${alignr}${voffset -8}${downspeedgraph enp7s0 20,220 666666 666666}
+${endif}\
+\
+${if_up wlp13s0}\
+${color0}${font Ubuntu Mono:size=8}\
+wlp13s0
+${voffset 8}\
+${color0}Up  : ${color1}${upspeed   wlp13s0}\
+${alignr}${voffset -8}${upspeedgraph   wlp13s0 20,220 666666 666666}
+${color0}Down: ${color1}${downspeed wlp13s0}\
+${alignr}${voffset -8}${downspeedgraph wlp13s0 20,220 666666 666666}
+${endif}\
 ${font}\
 \
 ${color1}TOP ${color0}${hr}
