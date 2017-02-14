@@ -54,6 +54,10 @@ which setxkbmap  &>/dev/null  &&  setxkbmap -display ${DISPLAY} us intl terminat
 which xrdb       &>/dev/null  &&  xrdb -merge ~/.Xresources
 which pulseaudio &>/dev/null  &&  pulseaudio --start
 
+# set click on tapping for touchpad in bisonho.
+if [ "${HOSTNAME}" == "bisonho" ] ; then
+	which xinput &>/dev/null  && xinput set-prop --type=int --format=8 'SynPS/2 Synaptics TouchPad' 'libinput Tapping Enabled' 1
+fi
 
 
 CONKY_DEFAULT_SHOW='true'
