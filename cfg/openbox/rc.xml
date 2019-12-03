@@ -331,6 +331,9 @@
     </keybind>
     <!-- end RAONI -->
     <!-- RAONI Keybindings for window actions -->
+    <keybind key="W-S-q">
+      <action name="Close"/>
+    </keybind>
     <keybind key="W-q">
       <action name="Iconify"/>
     </keybind>
