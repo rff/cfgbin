@@ -319,11 +319,6 @@
     </keybind>
     <!-- end RAONI -->
     <!-- RAONI Keybindings for menus -->
-    <keybind key="A-Menu">
-      <action name="ShowMenu">
-        <menu>client-list-combined-menu</menu>
-      </action>
-    </keybind>
     <keybind key="C-Menu">
       <action name="ShowMenu">
         <menu>root-menu</menu>
