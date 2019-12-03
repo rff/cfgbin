@@ -708,3 +708,18 @@ function ToggleTextMode()
 	endif
 endfunction
 
+" from vim-help: Every wrapped line will continue visually indented (same
+" amount of space as the beginning of that line), thus preserving horizontal
+" blocks of text.
+set breakindent
+
+" wrap lines at word boundaries when using ':set wrap'
+set linebreak
+
+" This are to show some simbols in numbers columns for wrapped lines.
+"set breakindentopt=sbr  " Make showbreak print before breakindent
+"set cpoptions+=n        " Make showbreak print starting in numbers columns
+"set showbreak=" ++"     " Charactes to print
+set showbreak=↪\  
+"set highlight-=@:NonText " Remove default highlight for showbreak
+set highlight+=@:Folded  " Use a new highlight
