@@ -683,8 +683,8 @@ au BufRead,BufNewFile *.md setfiletype markdown
 " use 66 letlers in paragraph lenght when formating.
 "set textwidth=66
 
-" set autoident to ident paragraph when formating.
-"set autoident
+" set autoindent to indent paragraph when formating.
+set autoindent
 
 " Enable justify for paragraph formating. Use  '_j' to do the job
 "runtime macros/justify.vim
