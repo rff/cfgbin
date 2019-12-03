@@ -550,62 +550,62 @@
     </keybind>
     <keybind key="XF86AudioRaiseVolume">
       <action name="Execute">
-        <command>amixer -M set Master 1%+ unmute</command>
+        <command>amixer set Master 1%+ unmute</command>
       </action>
     </keybind>
     <keybind key="XF86AudioLowerVolume">
       <action name="Execute">
-        <command>amixer -M set Master 1%- unmute</command>
+        <command>amixer set Master 1%- unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-0">
       <action name="Execute">
-        <command>amixer -M set Master 0% mute</command>
+        <command>amixer set Master 0% mute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-1">
       <action name="Execute">
-        <command>amixer -M set Master 10% unmute</command>
+        <command>amixer set Master 10% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-2">
       <action name="Execute">
-        <command>amixer -M set Master 20% unmute</command>
+        <command>amixer set Master 20% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-3">
       <action name="Execute">
-        <command>amixer -M set Master 30% unmute</command>
+        <command>amixer set Master 30% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-4">
       <action name="Execute">
-        <command>amixer -M set Master 40% unmute</command>
+        <command>amixer set Master 40% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-5">
       <action name="Execute">
-        <command>amixer -M set Master 50% unmute</command>
+        <command>amixer set Master 50% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-6">
       <action name="Execute">
-        <command>amixer -M set Master 60% unmute</command>
+        <command>amixer set Master 60% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-7">
       <action name="Execute">
-        <command>amixer -M set Master 70% unmute</command>
+        <command>amixer set Master 70% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-8">
       <action name="Execute">
-        <command>amixer -M set Master 80% unmute</command>
+        <command>amixer set Master 80% unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-9">
       <action name="Execute">
-        <command>amixer -M set Master 90% unmute</command>
+        <command>amixer set Master 90% unmute</command>
       </action>
     </keybind>
     <!-- end RAONI -->
@@ -683,12 +683,12 @@
       <!-- RAONI Keybindings for volume control -->
       <mousebind button="C-A-S-Up" action="click">
         <action name="Execute">
-          <command>amixer -M set Master 5%+ unmute</command>
+          <command>amixer set Master 5%+ unmute</command>
         </action>
       </mousebind>
       <mousebind button="C-A-S-Down" action="click">
         <action name="Execute">
-          <command>amixer -M set Master 5%- unmute</command>
+          <command>amixer set Master 5%- unmute</command>
         </action>
       </mousebind>
       <!-- end RAONI -->
@@ -961,12 +961,12 @@
       <!-- RAONI Keybindings for volume control -->
       <mousebind button="C-A-S-Up" action="click">
         <action name="Execute">
-          <command>amixer -M set Master 5%+ unmute</command>
+          <command>amixer set Master 5%+ unmute</command>
         </action>
       </mousebind>
       <mousebind button="C-A-S-Down" action="click">
         <action name="Execute">
-          <command>amixer -M set Master 5%- unmute</command>
+          <command>amixer set Master 5%- unmute</command>
         </action>
       </mousebind>
       <!-- end RAONI -->
