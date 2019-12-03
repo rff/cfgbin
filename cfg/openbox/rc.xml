@@ -268,22 +268,22 @@
     <keybind key="W-d">
       <action name="ToggleShowDesktop"/>
     </keybind>
-    <keybind key="C-W-a">
+    <keybind key="W-C-a">
       <action name="AddDesktop">
         <where>last</where>
       </action>
     </keybind>
-    <keybind key="S-C-W-a">
+    <keybind key="W-C-S-a">
       <action name="AddDesktop">
         <where>current</where>
       </action>
     </keybind>
-    <keybind key="C-W-x">
+    <keybind key="W-C-x">
       <action name="RemoveDesktop">
         <where>last</where>
       </action>
     </keybind>
-    <keybind key="S-C-W-x">
+    <keybind key="W-C-S-x">
       <action name="RemoveDesktop">
         <where>current</where>
       </action>
@@ -388,22 +388,22 @@
         <right>10</right>
       </action>
     </keybind>
-    <keybind key="W-S-C-Up">
+    <keybind key="W-C-S-Up">
       <action name="ResizeRelative">
         <down>-10</down>
       </action>
     </keybind>
-    <keybind key="W-S-C-Down">
+    <keybind key="W-C-S-Down">
       <action name="ResizeRelative">
         <top>-10</top>
       </action>
     </keybind>
-    <keybind key="W-S-C-Left">
+    <keybind key="W-C-S-Left">
       <action name="ResizeRelative">
         <right>-10</right>
       </action>
     </keybind>
-    <keybind key="W-S-C-Right">
+    <keybind key="W-C-S-Right">
       <action name="ResizeRelative">
         <left>-10</left>
       </action>
