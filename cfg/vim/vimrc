@@ -559,6 +559,7 @@ set t_Co=8
 
 " column with line number
 set number
+set relativenumber
 
 " use mouse
 set mouse=a
