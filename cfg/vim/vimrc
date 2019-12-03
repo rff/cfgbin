@@ -491,8 +491,9 @@ endfunction
 
 " Highlight switch
 let highlightstate = 0
-highlight myhighlight ctermbg=grey guibg=grey
-match myhighlight /rabblerabblerabble/
+"highlight myhighlight ctermbg=blue guibg=grey
+highlight link myhighlight Error
+match myhighlight /^rabblerabblerabble$/
 function Switchhighlight()
 	if g:highlightstate == 0
 		match myhighlight /^\t\+\| \+\t\| \+$\|\t\+$/
@@ -503,11 +504,11 @@ function Switchhighlight()
 		echo "Highlight Spaces"
 		let g:highlightstate = 2
 	elseif g:highlightstate == 2
-		match myhighlight /rabblerabblerabble/
+		match myhighlight /^rabblerabblerabble$/
 		echo "No Highlight"
 		let g:highlightstate = 0
 	else
-		match myhighlight /rabblerabblerabble/
+		match myhighlight /^rabblerabblerabble$/
 		echo "No Highlight"
 		let g:highlightstate = 0
 	endif
