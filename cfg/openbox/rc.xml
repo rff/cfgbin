@@ -953,6 +953,22 @@
         <action name="Focus"/>
         <action name="Raise"/>
       </mousebind>
+      <!-- RAONI Keybindings for show menus in application focused -->
+      <mousebind button="W-Left" action="Press">
+        <action name="ShowMenu">
+          <menu>client-menu</menu>
+        </action>
+      </mousebind>
+      <mousebind button="W-Middle" action="Press">
+        <action name="ShowMenu">
+          <menu>client-list-combined-menu</menu>
+        </action>
+      </mousebind>
+      <mousebind button="W-Right" action="Press">
+        <action name="ShowMenu">
+          <menu>root-menu</menu>
+        </action>
+      </mousebind>
       <!-- RAONI Keybindings for volume control -->
       <mousebind button="C-A-S-Up" action="click">
         <action name="Execute">
