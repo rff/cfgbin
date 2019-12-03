@@ -723,3 +723,77 @@ set linebreak
 set showbreak=↪\  
 "set highlight-=@:NonText " Remove default highlight for showbreak
 set highlight+=@:Folded  " Use a new highlight
+
+
+
+function SwitchIndent()
+	if !exists("b:indenttype")
+		let b:indenttype = 0
+
+		let b:save_expandtab   = &l:expandtab
+		let b:save_smarttab    = &l:smarttab
+		let b:save_tabstop     = &l:tabstop
+		let b:save_shiftwidth  = &l:shiftwidth
+		let b:save_softtabstop = &l:softtabstop
+	endif
+
+	if b:indenttype == 0
+		echo "Indent Style: 2 (space)"
+		let b:indenttype += 1
+
+		let b:save_expandtab   = &l:expandtab
+		let b:save_smarttab    = &l:smarttab
+		let b:save_tabstop     = &l:tabstop
+		let b:save_shiftwidth  = &l:shiftwidth
+		let b:save_softtabstop = &l:softtabstop
+
+		let &l:expandtab   = 1
+		let &l:smarttab    = 0
+		let &l:tabstop     = 8
+		let &l:shiftwidth  = 2
+		let &l:softtabstop = 2
+
+	elseif b:indenttype == 1
+		echo "Indent Style: 4 (space)"
+		let b:indenttype += 1
+
+		let &l:expandtab   = 1
+		let &l:smarttab    = 0
+		let &l:tabstop     = 8
+		let &l:shiftwidth  = 4
+		let &l:softtabstop = 4
+
+	elseif b:indenttype == 2
+		echo "Indent Style: 8 (space)"
+		let b:indenttype += 1
+
+		let &l:expandtab   = 1
+		let &l:smarttab    = 0
+		let &l:tabstop     = 8
+		let &l:shiftwidth  = 8
+		let &l:softtabstop = 8
+
+	elseif b:indenttype == 3
+		echo "Indent Style: 8 (tab)"
+		let b:indenttype += 1
+
+		let &l:expandtab   = 0
+		let &l:smarttab    = 0
+		let &l:tabstop     = 8
+		let &l:shiftwidth  = 8
+		let &l:softtabstop = 8
+
+	else
+		echo "Indent Style: ORIGINAL"
+		let b:indenttype = 0
+
+		let &l:expandtab   = b:save_expandtab
+		let &l:smarttab    = b:save_smarttab
+		let &l:tabstop     = b:save_tabstop
+		let &l:shiftwidth  = b:save_shiftwidth
+		let &l:softtabstop = b:save_softtabstop
+	endif
+endfunction
+
+" Map for easy toggle ident tipes.
+map <silent> <F10> :call SwitchIndent()<cr>
