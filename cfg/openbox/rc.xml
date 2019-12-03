@@ -560,7 +560,7 @@
     </keybind>
     <keybind key="C-A-S-0">
       <action name="Execute">
-        <command>amixer set Master 0% mute</command>
+        <command>amixer set Master toggle</command>
       </action>
     </keybind>
     <keybind key="C-A-S-1">
