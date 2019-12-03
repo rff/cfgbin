@@ -288,7 +288,7 @@
         <where>current</where>
       </action>
     </keybind>
-    <keybind key="C-A-l">
+    <keybind key="W-l">
       <action name="Execute">
         <command>lockscreen.sh</command>
       </action>
@@ -297,12 +297,12 @@
     <keybind key="A-F4">
       <action name="Close"/>
     </keybind>
-    <keybind key="A-Escape">
+    <keybind key="W-Escape">
       <action name="Lower"/>
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-    <keybind key="A-space">
+    <keybind key="W-space">
       <action name="ShowMenu">
         <menu>client-menu</menu>
       </action>
@@ -319,12 +319,12 @@
     </keybind>
     <!-- end RAONI -->
     <!-- RAONI Keybindings for menus -->
-    <keybind key="C-Menu">
+    <keybind key="Menu">
       <action name="ShowMenu">
         <menu>root-menu</menu>
       </action>
     </keybind>
-    <keybind key="C-A-Menu">
+    <keybind key="W-Menu">
       <action name="ShowMenu">
         <menu>client-list-combined-menu</menu>
       </action>
@@ -488,13 +488,13 @@
     </keybind>
     <!-- end RAONI -->
     <!-- Keybindings for window switching -->
-    <keybind key="A-Tab">
+    <keybind key="W-Tab">
       <action name="NextWindow"/>
     </keybind>
-    <keybind key="A-S-Tab">
+    <keybind key="W-S-Tab">
       <action name="PreviousWindow"/>
     </keybind>
-    <keybind key="C-A-Tab">
+    <keybind key="W-C-Tab">
       <action name="NextWindow">
         <panels>yes</panels>
         <desktop>yes</desktop>
@@ -556,52 +556,52 @@
         <command>amixer set Master 5%- unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-0">
+    <keybind key="W-0">
       <action name="Execute">
         <command>amixer set Master toggle</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-1">
+    <keybind key="W-1">
       <action name="Execute">
         <command>amixer set Master 10% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-2">
+    <keybind key="W-2">
       <action name="Execute">
         <command>amixer set Master 20% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-3">
+    <keybind key="W-3">
       <action name="Execute">
         <command>amixer set Master 30% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-4">
+    <keybind key="W-4">
       <action name="Execute">
         <command>amixer set Master 40% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-5">
+    <keybind key="W-5">
       <action name="Execute">
         <command>amixer set Master 50% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-6">
+    <keybind key="W-6">
       <action name="Execute">
         <command>amixer set Master 60% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-7">
+    <keybind key="W-7">
       <action name="Execute">
         <command>amixer set Master 70% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-8">
+    <keybind key="W-8">
       <action name="Execute">
         <command>amixer set Master 80% unmute</command>
       </action>
     </keybind>
-    <keybind key="C-A-S-9">
+    <keybind key="W-9">
       <action name="Execute">
         <command>amixer set Master 90% unmute</command>
       </action>
@@ -643,22 +643,22 @@
         <action name="Unfocus"/>
       </mousebind>
 -->
-      <mousebind button="A-Up" action="Click">
+      <mousebind button="W-Up" action="Click">
         <action name="DesktopPrevious"/>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
+      <mousebind button="W-Down" action="Click">
         <action name="DesktopNext"/>
       </mousebind>
-      <mousebind button="C-A-Up" action="Click">
+      <mousebind button="W-C-Up" action="Click">
         <action name="DesktopPrevious"/>
       </mousebind>
-      <mousebind button="C-A-Down" action="Click">
+      <mousebind button="W-C-Down" action="Click">
         <action name="DesktopNext"/>
       </mousebind>
-      <mousebind button="A-S-Up" action="Click">
+      <mousebind button="W-S-Up" action="Click">
         <action name="SendToDesktopPrevious"/>
       </mousebind>
-      <mousebind button="A-S-Down" action="Click">
+      <mousebind button="W-S-Down" action="Click">
         <action name="SendToDesktopNext"/>
       </mousebind>
       <!-- RAONI Keybindings for show menus in application focused -->
@@ -679,12 +679,12 @@
       </mousebind>
       <!-- end RAONI -->
       <!-- RAONI Keybindings for volume control -->
-      <mousebind button="C-A-S-Up" action="click">
+      <mousebind button="W-C-S-Up" action="click">
         <action name="Execute">
           <command>amixer set Master 1%+ unmute</command>
         </action>
       </mousebind>
-      <mousebind button="C-A-S-Down" action="click">
+      <mousebind button="W-C-S-Down" action="click">
         <action name="Execute">
           <command>amixer set Master 1%- unmute</command>
         </action>
@@ -936,16 +936,16 @@
       <mousebind button="Down" action="Click">
         <action name="DesktopNext"/>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
+      <mousebind button="W-Up" action="Click">
         <action name="DesktopPrevious"/>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
+      <mousebind button="W-Down" action="Click">
         <action name="DesktopNext"/>
       </mousebind>
-      <mousebind button="C-A-Up" action="Click">
+      <mousebind button="W-C-Up" action="Click">
         <action name="DesktopPrevious"/>
       </mousebind>
-      <mousebind button="C-A-Down" action="Click">
+      <mousebind button="W-C-Down" action="Click">
         <action name="DesktopNext"/>
       </mousebind>
       <mousebind button="Left" action="Press">
@@ -973,12 +973,12 @@
         </action>
       </mousebind>
       <!-- RAONI Keybindings for volume control -->
-      <mousebind button="C-A-S-Up" action="click">
+      <mousebind button="W-C-S-Up" action="click">
         <action name="Execute">
           <command>amixer set Master 1%+ unmute</command>
         </action>
       </mousebind>
-      <mousebind button="C-A-S-Down" action="click">
+      <mousebind button="W-C-S-Down" action="click">
         <action name="Execute">
           <command>amixer set Master 1%- unmute</command>
         </action>
