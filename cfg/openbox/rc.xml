@@ -1119,7 +1119,7 @@
   </application>
 
   # end of the example
--->
+  -->
     <application name="*-bg">
       <decor>no</decor>
       <focus>yes</focus>
