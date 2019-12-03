@@ -411,14 +411,46 @@
     <keybind key="W-S-f">
       <action name="GrowToFill"/>
     </keybind>
-    <keybind key="W-A-S-Up">    <action name="GrowToEdge"><direction>north</direction></action></keybind>
-    <keybind key="W-A-S-Down">  <action name="GrowToEdge"><direction>south</direction></action></keybind>
-    <keybind key="W-A-S-Left">  <action name="GrowToEdge"><direction>west</direction></action></keybind>
-    <keybind key="W-A-S-Right"> <action name="GrowToEdge"><direction>east</direction></action></keybind>
-    <keybind key="W-C-A-S-Up">    <action name="ShrinkToEdge"><direction>north</direction></action></keybind>
-    <keybind key="W-C-A-S-Down">  <action name="ShrinkToEdge"><direction>south</direction></action></keybind>
-    <keybind key="W-C-A-S-Left">  <action name="ShrinkToEdge"><direction>west</direction></action></keybind>
-    <keybind key="W-C-A-S-Right"> <action name="ShrinkToEdge"><direction>east</direction></action></keybind>
+    <keybind key="W-A-S-Up">
+      <action name="GrowToEdge">
+        <direction>north</direction>
+      </action>
+    </keybind>
+    <keybind key="W-A-S-Down">
+      <action name="GrowToEdge">
+        <direction>south</direction>
+      </action>
+    </keybind>
+    <keybind key="W-A-S-Left">
+      <action name="GrowToEdge">
+        <direction>west</direction>
+      </action>
+    </keybind>
+    <keybind key="W-A-S-Right">
+      <action name="GrowToEdge">
+        <direction>east</direction>
+      </action>
+    </keybind>
+    <keybind key="W-C-A-S-Up">
+      <action name="ShrinkToEdge">
+        <direction>north</direction>
+      </action>
+    </keybind>
+    <keybind key="W-C-A-S-Down">
+      <action name="ShrinkToEdge">
+        <direction>south</direction>
+      </action>
+    </keybind>
+    <keybind key="W-C-A-S-Left">
+      <action name="ShrinkToEdge">
+        <direction>west</direction>
+      </action>
+    </keybind>
+    <keybind key="W-C-A-S-Right">
+      <action name="ShrinkToEdge">
+        <direction>east</direction>
+      </action>
+    </keybind>
     <!-- end RAONI -->
     <!-- RAONI Keybindings for window movement -->
     <keybind key="W-m">
