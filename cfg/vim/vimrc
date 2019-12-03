@@ -624,11 +624,6 @@ map ´ ''
 " uppercase: >
 " :s/\v<(.)(\w*)/\u\1\L\2/g
 
-" highlight for white speces at the end of lines. It will probably be overight
-" by the syntax highlight for the files, but is here as a reminder
-syntax match WhiteSpaceEOL excludenl "\s\+$"
-highlight link WhiteSpaceEOL Error
-
 " better highlight for vimdiff when using syntax highlight
 highlight DiffAdd    term=bold    cterm=NONE ctermfg=7 ctermbg=4          guifg=White guibg=LightBlue
 highlight DiffChange term=bold    cterm=NONE ctermfg=7 ctermbg=5          guifg=White guibg=LightMagenta
@@ -636,8 +631,44 @@ highlight DiffDelete term=bold    cterm=NONE ctermfg=7 ctermbg=6 gui=bold guifg=
 highlight DiffText   term=reverse cterm=bold ctermfg=7 ctermbg=1 gui=bold guifg=White guibg=Red
 
 
+" highlight for white speces at the end of lines. It will probably be overight
+" by the syntax highlight for the files, but is here as a reminder
+"syntax match WhiteSpaceEOL excludenl "\s\+$"
+"highlight link WhiteSpaceEOL Error
+
+" TODO: Check why the syntax of my old hightlight for space at the end is
+" diferent from Gabs Switchhighlight() function.
+" TODO: Unify with Gabs Switchhighlight(). Probably better.
+let endhighlightstate = 0
+highlight link WhiteSpaceEOL Error
+match WhiteSpaceEOL /^rabblerabblerabble$/
+function Switchendhighlight()
+	if g:endhighlightstate == 0
+		match WhiteSpaceEOL / \+$/
+		echo "Highlight End Tabs"
+		let g:endhighlightstate = 1
+	elseif g:endhighlightstate == 1
+		match WhiteSpaceEOL /\t\+$/
+		echo "Highlight End Spaces"
+		let g:endhighlightstate = 2
+	elseif g:endhighlightstate == 2
+		match WhiteSpaceEOL /\s\+$/
+		echo "Highlight End Spaces and/or tabs"
+		let g:endhighlightstate = 3
+	elseif g:endhighlightstate == 3
+		match WhiteSpaceEOL /^rabblerabblerabble$/
+		echo "No End Highlight"
+		let g:endhighlightstate = 0
+	else
+		match WhiteSpaceEOL /^rabblerabblerabble$/
+		echo "No End Highlight"
+		let g:endhighlightstate = 0
+	endif
+endfunction
+
 " Map for easy toggle of wrap text.
 map <silent> <F5> :set wrap!<cr>
+map <silent> <F9> :call Switchendhighlight()<cr>
 
 "-------------------------------------------------------------------------------
 " Raoni: Macros for beatifull text editing in VIM. Setup on demand.
