@@ -550,12 +550,12 @@
     </keybind>
     <keybind key="XF86AudioRaiseVolume">
       <action name="Execute">
-        <command>amixer set Master 1%+ unmute</command>
+        <command>amixer set Master 5%+ unmute</command>
       </action>
     </keybind>
     <keybind key="XF86AudioLowerVolume">
       <action name="Execute">
-        <command>amixer set Master 1%- unmute</command>
+        <command>amixer set Master 5%- unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-S-0">
@@ -683,12 +683,12 @@
       <!-- RAONI Keybindings for volume control -->
       <mousebind button="C-A-S-Up" action="click">
         <action name="Execute">
-          <command>amixer set Master 5%+ unmute</command>
+          <command>amixer set Master 1%+ unmute</command>
         </action>
       </mousebind>
       <mousebind button="C-A-S-Down" action="click">
         <action name="Execute">
-          <command>amixer set Master 5%- unmute</command>
+          <command>amixer set Master 1%- unmute</command>
         </action>
       </mousebind>
       <!-- end RAONI -->
@@ -961,12 +961,12 @@
       <!-- RAONI Keybindings for volume control -->
       <mousebind button="C-A-S-Up" action="click">
         <action name="Execute">
-          <command>amixer set Master 5%+ unmute</command>
+          <command>amixer set Master 1%+ unmute</command>
         </action>
       </mousebind>
       <mousebind button="C-A-S-Down" action="click">
         <action name="Execute">
-          <command>amixer set Master 5%- unmute</command>
+          <command>amixer set Master 1%- unmute</command>
         </action>
       </mousebind>
       <!-- end RAONI -->
