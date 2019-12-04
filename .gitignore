@@ -5,6 +5,7 @@
 /cfg/vim/.netrwhist
 /cfg/tint2/snap.jpg
 /cfg/tint2/tintwizard.conf
+.*.swp
 
 # local weechat installation.
 /bin/weechat
@@ -17,16 +18,28 @@
 # are symlinking them to ~/.config/) we ended up with a lot of useless and
 # unwanted files. So this list bellow may get a little long.
 /cfg/ImageMagick/
-/cfg/macromedia/
 /cfg/adobe/
+/cfg/blender/
+/cfg/chromium/
 /cfg/dbus/
 /cfg/dconf/
+/cfg/gimp-2.8/
+/cfg/gnome/
+/cfg/google-chrome/
 /cfg/inkscape/
+/cfg/libreoffice/
+/cfg/macromedia/
+/cfg/menus/
 /cfg/pki/
 /cfg/pulse/
-/cfg/blender/
-/cfg/gimp-2.8/
 /cfg/thumbnails/
-/cfg/menus/
-/cfg/gnome/
-/cfg/chromium/
+# Gnome base (GTK?) programs
+/cfg/update-notifier/
+# Ubuntu MATE desktop programs
+/cfg/atril/
+/cfg/caja/
+/cfg/mate/
+/cfg/plank/
+/cfg/pluma/
+/cfg/synapse/
+/cfg/tilda/
