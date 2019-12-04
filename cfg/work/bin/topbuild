@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+import os
+import subprocess
+import sys
+
+
+LOCAL_TOPBUILD_CMD='/home/rfirmino/ws/tools/topbuild/src/topbuild/main.py'
+
+
+def main():
+    print("\033[31m[WARNING: running DEV version]\033[0m")
+    try:
+        r = subprocess.call(['python2', LOCAL_TOPBUILD_CMD] + sys.argv[1:])
+    except OSError as e:
+        print('Execution failed:', e, file=sys.stderr);
+    else:
+        if r < 0: print('Child terminated by signal:', -r, file=sys.stderr)
+        #else:     print('Child returned with code:', r, file=sys.stderr)
+
+if __name__ == '__main__': main()
+
