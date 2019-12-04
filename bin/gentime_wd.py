@@ -14,21 +14,23 @@ def formatminutes(m, sep=''):
 
 def parse():
 	parser = argparse.ArgumentParser()
+	parser.add_argument('-a', '--ajust', action='store_true',
+	                    help="Make total drift end in 0")
 	parser.add_argument('-d', '--days', type=int, default=20,
 	                    help="How many days to generate time")
 	parser.add_argument('-s', '--sep', type=str, default='',
 	                    help="Separation char for time format")
+	parser.add_argument('-x', '--extra', type=int, default=0,
+	                    help="Extra time do add/subtract  each day")
 	parser.add_argument('-v', '--verbose', action='store_true',
 	                    help="Verbose/Debug output")
-	parser.add_argument('-a', '--ajust', action='store_true',
-	                    help="Make total drift end in 0")
 	return parser.parse_args()
 ### end parse
 
 
 def setoptsconstants(opt):
 	opt.START = hourtominutes(8)
-	opt.END   = hourtominutes(17) + 10
+	opt.END   = hourtominutes(17) + opt.extra
 	opt.LUNCH = hourtominutes(1)
 	opt.HOURS = opt.END - opt.START - opt.LUNCH
 	opt.DRIFT = 9

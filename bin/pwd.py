@@ -23,7 +23,7 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--verbose', action='store_true',
                         help="Verbose/Debug output")
-    parser.add_argument('-a', '--above', action='store_true', 
+    parser.add_argument('-a', '--above', action='store_true',
                         help="Show index numbers above path line (default is below)")
     parser.add_argument('-l', '--left', action='store_const', dest="align",
                         default='left', const='left',
@@ -41,6 +41,8 @@ def parse():
                         help="Single char to use as path separators in index numbers")
     parser.add_argument('-f', '--fill', type=char, default=' ',
                         help="Single char to use as fill char bettwen index numbers")
+    parser.add_argument('-C', '--color', action='store_true',
+                        help="Use colors in output (default is no)")
     return parser.parse_args()
 
 
@@ -82,6 +84,15 @@ def main():
         else:
             raise Exception("align invalid argument")
 
+    if opt.color:
+        colorpath=''
+        color = False
+        for part in path.parts[1:]:
+            colorpath += '/'
+            #part = '/' + part
+            colorpath += '\033[37m' + part + '\033[0m' if color else part
+            color = not color
+        path = colorpath
 
     if opt.above:
         print(line)

@@ -6,6 +6,6 @@
 
 google-chrome --proxy-server="socks5://localhost:1080" \
               --host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost" \
-              --user-data-dir="/tmp/chrome-tmp-profile"  \
+              --user-data-dir="/var/tmp/chrome-tmp-profile"  \
               --incognito "$@"
 
