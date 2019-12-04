@@ -176,8 +176,8 @@ URxvt*font: xft:Ubuntu Mono:autohint=true:antialias=true:size=12,\
             xft:DejaVu Sans Mono:autohint=true:antialias=true:size=12,\
             xft:FreeMono:autohint=true:antialias=true:size=12,\
             xft:Symbola:autohint=true:antialias=true:size=12,\
-            xft:Braille:autohint=true:antialias=true:size=12
-!            -*-fixed-*-*-*-*-*-*-*-*-*-*-*-*
+            xft:Braille:autohint=true:antialias=true:size=12,\
+            xft:unifont:size=12
 
 !URxvt*boldFont: xft:ubuntu mono:bold:autohint=true:antialias=true:size=12
 !URxvt*italicFont: xft:ubuntu mono:italic:autohint=true:antialias=true:size=12
