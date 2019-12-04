@@ -6,6 +6,10 @@ visualize how long it is in the list.
 
 Maybe keep the fixed ones in another list to keep a tracking.
 
+##### Qua Ago 10 16:37:37 BRT 2016
+
+- Add git submodules for repos that are needed, like tmux-resurrect or
+  urxvt-resize-font
 
 ##### Fri Oct 25 14:45:27 BRST 2013
 
