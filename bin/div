@@ -1,0 +1,3 @@
+#!/bin/bash
+
+smear.sh -C 2 -l 5 ==
