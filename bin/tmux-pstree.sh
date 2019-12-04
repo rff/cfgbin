@@ -6,8 +6,18 @@
 # http://superuser.com/questions/212714/how-to-find-which-tmux-session-a-process-belongs-to/594765#594765
 
 for s in `tmux list-sessions -F '#{session_name}'` ; do
-  echo -e "\ntmux session name: $s\n--------------------"
-  for p in `tmux list-panes -s -F '#{pane_pid}' -t "$s"` ; do
-    pstree -p -a $p
+  echo "====================="
+  echo "tmux session name: $s"
+  echo "====================="
+  for w in `tmux list-windows -F '#{window_index}' -t $s` ; do
+    echo "---------------------"
+    echo "tmux window index: $w"
+    echo "---------------------"
+    for p in `tmux list-panes -F '#{pane_index}' -t $s:$w` ; do
+      pane_id="$s:$w.$p"
+      pid=`tmux display-message -p -t ${pane_id} '#{pane_pid}'`
+      echo "[=== pane $pane_id ===]  "
+      pstree -p -a $pid
+    done
   done
 done
